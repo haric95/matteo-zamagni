@@ -1,11 +1,16 @@
 "use client";
 
-import { useScreenDim } from "@/hooks/useScreenDim";
+import { useUpdateScreenDim } from "@/hooks/useScreenDim";
 import React, { PropsWithChildren } from "react";
 import { PixelGrid } from "./PixelGrid";
 
 export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
-  useScreenDim();
+  useUpdateScreenDim();
 
-  return <PixelGrid>{children}</PixelGrid>;
+  return (
+    <>
+      <PixelGrid></PixelGrid>
+      <div className="w-full h-full relative">{children}</div>
+    </>
+  );
 };

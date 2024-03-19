@@ -1,1 +1,1 @@
-export type ScreenDim = { x: number; y: number };
+export type Dim2D = { x: number; y: number };

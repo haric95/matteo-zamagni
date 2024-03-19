@@ -1,6 +1,6 @@
 "use client";
 
-import { ScreenDim } from "@/types/global";
+import { Dim2D } from "@/types/global";
 import {
   Dispatch,
   PropsWithChildren,
@@ -10,10 +10,10 @@ import {
   useReducer,
 } from "react";
 
-type GlobalState = { screenDim: ScreenDim | null };
+type GlobalState = { screenDim: Dim2D | null; gridDim: Dim2D | null };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
-const initialGlobalState: GlobalState = { screenDim: null };
+const initialGlobalState: GlobalState = { screenDim: null, gridDim: null };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
 const GlobalContext = createContext<GlobalState>(initialGlobalState);
@@ -44,19 +44,23 @@ export function useGlobalContextDispatch() {
   return useContext(GlobalDispatchContext);
 }
 
-type GlobalAction = { type: "SET_DIM"; dim: ScreenDim };
+type GlobalAction =
+  | { type: "SET_SCREEN_DIM"; dim: Dim2D }
+  | { type: "SET_GRID_DIM"; dim: Dim2D };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
   action
 ) => {
   switch (action.type) {
-    case "SET_DIM": {
-      console.log(action.dim);
+    case "SET_SCREEN_DIM": {
       return { ...globalState, screenDim: action.dim };
     }
+    case "SET_GRID_DIM": {
+      return { ...globalState, gridDim: action.dim };
+    }
     default: {
-      throw Error("Unknown action: " + action.type);
+      throw Error("Unknown action: " + JSON.stringify(action));
     }
   }
 };
