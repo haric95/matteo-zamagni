@@ -4,11 +4,14 @@ import { Dim2D } from "@/types/global";
 import { useCallback, useEffect } from "react";
 
 const SCALE_FACTOR = 1; // scales grid
-const TARGET_CELL_SIZE = 25; //px will determine how many LEDs will fit
+const TARGET_CELL_SIZE = 24; //px will determine how many LEDs will fit
 
 const getGridDim = (screenDim: Dim2D): Dim2D => {
-  const gridWidth = Math.floor(screenDim.x / TARGET_CELL_SIZE) * SCALE_FACTOR;
-  const gridHeight = Math.floor(screenDim.y / TARGET_CELL_SIZE) * SCALE_FACTOR;
+  // Ensure grid dimensions are always even numbers
+  const gridWidth =
+    Math.floor(screenDim.x / (TARGET_CELL_SIZE * 2)) * 2 * SCALE_FACTOR;
+  const gridHeight =
+    Math.floor(screenDim.y / (TARGET_CELL_SIZE * 2)) * 2 * SCALE_FACTOR;
 
   return { x: gridWidth, y: gridHeight };
 };

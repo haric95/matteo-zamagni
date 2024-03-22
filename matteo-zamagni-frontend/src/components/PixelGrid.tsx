@@ -10,21 +10,6 @@ enum LEDColors {
   ACTIVE = "#ABABAB",
 }
 
-const getGridPixelScreenPos = (
-  screenDim: Dim2D,
-  gridDim: Dim2D,
-  rowIndex: number,
-  columnIndex: number
-): Dim2D => {
-  const xOffset = (screenDim.x - gridDim.x * 25) / 2;
-  const yOffset = (screenDim.y - gridDim.y * 25) / 2;
-
-  return {
-    x: columnIndex * 25 + 25 / 2 + xOffset - GRID_PIXEL_SIZE / 2,
-    y: rowIndex * 25 + 25 / 2 + yOffset - GRID_PIXEL_SIZE / 2,
-  };
-};
-
 export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   const { screenDim, gridDim } = useGlobalContext();
 
@@ -35,7 +20,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   }, [screenDim]);
 
   return (
-    <div className="fixed relative w-screen h-screen">
+    <main className="fixed relative w-screen h-screen">
       <div
         className={`w-full h-full absolute grid pointer-events-none`}
         style={{
@@ -70,6 +55,6 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
       >
         {children}
       </div>
-    </div>
+    </main>
   );
 };

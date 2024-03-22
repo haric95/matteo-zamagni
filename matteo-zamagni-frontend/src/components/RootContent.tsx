@@ -3,14 +3,22 @@
 import { useUpdateScreenDim } from "@/hooks/useScreenDim";
 import React, { PropsWithChildren } from "react";
 import { PixelGrid } from "./PixelGrid";
+import { useGlobalContext } from "@/state/GlobalStore";
+
+const WaitForGridLoad: React.FC<PropsWithChildren> = ({ children }) => {
+  const { gridDim } = useGlobalContext();
+
+  return gridDim ? <>{children}</> : null;
+};
 
 export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
   useUpdateScreenDim();
 
   return (
     <>
-      <PixelGrid></PixelGrid>
-      <div className="w-full h-full relative">{children}</div>
+      <PixelGrid>
+        <WaitForGridLoad>{children}</WaitForGridLoad>
+      </PixelGrid>
     </>
   );
 };
