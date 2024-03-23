@@ -52,10 +52,50 @@ export default function Home() {
       dispatch({ type: "CLEAR_GRID" });
       dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
     }
-  }, [gridDim]);
+  }, [gridDim, dispatch]);
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch({ type: "SET_IS_DARK", val: false });
+    }
+  }, [dispatch]);
 
   return (
-    <Layout footerRightHeight={10} footerRightWidth={8}>
+    <Layout
+      footerRightHeight={8}
+      footerRightWidth={6}
+      footerRightComponent={
+        <div
+          className="grid col-span-full row-span-full  "
+          style={{
+            gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
+          }}
+        >
+          <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
+            <p className="text-[12px]">navigation</p>
+          </div>
+          <div
+            className={`col-span-full flex items-start`}
+            style={{
+              gridRowStart: 2,
+              gridRowEnd: 100,
+            }}
+          >
+            <div className="w-full h-full flex flex-col justify-center items-end">
+              <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
+                <button className="text-[12px] block">bio</button>
+                <button className="text-[12px] block">awards</button>
+                <button className="text-[12px] block">residencies</button>
+                <button className="text-[12px] block">performances</button>
+                <button className="text-[12px] block">screenings</button>
+                <button className="text-[12px] block">talks</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    >
       <div
         className="bg-black"
         style={{

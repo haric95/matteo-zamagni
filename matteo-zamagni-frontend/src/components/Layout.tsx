@@ -1,6 +1,7 @@
 import { useGlobalContext } from "@/state/GlobalStore";
 import { Dim2D } from "@/types/global";
 import Link from "next/link";
+import React, { ReactElement } from "react";
 import { PropsWithChildren } from "react";
 
 const HEADER_OFFSET_Y = 1;
@@ -19,14 +20,16 @@ const FOOTER_RIGHT_OFFSET_X = 2;
 const FOOTER_RIGHT_OFFSET_Y = 2;
 
 type LayoutProps = {
-  footerRightHeight: number;
-  footerRightWidth: number;
+  footerRightHeight?: number;
+  footerRightWidth?: number;
+  footerRightComponent?: ReactElement;
 };
 
 export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   children,
   footerRightHeight,
   footerRightWidth,
+  footerRightComponent,
 }) => {
   const { gridDim } = useGlobalContext() as { gridDim: Dim2D };
 
@@ -129,27 +132,31 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
         }}
       ></div>
       {/* Footer Right */}
-      <div
-        className="grid bg-blue-500"
-        style={{
-          gridColumnStart:
-            gridDim.x - (footerRightWidth + FOOTER_RIGHT_OFFSET_X),
-          gridColumnEnd:
-            gridDim.x -
-            (footerRightWidth + FOOTER_RIGHT_OFFSET_X - 1) +
-            footerRightWidth,
-          gridRowStart:
-            gridDim.y - (footerRightHeight + (FOOTER_RIGHT_OFFSET_Y - 1)),
-          gridRowEnd:
-            gridDim.y -
-            (footerRightHeight + (FOOTER_RIGHT_OFFSET_Y - 1)) +
-            footerRightHeight,
-          gridTemplateColumns: `repeat(${footerRightWidth}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${footerRightHeight}, minmax(0, 1fr))`,
-        }}
-      ></div>
+      {footerRightComponent && footerRightWidth && footerRightHeight && (
+        <div
+          className="grid bg-background_Light dark:bg-background_Dark"
+          style={{
+            gridColumnStart:
+              gridDim.x - (footerRightWidth + FOOTER_RIGHT_OFFSET_X - 1),
+            gridColumnEnd:
+              gridDim.x -
+              (footerRightWidth + FOOTER_RIGHT_OFFSET_X - 1) +
+              footerRightWidth,
+            gridRowStart:
+              gridDim.y - (footerRightHeight + (FOOTER_RIGHT_OFFSET_Y - 1)),
+            gridRowEnd:
+              gridDim.y -
+              (footerRightHeight + (FOOTER_RIGHT_OFFSET_Y - 1)) +
+              footerRightHeight,
+            gridTemplateColumns: `repeat(${footerRightWidth}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${footerRightHeight}, minmax(0, 1fr))`,
+          }}
+        >
+          {footerRightComponent}
+        </div>
+      )}
       {/* CONTENT */}
-      <div
+      {/* <div
         className=""
         style={{
           gridColumnStart:
@@ -167,7 +174,7 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           // gridTemplateColumns: `repeat(${FOOTER_RIGHT_WIDTH}, minmax(0, 1fr))`,
           // gridTemplateRows: `repeat(${FOOTER_RIGHT_HEIGHT}, minmax(0, 1fr))`,
         }}
-      ></div>
+      ></div> */}
       {children}
     </>
   );

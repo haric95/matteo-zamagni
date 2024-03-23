@@ -15,7 +15,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className="fixed relative w-screen h-screen">
       <div
-        className={`w-full h-full absolute grid pointer-events-none transition-all duration-1000`}
+        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all duration-1000`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,

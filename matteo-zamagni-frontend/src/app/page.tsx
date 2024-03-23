@@ -15,6 +15,7 @@ export default function Home() {
   useEffect(() => {
     if (dispatch) {
       dispatch({ type: "CLEAR_GRID" });
+      dispatch({ type: "SET_IS_DARK", val: true });
     }
   }, [gridDim]);
 
