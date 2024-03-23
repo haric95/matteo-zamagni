@@ -1,5 +1,6 @@
 "use client";
 
+import { clearGrid } from "@/helpers/gridHelpers";
 import { Dim2D, Grid } from "@/types/global";
 import {
   Dispatch,
@@ -77,7 +78,10 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
       return { ...globalState, grid: action.grid };
     }
     case "CLEAR_GRID": {
-      return { ...globalState };
+      return {
+        ...globalState,
+        grid: globalState.grid ? clearGrid(globalState.grid) : null,
+      };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));

@@ -27,6 +27,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
               return (
                 <div className="flex justify-center items-center">
                   <div
+                    className="transition-all duration-500"
                     style={{
                       width: GRID_PIXEL_SIZE,
                       height: GRID_PIXEL_SIZE,
