@@ -1,7 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/state/GlobalStore";
-import { Dim2D } from "@/types/global";
-import React, { PropsWithChildren, useMemo, useState } from "react";
+import React, { PropsWithChildren } from "react";
 
 const GRID_PIXEL_SIZE = 1.5; // LED pixel size
 
@@ -11,40 +10,35 @@ enum LEDColors {
 }
 
 export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
-  const { screenDim, gridDim } = useGlobalContext();
-
-  const mapArray = useMemo<null[][] | null>(() => {
-    return gridDim
-      ? (new Array(gridDim.y).fill(new Array(gridDim.x).fill(null)) as null[][])
-      : null;
-  }, [screenDim]);
+  const { gridDim, grid } = useGlobalContext();
 
   return (
     <main className="fixed relative w-screen h-screen">
       <div
-        className={`w-full h-full absolute grid pointer-events-none`}
+        className={`w-full h-full absolute grid pointer-events-none transition-all duration-1000`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
         }}
       >
-        {mapArray &&
-          gridDim &&
-          mapArray.map((columns, rowIndex) =>
-            columns.map((_, columnIndex) => {
+        {grid &&
+          grid.map((columns, rowIndex) => {
+            return columns.map((pixelLit, columnIndex) => {
               return (
                 <div className="flex justify-center items-center">
                   <div
                     style={{
                       width: GRID_PIXEL_SIZE,
                       height: GRID_PIXEL_SIZE,
-                      backgroundColor: LEDColors.INACTIVE,
+                      backgroundColor: pixelLit
+                        ? LEDColors.ACTIVE
+                        : LEDColors.INACTIVE,
                     }}
                   ></div>
                 </div>
               );
-            })
-          )}
+            });
+          })}
       </div>
       <div
         className={`w-full h-full absolute grid`}

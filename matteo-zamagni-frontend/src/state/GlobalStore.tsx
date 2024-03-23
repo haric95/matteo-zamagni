@@ -1,6 +1,6 @@
 "use client";
 
-import { Dim2D } from "@/types/global";
+import { Dim2D, Grid } from "@/types/global";
 import {
   Dispatch,
   PropsWithChildren,
@@ -10,10 +10,18 @@ import {
   useReducer,
 } from "react";
 
-type GlobalState = { screenDim: Dim2D | null; gridDim: Dim2D | null };
+type GlobalState = {
+  screenDim: Dim2D | null;
+  gridDim: Dim2D | null;
+  grid: boolean[][] | null;
+};
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
-const initialGlobalState: GlobalState = { screenDim: null, gridDim: null };
+const initialGlobalState: GlobalState = {
+  screenDim: null,
+  gridDim: null,
+  grid: null,
+};
 const initialGlobalDispatchState: GlobalDispatch = null;
 
 const GlobalContext = createContext<GlobalState>(initialGlobalState);
@@ -46,7 +54,9 @@ export function useGlobalContextDispatch() {
 
 type GlobalAction =
   | { type: "SET_SCREEN_DIM"; dim: Dim2D }
-  | { type: "SET_GRID_DIM"; dim: Dim2D };
+  | { type: "SET_GRID_DIM"; dim: Dim2D }
+  | { type: "UPDATE_GRID"; grid: Grid }
+  | { type: "CLEAR_GRID" };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
@@ -57,7 +67,17 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
       return { ...globalState, screenDim: action.dim };
     }
     case "SET_GRID_DIM": {
-      return { ...globalState, gridDim: action.dim };
+      return {
+        ...globalState,
+        gridDim: action.dim,
+        grid: new Array(action.dim.y).fill(new Array(action.dim.x).fill(false)),
+      };
+    }
+    case "UPDATE_GRID": {
+      return { ...globalState, grid: action.grid };
+    }
+    case "CLEAR_GRID": {
+      return { ...globalState };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));
