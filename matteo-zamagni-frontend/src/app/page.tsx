@@ -8,8 +8,6 @@ import { Dim2D } from "@/types/global";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { gridDim } = useGlobalContext() as { gridDim: Dim2D };
-
   const dispatch = useGlobalContextDispatch();
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export default function Home() {
       dispatch({ type: "CLEAR_GRID" });
       dispatch({ type: "SET_IS_DARK", val: true });
     }
-  }, [gridDim]);
+  }, [dispatch]);
 
   return <Layout footerRightHeight={5} footerRightWidth={7}></Layout>;
 }

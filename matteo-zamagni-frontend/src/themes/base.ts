@@ -1,4 +1,4 @@
-export default {
+const Theme = {
   background: "#000000",
   text: "#CBCBCB",
   ledInactive: "#333333",
@@ -10,3 +10,5 @@ export default {
   // backgroundPrimary: "#efefef",
   // backgroundSecondary: "#F6F9FC",
 };
+
+export default Theme;

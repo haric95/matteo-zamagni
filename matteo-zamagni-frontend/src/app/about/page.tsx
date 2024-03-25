@@ -63,7 +63,7 @@ export default function Home() {
       dispatch({ type: "CLEAR_GRID" });
       dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
     }
-  }, [gridDim, dispatch]);
+  }, [centerCellPos, grid, dispatch]);
 
   useEffect(() => {
     if (dispatch) {

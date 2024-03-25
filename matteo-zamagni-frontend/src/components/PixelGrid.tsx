@@ -22,7 +22,10 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           grid.map((columns, rowIndex) => {
             return columns.map((pixelIsLit, columnIndex) => {
               return (
-                <div className="flex justify-center items-center">
+                <div
+                  className="flex justify-center items-center"
+                  key={`${rowIndex}-${columnIndex}`}
+                >
                   <div
                     className={`transition-all ${
                       pixelIsLit
