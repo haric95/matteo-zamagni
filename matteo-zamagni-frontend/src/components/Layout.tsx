@@ -117,7 +117,7 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       </div>
       {/* Footer Left */}
       <div
-        className="grid bg-red-500"
+        className="grid bg-background_Light dark:bg-background_Dark"
         style={{
           gridColumnStart: FOOTER_LEFT_OFFSET_X + 1,
           gridColumnEnd: FOOTER_LEFT_OFFSET_X + 1 + FOOTER_LEFT_WIDTH,
@@ -130,7 +130,27 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           gridTemplateColumns: `repeat(${FOOTER_LEFT_WIDTH}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${FOOTER_LEFT_HEIGHT}, minmax(0, 1fr))`,
         }}
-      ></div>
+      >
+        <a
+          href="https://www.instagram.com/matteo.zamagni/"
+          target="_blank"
+          rel="noreferrer"
+          className="row-span-1 flex justify-center items-center"
+        >
+          IG
+        </a>
+        <a
+          href="https://vimeo.com/matteozamagni"
+          target="_blank"
+          rel="noreferrer"
+          className="row-span-1 flex justify-center items-center"
+        >
+          VM
+        </a>
+        <div className="row-span-1 flex justify-center items-center text-[24px]">
+          ©
+        </div>
+      </div>
       {/* Footer Right */}
       {footerRightComponent && footerRightWidth && footerRightHeight && (
         <div

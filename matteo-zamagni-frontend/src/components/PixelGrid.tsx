@@ -4,10 +4,7 @@ import React, { PropsWithChildren } from "react";
 
 const GRID_PIXEL_SIZE = 1.5; // LED pixel size
 
-enum LEDColors {
-  INACTIVE = "#333333",
-  ACTIVE = "#ABABAB",
-}
+const PIXEL_TRANSITION_DURATION = 1000;
 
 export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim, grid } = useGlobalContext();
@@ -15,7 +12,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className="fixed relative w-screen h-screen">
       <div
-        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all duration-1000`}
+        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
@@ -23,17 +20,19 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
       >
         {grid &&
           grid.map((columns, rowIndex) => {
-            return columns.map((pixelLit, columnIndex) => {
+            return columns.map((pixelIsLit, columnIndex) => {
               return (
                 <div className="flex justify-center items-center">
                   <div
-                    className="transition-all duration-500"
+                    className={`transition-all ${
+                      pixelIsLit
+                        ? "bg-ledActive_Light dark:bg-ledActive_Dark"
+                        : "bg-ledInactive_Light dark:bg-ledInactive_Dark"
+                    }`}
                     style={{
                       width: GRID_PIXEL_SIZE,
                       height: GRID_PIXEL_SIZE,
-                      backgroundColor: pixelLit
-                        ? LEDColors.ACTIVE
-                        : LEDColors.INACTIVE,
+                      transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
                     }}
                   ></div>
                 </div>

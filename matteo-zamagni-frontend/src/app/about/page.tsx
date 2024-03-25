@@ -6,11 +6,20 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
+
+enum AboutMode {
+  BIO,
+  AWARDS,
+  RESIDENCIES,
+  PERFORMANCES,
+  SCREENINGS,
+  TALKS,
+}
 
 export default function Home() {
   const { gridDim, grid } = useGlobalContext() as {
@@ -18,6 +27,8 @@ export default function Home() {
     grid: Grid;
   };
   const dispatch = useGlobalContextDispatch();
+
+  const [aboutMode, setAboutMode] = useState<AboutMode>(AboutMode.BIO);
 
   const centerCellPos = useMemo(() => {
     const width =
@@ -72,7 +83,7 @@ export default function Home() {
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
           }}
         >
-          <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
+          <div className="col-span-full row-span-1 flex items-start border-black border-b-[1px]">
             <p className="text-[12px]">navigation</p>
           </div>
           <div
@@ -84,12 +95,72 @@ export default function Home() {
           >
             <div className="w-full h-full flex flex-col justify-center items-end">
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
-                <button className="text-[12px] block">bio</button>
-                <button className="text-[12px] block">awards</button>
-                <button className="text-[12px] block">residencies</button>
-                <button className="text-[12px] block">performances</button>
-                <button className="text-[12px] block">screenings</button>
-                <button className="text-[12px] block">talks</button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.BIO ? "text-black" : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.BIO);
+                  }}
+                >
+                  bio
+                </button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.AWARDS ? "text-black" : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.AWARDS);
+                  }}
+                >
+                  awards
+                </button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.RESIDENCIES
+                      ? "text-black"
+                      : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.RESIDENCIES);
+                  }}
+                >
+                  residencies
+                </button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.PERFORMANCES
+                      ? "text-black"
+                      : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.PERFORMANCES);
+                  }}
+                >
+                  performances
+                </button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.SCREENINGS
+                      ? "text-black"
+                      : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.SCREENINGS);
+                  }}
+                >
+                  screenings
+                </button>
+                <button
+                  className={`text-[12px] block ${
+                    aboutMode === AboutMode.TALKS ? "text-black" : "text-white"
+                  }`}
+                  onClick={() => {
+                    setAboutMode(AboutMode.TALKS);
+                  }}
+                >
+                  talks
+                </button>
               </div>
             </div>
           </div>
@@ -97,7 +168,7 @@ export default function Home() {
       }
     >
       <div
-        className="bg-black"
+        className="bg-background_Light"
         style={{
           gridColumnStart: centerCellPos.colStart,
           gridColumnEnd: centerCellPos.colEnd,
