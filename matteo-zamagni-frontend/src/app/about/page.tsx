@@ -29,6 +29,7 @@ export default function Home() {
   const dispatch = useGlobalContextDispatch();
 
   const [aboutMode, setAboutMode] = useState<AboutMode>(AboutMode.BIO);
+  const [ledIsSet, setLedIsSet] = useState(false);
 
   const centerCellPos = useMemo(() => {
     const width =
@@ -47,6 +48,12 @@ export default function Home() {
   }, [gridDim]);
 
   useEffect(() => {
+    if (gridDim) {
+      setLedIsSet(false);
+    }
+  }, [gridDim]);
+
+  useEffect(() => {
     const updatedGrid = drawVerticalLine(
       drawVerticalLine(
         grid,
@@ -59,11 +66,12 @@ export default function Home() {
       centerCellPos.rowStart - 1,
       centerCellPos.rowEnd - 1
     );
-    if (dispatch) {
+    if (dispatch && !ledIsSet) {
+      setLedIsSet(true);
       dispatch({ type: "CLEAR_GRID" });
       dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
     }
-  }, [centerCellPos, grid, dispatch]);
+  }, [centerCellPos, grid, dispatch, ledIsSet]);
 
   useEffect(() => {
     if (dispatch) {
