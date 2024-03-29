@@ -5,6 +5,7 @@ import React, { PropsWithChildren } from "react";
 import { PixelGrid } from "./PixelGrid";
 import { useGlobalContext } from "@/state/GlobalStore";
 import { useSetDarkThemeClass } from "@/hooks/useSetDarkThemeClass";
+import { Header } from "./Header";
 
 const WaitForGridLoad: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim } = useGlobalContext();
@@ -19,7 +20,10 @@ export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <PixelGrid>
-        <WaitForGridLoad>{children}</WaitForGridLoad>
+        <WaitForGridLoad>
+          <Header />
+          {children}
+        </WaitForGridLoad>
       </PixelGrid>
     </>
   );
