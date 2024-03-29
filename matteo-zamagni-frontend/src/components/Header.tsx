@@ -7,22 +7,11 @@ import { PropsWithChildren } from "react";
 const HEADER_OFFSET_Y = 1;
 const HEADER_CELL_WIDTH = 16;
 const HEADER_UPPER_HEIGHT = 4;
-const HEADER_LOWER_HEIGHT = 2;
+const HEADER_LOWER_HEIGHT = 1;
 const SIDE_HEADER_CELL_WIDTH = Math.floor(HEADER_CELL_WIDTH / 3);
 const CENTER_HEADER_CELL_WIDTH = HEADER_CELL_WIDTH - SIDE_HEADER_CELL_WIDTH * 2;
 
-type LayoutProps = {
-  footerRightHeight?: number;
-  footerRightWidth?: number;
-  footerRightComponent?: ReactElement;
-};
-
-export const Header: React.FC<PropsWithChildren<LayoutProps>> = ({
-  children,
-  footerRightHeight,
-  footerRightWidth,
-  footerRightComponent,
-}) => {
+export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
   const { gridDim } = useGlobalContext() as { gridDim: Dim2D };
 
   return (
@@ -61,7 +50,7 @@ export const Header: React.FC<PropsWithChildren<LayoutProps>> = ({
           >
             <Link
               href="/about"
-              className="w-full bg-black col-span-full row-span-1 flex justify-center items-center"
+              className="w-full bg-background_Light dark:bg-background_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center"
             >
               about
             </Link>
@@ -92,7 +81,12 @@ export const Header: React.FC<PropsWithChildren<LayoutProps>> = ({
               gridRowEnd: HEADER_UPPER_HEIGHT + 1,
             }}
           >
-            {/* <button className="w-full bg-black">index</button> */}
+            <Link
+              href="/work-index"
+              className="w-full bg-background_Light dark:bg-background_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center"
+            >
+              index
+            </Link>
           </div>
           {/* HEADER LOWER */}
           <div
@@ -100,8 +94,9 @@ export const Header: React.FC<PropsWithChildren<LayoutProps>> = ({
             style={{
               gridColumnStart: 1,
               gridColumnEnd: HEADER_CELL_WIDTH + 1,
-              gridRowStart: HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT - 1,
-              gridRowEnd: HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT + 1,
+              gridRowStart: HEADER_UPPER_HEIGHT + HEADER_OFFSET_Y,
+              gridRowEnd:
+                HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT + HEADER_OFFSET_Y,
             }}
           >
             {/* <button className="w-full bg-black">index</button> */}
