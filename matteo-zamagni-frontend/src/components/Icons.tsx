@@ -2,7 +2,7 @@ import { SVGAttributes } from "react";
 
 export const Plus: React.FC<SVGAttributes<SVGSVGElement>> = ({ ...props }) => {
   return (
-    <svg viewBox="0 0 100 100" width="100" {...props}>
+    <svg viewBox="0 0 100 100" width="100" stroke="black" {...props}>
       <line x1="50" y1="10" x2="50" y2="90" />
       <line x1="10" y1="50" x2="90" y2="50" />
     </svg>

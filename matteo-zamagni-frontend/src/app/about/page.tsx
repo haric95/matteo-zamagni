@@ -147,7 +147,7 @@ export default function Home() {
               gridRowEnd: 100,
             }}
           >
-            <div className="w-full h-full flex flex-col justify-center items-end">
+            <div className="w-full h-full flex flex-col justify-center items-start">
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                 <button
                   className={`text-[12px] block ${

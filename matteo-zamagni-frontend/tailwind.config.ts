@@ -21,6 +21,7 @@ const config: Config = {
         ledActive_Dark: "#ABABAB",
         ledInactive_Light: "#C5C4C4",
         ledActive_Light: "#000000",
+        highlight: "#FEF781",
       },
     },
   },

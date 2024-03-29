@@ -13,7 +13,7 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -50,6 +50,15 @@ export default function Index() {
     grid: Grid;
   };
   const dispatch = useGlobalContextDispatch();
+  const [selectedType, setSelectedType] = useState<WorkIndexType | null>(null);
+
+  const handleFilterClick = (type: WorkIndexType) => {
+    if (selectedType === type) {
+      setSelectedType(null);
+    } else {
+      setSelectedType(type);
+    }
+  };
 
   useEffect(() => {
     if (dispatch) {
@@ -86,17 +95,29 @@ export default function Index() {
                       indexType as keyof typeof WorkIndexTypeIcon
                     ];
                   return (
-                    <div
+                    <button
                       key={indexType}
-                      className="w-full h-4 flex items-center"
+                      onClick={() => handleFilterClick(indexType)}
+                      className="w-full h-4 flex items-center transition-all duration-500"
                     >
                       <Component
-                        className="mr-2 w-4 h-4"
-                        stroke="white"
+                        className={`mr-2 w-4 h-4 transition-color duration-500 ${
+                          selectedType === indexType
+                            ? "stroke-highlight"
+                            : "stroke-white"
+                        }`}
                         strokeWidth={4}
                       ></Component>
-                      <p className="translate-y-[-1px]">{indexType}</p>
-                    </div>
+                      <p
+                        className={`translate-y-[-1px] transition-color duration-500 ${
+                          selectedType === indexType
+                            ? "text-highlight"
+                            : "white"
+                        }`}
+                      >
+                        {indexType}
+                      </p>
+                    </button>
                   );
                 })}
                 {/* <WorkIndexTypeIcon.project
