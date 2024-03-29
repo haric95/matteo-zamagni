@@ -21,6 +21,8 @@ enum AboutMode {
   TALKS,
 }
 
+// TODO: Add on mount delay to wait until bg color change has happened
+// TODO: Add About Modes
 export default function Home() {
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;
