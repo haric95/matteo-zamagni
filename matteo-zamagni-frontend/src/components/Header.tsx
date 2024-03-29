@@ -29,6 +29,7 @@ export const Header: React.FC<PropsWithChildren<LayoutProps>> = ({
     <>
       {/* Header */}
       <div
+        className="z-10"
         style={{
           gridRowStart: HEADER_OFFSET_Y + 1,
           gridRowEnd:

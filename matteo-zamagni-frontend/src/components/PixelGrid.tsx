@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from "react";
 
 const GRID_PIXEL_SIZE = 1.5; // LED pixel size
 
-const PIXEL_TRANSITION_DURATION = 1000;
+const PIXEL_TRANSITION_DURATION = 500;
 
 export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim, grid } = useGlobalContext();
@@ -12,7 +12,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className="fixed relative w-screen h-screen">
       <div
-        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all`}
+        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all duration-500`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,

@@ -1,5 +1,5 @@
 "use client";
-import { Layout } from "@/components/Layout";
+import { FooterRight } from "@/components/FooterRight";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
 import {
   useGlobalContext,
@@ -80,10 +80,54 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <Layout
-      footerRightHeight={8}
-      footerRightWidth={6}
-      footerRightComponent={
+    <>
+      <div
+        className="bg-background_Light"
+        style={{
+          gridColumnStart: centerCellPos.colStart,
+          gridColumnEnd: centerCellPos.colEnd,
+          gridRowStart: centerCellPos.rowStart,
+          gridRowEnd: centerCellPos.rowEnd,
+          // gridTemplateColumns: `repeat(${SIDE_HEADER_CELL_WIDTH}, minmax(0, 1fr))`,
+          // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
+        }}
+      >
+        <div className="w-full h-full overflow-auto">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            finibus neque nulla, vel tincidunt risus dignissim non. Integer
+            euismod nisl ligula, non lobortis felis sagittis non. Fusce accumsan
+            vestibulum metus vitae semper. Etiam convallis viverra augue vitae
+            tempus. Suspendisse sodales, dui in molestie semper, sem nisl dictum
+            mi, id congue lacus metus euismod nisi. Donec non ipsum nibh. In hac
+            habitasse platea dictumst. Aliquam erat volutpat. Aenean ante
+            mauris, pretium ac est vel, varius malesuada sem. Proin volutpat
+            porttitor lectus. Etiam dignissim mi id diam sollicitudin vulputate.
+            Aliquam auctor nulla at lacus scelerisque interdum quis eget elit.
+            Fusce finibus arcu sed maximus posuere. Etiam magna velit, molestie
+            in imperdiet ac, efficitur non nibh.{" "}
+          </p>
+          <br />
+          <p>
+            In hac habitasse platea dictumst. Duis quis tortor consectetur,
+            pulvinar nisl et, tincidunt est. Curabitur ac eros et ligula maximus
+            mollis a sit amet dolor. Praesent tempor vulputate felis, sit amet
+            iaculis lorem bibendum id. Vivamus quam diam, volutpat quis purus
+            quis, tincidunt hendrerit ex. Aliquam est metus, mollis vitae
+            dignissim ac, varius ac metus. Quisque porttitor orci mi, vel
+            efficitur tellus porttitor ut. Sed tincidunt est in tortor pulvinar
+            porta. Donec aliquet elit sed nunc ornare, eget feugiat odio varius.
+            In velit nulla, scelerisque ornare sem vel, scelerisque porttitor
+            felis. Praesent consequat augue at dapibus dapibus. Ut et
+            scelerisque elit. Morbi facilisis id turpis non varius. Fusce lorem
+            velit, congue in dolor sit amet, malesuada venenatis magna.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Mauris ullamcorper laoreet lobortis. Nulla
+            id turpis ut leo varius pulvinar.
+          </p>
+        </div>
+      </div>
+      <FooterRight footerRightHeight={8} footerRightWidth={6}>
         <div
           className="grid col-span-full row-span-full  "
           style={{
@@ -173,54 +217,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      }
-    >
-      <div
-        className="bg-background_Light"
-        style={{
-          gridColumnStart: centerCellPos.colStart,
-          gridColumnEnd: centerCellPos.colEnd,
-          gridRowStart: centerCellPos.rowStart,
-          gridRowEnd: centerCellPos.rowEnd,
-          // gridTemplateColumns: `repeat(${SIDE_HEADER_CELL_WIDTH}, minmax(0, 1fr))`,
-          // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
-        }}
-      >
-        <div className="w-full h-full overflow-auto">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            finibus neque nulla, vel tincidunt risus dignissim non. Integer
-            euismod nisl ligula, non lobortis felis sagittis non. Fusce accumsan
-            vestibulum metus vitae semper. Etiam convallis viverra augue vitae
-            tempus. Suspendisse sodales, dui in molestie semper, sem nisl dictum
-            mi, id congue lacus metus euismod nisi. Donec non ipsum nibh. In hac
-            habitasse platea dictumst. Aliquam erat volutpat. Aenean ante
-            mauris, pretium ac est vel, varius malesuada sem. Proin volutpat
-            porttitor lectus. Etiam dignissim mi id diam sollicitudin vulputate.
-            Aliquam auctor nulla at lacus scelerisque interdum quis eget elit.
-            Fusce finibus arcu sed maximus posuere. Etiam magna velit, molestie
-            in imperdiet ac, efficitur non nibh.{" "}
-          </p>
-          <br />
-          <p>
-            In hac habitasse platea dictumst. Duis quis tortor consectetur,
-            pulvinar nisl et, tincidunt est. Curabitur ac eros et ligula maximus
-            mollis a sit amet dolor. Praesent tempor vulputate felis, sit amet
-            iaculis lorem bibendum id. Vivamus quam diam, volutpat quis purus
-            quis, tincidunt hendrerit ex. Aliquam est metus, mollis vitae
-            dignissim ac, varius ac metus. Quisque porttitor orci mi, vel
-            efficitur tellus porttitor ut. Sed tincidunt est in tortor pulvinar
-            porta. Donec aliquet elit sed nunc ornare, eget feugiat odio varius.
-            In velit nulla, scelerisque ornare sem vel, scelerisque porttitor
-            felis. Praesent consequat augue at dapibus dapibus. Ut et
-            scelerisque elit. Morbi facilisis id turpis non varius. Fusce lorem
-            velit, congue in dolor sit amet, malesuada venenatis magna.
-            Pellentesque habitant morbi tristique senectus et netus et malesuada
-            fames ac turpis egestas. Mauris ullamcorper laoreet lobortis. Nulla
-            id turpis ut leo varius pulvinar.
-          </p>
-        </div>
-      </div>
-    </Layout>
+      </FooterRight>
+    </>
   );
 }

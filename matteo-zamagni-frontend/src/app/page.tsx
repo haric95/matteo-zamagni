@@ -1,10 +1,6 @@
 "use client";
-import { Layout } from "@/components/Layout";
-import {
-  useGlobalContext,
-  useGlobalContextDispatch,
-} from "@/state/GlobalStore";
-import { Dim2D } from "@/types/global";
+import { FooterRight } from "@/components/FooterRight";
+import { useGlobalContextDispatch } from "@/state/GlobalStore";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -17,5 +13,9 @@ export default function Home() {
     }
   }, [dispatch]);
 
-  return <Layout footerRightHeight={5} footerRightWidth={7}></Layout>;
+  return (
+    <>
+      <FooterRight footerRightHeight={5} footerRightWidth={7}></FooterRight>
+    </>
+  );
 }
