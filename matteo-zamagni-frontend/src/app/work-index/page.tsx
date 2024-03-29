@@ -54,6 +54,7 @@ export default function Index() {
   useEffect(() => {
     if (dispatch) {
       dispatch({ type: "SET_IS_DARK", val: false });
+      dispatch({ type: "CLEAR_GRID" });
     }
   }, [dispatch]);
 
