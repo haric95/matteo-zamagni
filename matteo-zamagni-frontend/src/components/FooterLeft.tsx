@@ -14,7 +14,7 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
     <>
       {/* Footer Left */}
       <footer
-        className="grid bg-background_Light dark:bg-background_Dark transition-all duration-500"
+        className="grid z-10 bg-background_Light dark:bg-background_Dark transition-all duration-500"
         style={{
           gridColumnStart: FOOTER_LEFT_OFFSET_X + 1,
           gridColumnEnd: FOOTER_LEFT_OFFSET_X + 1 + FOOTER_LEFT_WIDTH,
