@@ -3,7 +3,6 @@ import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
 import { HEADER_OFFSET_Y, TOTAL_HEADER_HEIGHT } from "@/components/Header";
 import {
-  IconComponent,
   Plus,
   SelectableIconComponent,
   TriangleDown,
@@ -12,7 +11,8 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 0;
@@ -40,6 +40,7 @@ type HomepageItem = {
   type: HomepageItemType;
   title: string;
   year: string;
+  imageSrc: string;
 };
 
 const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
@@ -48,20 +49,51 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     type: HomepageItemType.EXHIBITION,
     title: "HELLO TESTING",
     year: "2022",
+    imageSrc: "https://placehold.co/600x400/EEE/31343C",
   },
   {
     position: { x: 0.4, y: 0.1 },
     type: HomepageItemType.PROJECT,
     title: "HELLO TESTING 2",
     year: "2021",
+    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+  },
+  {
+    position: { x: 0.9, y: 0.8 },
+    type: HomepageItemType.PROJECT,
+    title: "HELLO TESTING 3",
+    year: "2021",
+    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+  },
+  {
+    position: { x: 0.1, y: 0.6 },
+    type: HomepageItemType.PROJECT,
+    title: "HELLO TESTING 4",
+    year: "2021",
+    imageSrc: "https://placehold.co/600x400/EEE/31343C",
   },
 ];
+
+const imageEnterVariants = {
+  hidden: { opacity: 0, x: 0, y: 0 },
+  enter: { opacity: 1, x: 0, y: 0 },
+};
 
 export default function Home() {
   const dispatch = useGlobalContextDispatch();
   const { gridDim } = useGlobalContext();
 
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
+    null
+  );
+
+  const handleIconClick = (item: HomepageItem) => {
+    if (selectedItemTitle === item.title) {
+      setSelectedItemTitle(null);
+    } else {
+      setSelectedItemTitle(item.title);
+    }
+  };
 
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
@@ -78,6 +110,42 @@ export default function Home() {
     }
     return null;
   }, [gridDim]);
+
+  const getImagePos = useCallback(
+    (itemPos: HomepageItem["position"]) => {
+      // TODO: Make this dynamic
+      const QUADRANT_PADDING = { x: 2, y: 2 };
+      if (centerContainerVals) {
+        const width = centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
+        const height = centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
+        return {
+          x:
+            itemPos.x < 0.5
+              ? centerContainerVals.width / 2
+              : centerContainerVals.width / 2 - QUADRANT_PADDING.x - width,
+          y:
+            itemPos.y < 0.5
+              ? centerContainerVals.height / 2
+              : centerContainerVals.height / 2 - QUADRANT_PADDING.y - height,
+          width,
+          height,
+        };
+      }
+    },
+    [centerContainerVals]
+  );
+  const selectedItem = useMemo(() => {
+    return DUMMY_HOMEPAGE_ITEMS.find(
+      (item) => item.title === selectedItemTitle
+    );
+  }, [selectedItemTitle]);
+
+  const selectedItemImagePos = useMemo(() => {
+    if (selectedItem) {
+      const imageGridPos = getImagePos(selectedItem.position);
+      return imageGridPos;
+    }
+  }, [selectedItem, getImagePos]);
 
   useEffect(() => {
     if (dispatch) {
@@ -106,23 +174,38 @@ export default function Home() {
               >
                 <button
                   onClick={() => {
-                    if (selectedItem === item.title) {
-                      setSelectedItem(null);
-                    } else {
-                      setSelectedItem(item.title);
-                    }
+                    handleIconClick(item);
                   }}
-                  className="testtt w-full h-full flex items-center justify-center"
+                  className="w-full h-full flex items-center justify-center"
                 >
                   <Icon
                     stroke="white"
                     strokeWidth={4}
-                    selected={selectedItem === item.title}
+                    selected={selectedItemTitle === item.title}
                   />
                 </button>
               </GridChild>
             );
           })}
+          {/* Selected Item Image */}
+          <AnimatePresence mode="popLayout">
+            {selectedItem && selectedItemImagePos && (
+              <GridChild
+                {...selectedItemImagePos}
+                isGrid={false}
+                className="relative"
+              >
+                <motion.div
+                  className={`w-full h-full bg-green-500`}
+                  initial={{ opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ type: "ease-in-out", duration: 0.5 }}
+                  key={selectedItemTitle}
+                ></motion.div>
+              </GridChild>
+            )}
+          </AnimatePresence>
         </GridChild>
       )}
       <FooterRight footerRightHeight={4} footerRightWidth={6}>

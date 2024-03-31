@@ -18,11 +18,11 @@ const Template: React.FC<PropsWithChildren> = ({ children }) => {
         gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
         gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
       }}
-      variants={variants}
+      // variants={variants}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ type: "linear", duration: 0.5 }}
+      transition={{ type: "ease-in-out", duration: 0.5 }}
     >
       {children}
     </motion.main>
