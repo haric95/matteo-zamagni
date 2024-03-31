@@ -1,5 +1,5 @@
 import { RootContent } from "@/components/RootContent";
-import { GlobalContextProvider } from "@/state/GlobalStore";
+import { GlobalContextProvider, useGlobalContext } from "@/state/GlobalStore";
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
@@ -27,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexMono.variable} ${myFont.variable} font-mono`}>
+      <body
+        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-black`}
+      >
         <GlobalContextProvider>
           <RootContent>{children}</RootContent>
         </GlobalContextProvider>

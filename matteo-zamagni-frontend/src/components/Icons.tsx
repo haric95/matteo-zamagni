@@ -1,21 +1,29 @@
 import { SVGAttributes } from "react";
 
-export const Plus: React.FC<SVGAttributes<SVGSVGElement>> = ({ ...props }) => {
+export type IconComponent = React.FC<SVGAttributes<SVGSVGElement>>;
+
+export type SelectableIconComponent = React.FC<
+  SVGAttributes<SVGSVGElement> & { selected: boolean }
+>;
+
+export const Plus: SelectableIconComponent = ({ selected, ...props }) => {
   return (
     <svg
       viewBox="0 0 100 100"
       width="100"
-      stroke="black"
+      stroke={"black"}
       strokeWidth={8}
+      className={`transition-all duration-500 ${selected ? "rotate-45" : ""}`}
       {...props}
     >
-      <line x1="50" y1="10" x2="50" y2="90" />
-      <line x1="10" y1="50" x2="90" y2="50" />
+      <line {...{ x1: "50", y1: "10", x2: "50", y2: "90" }} />
+      <line {...{ x1: "10", y1: "50", x2: "90", y2: "50" }} />
     </svg>
   );
 };
 
-export const TriangleDown: React.FC<SVGAttributes<SVGSVGElement>> = ({
+export const TriangleDown: SelectableIconComponent = ({
+  selected,
   ...props
 }) => {
   return (
@@ -24,9 +32,10 @@ export const TriangleDown: React.FC<SVGAttributes<SVGSVGElement>> = ({
       fill="none"
       stroke="black"
       strokeWidth={8}
+      strokeLinecap="round"
       {...props}
     >
-      <path d="M10 15 L90 15 L50 85 Z" />
+      <path d="M10 25 L90 25 L50 95 Z" />
     </svg>
   );
 };
