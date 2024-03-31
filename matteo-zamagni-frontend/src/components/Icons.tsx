@@ -1,4 +1,4 @@
-import { SVGAttributes } from "react";
+import { SVGAttributes, useEffect, useState } from "react";
 
 export type IconComponent = React.FC<SVGAttributes<SVGSVGElement>>;
 
@@ -26,6 +26,14 @@ export const TriangleDown: SelectableIconComponent = ({
   selected,
   ...props
 }) => {
+  const [hasBeenSelected, setHasBeenSelected] = useState(false);
+
+  useEffect(() => {
+    if (selected && !hasBeenSelected) {
+      setHasBeenSelected(true);
+    }
+  }, [selected, hasBeenSelected]);
+
   return (
     <svg
       viewBox="0 0 100 100"
@@ -40,7 +48,9 @@ export const TriangleDown: SelectableIconComponent = ({
         className={`${
           selected
             ? "animate-downTriangle_TopLine_Forwards"
-            : "animate-downTriangle_TopLine_Reverse"
+            : hasBeenSelected
+            ? "animate-downTriangle_TopLine_Reverse"
+            : ""
         }`}
         {...{ x1: "10", y1: "25", x2: "90", y2: "25" }}
       />
@@ -49,7 +59,9 @@ export const TriangleDown: SelectableIconComponent = ({
         className={`${
           selected
             ? "animate-downTriangle_LeftLine_Forwards"
-            : "animate-downTriangle_LeftLine_Reverse"
+            : hasBeenSelected
+            ? "animate-downTriangle_LeftLine_Reverse"
+            : ""
         }`}
         {...{ x1: "50", y1: "95", x2: "10", y2: "25" }}
       />
@@ -58,7 +70,9 @@ export const TriangleDown: SelectableIconComponent = ({
         className={`${
           selected
             ? "animate-downTriangle_RightLine_Forwards"
-            : "animate-downTriangle_RightLine_Reverse"
+            : hasBeenSelected
+            ? "animate-downTriangle_RightLine_Reverse"
+            : ""
         }`}
         {...{ x1: "90", y1: "25", x2: "50", y2: "95" }}
       />
