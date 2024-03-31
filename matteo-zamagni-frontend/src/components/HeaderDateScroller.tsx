@@ -25,6 +25,7 @@ const MULTIPLIER = 3;
 
 const CLONED_YEARS = new Array(MULTIPLIER).fill(YEARS).flat();
 
+// TODO: Resolve scroll issue that means visible overflow when reaching end of scroller wheel
 export const HeaderDateScroller = (props) => {
   const perspective = "center";
   const wheelSize = CLONED_YEARS.length / MULTIPLIER;
