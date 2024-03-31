@@ -4,10 +4,11 @@ import Link from "next/link";
 import React, { ReactElement } from "react";
 import { PropsWithChildren } from "react";
 
-const HEADER_OFFSET_Y = 1;
 const HEADER_CELL_WIDTH = 16;
-const HEADER_UPPER_HEIGHT = 4;
-const HEADER_LOWER_HEIGHT = 1;
+export const HEADER_OFFSET_Y = 1;
+export const HEADER_UPPER_HEIGHT = 4;
+export const HEADER_LOWER_HEIGHT = 1;
+export const TOTAL_HEADER_HEIGHT = HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT;
 const SIDE_HEADER_CELL_WIDTH = Math.floor(HEADER_CELL_WIDTH / 3);
 const CENTER_HEADER_CELL_WIDTH = HEADER_CELL_WIDTH - SIDE_HEADER_CELL_WIDTH * 2;
 
@@ -38,7 +39,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           }}
         >
           <div
-            className={"bg-red-500 row-span-full grid"}
+            className={"row-span-full grid"}
             style={{
               gridColumnStart: 1,
               gridColumnEnd: 1 + SIDE_HEADER_CELL_WIDTH,
@@ -73,7 +74,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
             </Link>
           </div>
           <div
-            className={`bg-blue-500 row-span-full`}
+            className={`row-span-full`}
             style={{
               gridColumnStart: HEADER_CELL_WIDTH - SIDE_HEADER_CELL_WIDTH + 1,
               gridColumnEnd: HEADER_CELL_WIDTH + 1,

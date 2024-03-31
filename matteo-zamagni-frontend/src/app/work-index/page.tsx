@@ -1,5 +1,12 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
+import { GridChild } from "@/components/GridChild";
+import {
+  HEADER_LOWER_HEIGHT,
+  HEADER_OFFSET_Y,
+  HEADER_UPPER_HEIGHT,
+  TOTAL_HEADER_HEIGHT,
+} from "@/components/Header";
 import {
   BackChevrons,
   Circle,
@@ -13,7 +20,7 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -42,10 +49,40 @@ const WorkIndexTypeIcon = {
   [WorkIndexType.PRINT]: BackChevrons,
 };
 
+type IndexItem = {
+  title: string;
+  tags: WorkIndexType[];
+};
+
+const DUMMY_INDEX_ITEMS: IndexItem[] = new Array(10)
+  .fill([
+    {
+      title: "Ambient Occlusion",
+      tags: [WorkIndexType.EXHIBITION, WorkIndexType.INSTALLATION],
+    },
+    {
+      title: "Anise Gallery",
+      tags: [WorkIndexType.INSTALLATION, WorkIndexType.PERFORMANCE],
+    },
+    {
+      title: "Arebyte Gallery",
+      tags: [
+        WorkIndexType.PRINT,
+        WorkIndexType.PROJECT,
+        WorkIndexType.FILM,
+        WorkIndexType.INSTALLATION,
+      ],
+    },
+  ])
+  .flat();
+
+const CONTENT_GRID_PADDING_X = 8;
+const CONTENT_GRID_PADDING_Y = 2;
+
 // TODO: Add on mount delay to wait until bg color change has happened
-// TODO: Add About Modes
+// TODO: Find a way to prevent content being hidden on smaller screen sizes
 export default function Index() {
-  const { gridDim, grid } = useGlobalContext() as {
+  const { gridDim } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
   };
@@ -60,6 +97,37 @@ export default function Index() {
     }
   };
 
+  const centerContainerVals = useMemo(() => {
+    if (gridDim) {
+      return {
+        x: CONTENT_GRID_PADDING_X,
+        y: HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + CONTENT_GRID_PADDING_Y,
+        width: gridDim.x - CONTENT_GRID_PADDING_X * 2,
+        height:
+          gridDim.y -
+          HEADER_OFFSET_Y -
+          TOTAL_HEADER_HEIGHT -
+          CONTENT_GRID_PADDING_Y * 2,
+      };
+    }
+    return null;
+  }, [gridDim]);
+
+  const splitIndexItems = useMemo(() => {
+    if (centerContainerVals) {
+      const leftIndexItems = DUMMY_INDEX_ITEMS.slice(
+        0,
+        centerContainerVals.height
+      );
+      const rightIndexItems = DUMMY_INDEX_ITEMS.slice(
+        centerContainerVals.height,
+        centerContainerVals.height * 2
+      );
+      return { leftIndexItems, rightIndexItems };
+    }
+    return null;
+  }, [centerContainerVals]);
+
   useEffect(() => {
     if (dispatch) {
       dispatch({ type: "SET_IS_DARK", val: false });
@@ -69,6 +137,112 @@ export default function Index() {
 
   return (
     <>
+      {centerContainerVals && splitIndexItems && (
+        <GridChild {...centerContainerVals}>
+          <GridChild
+            x={0}
+            y={0}
+            width={centerContainerVals.width / 2}
+            innerGridWidth={1}
+            height={centerContainerVals.height}
+          >
+            {splitIndexItems.leftIndexItems.map((item, index) => {
+              return (
+                <GridChild
+                  key={item.title}
+                  x={0}
+                  y={index}
+                  height={1}
+                  width={1}
+                  className="flex items-center justify-center px-16"
+                  isGrid={false}
+                >
+                  <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                    {item.tags.map((tag, index) => {
+                      const Icon = WorkIndexTypeIcon[tag];
+                      return (
+                        index < 3 && (
+                          <Icon
+                            key={tag}
+                            strokeWidth={8}
+                            className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                              selectedType === tag
+                                ? "stroke-highlight"
+                                : "stroke-white"
+                            }`}
+                          />
+                        )
+                      );
+                    })}
+                  </div>
+                  <div className="w-full">
+                    <p
+                      className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                        selectedType && item.tags.includes(selectedType)
+                          ? "text-highlight"
+                          : "text-white"
+                      }`}
+                    >
+                      {item.title.toUpperCase()}
+                    </p>
+                  </div>
+                </GridChild>
+              );
+            })}
+          </GridChild>
+          <GridChild
+            x={centerContainerVals.width / 2}
+            y={0}
+            width={centerContainerVals.width / 2}
+            innerGridWidth={1}
+            height={centerContainerVals.height}
+          >
+            {splitIndexItems.rightIndexItems.map((item, index) => {
+              return (
+                <GridChild
+                  key={item.title}
+                  x={0}
+                  y={index}
+                  height={1}
+                  width={1}
+                  className="flex items-center justify-center px-16"
+                  isGrid={false}
+                >
+                  <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                    {item.tags.map((tag, index) => {
+                      const Icon = WorkIndexTypeIcon[tag];
+                      return (
+                        index < 3 && (
+                          <Icon
+                            key={tag}
+                            strokeWidth={8}
+                            className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                              selectedType === tag
+                                ? "stroke-highlight"
+                                : "stroke-white"
+                            }`}
+                          />
+                        )
+                      );
+                    })}
+                  </div>
+                  <div className="w-full">
+                    <p
+                      className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                        selectedType && item.tags.includes(selectedType)
+                          ? "text-highlight"
+                          : "text-white"
+                      }`}
+                    >
+                      {item.title.toUpperCase()}
+                    </p>
+                  </div>
+                </GridChild>
+              );
+            })}
+          </GridChild>
+        </GridChild>
+      )}
       <FooterRight footerRightHeight={8} footerRightWidth={6}>
         <div
           className="grid col-span-full row-span-full  "
@@ -106,7 +280,7 @@ export default function Index() {
                             ? "stroke-highlight"
                             : "stroke-white"
                         }`}
-                        strokeWidth={4}
+                        strokeWidth={8}
                       ></Component>
                       <p
                         className={`translate-y-[-1px] transition-color duration-500 ${
@@ -120,32 +294,6 @@ export default function Index() {
                     </button>
                   );
                 })}
-                {/* <WorkIndexTypeIcon.project
-                  className="mr-2 w-4 h-4"
-                  stroke="white"
-                  strokeWidth={4}
-                />
-                <p className="translate-y-[-1px]">project</p> */}
-                {/* <div className="w-full h-fit flex items-center w-2 h-2">
-                  <WorkIndexTypeIcon.exhibition className="mr-2 w-2 h-2" />
-                  <p className="translate-y-[-1px]">exhibition</p>
-                </div>
-                <div className="w-full h-fit flex items-center w-2 h-2">
-                  <WorkIndexTypeIcon.installation className="mr-2 w-2 h-2" />
-                  <p className="translate-y-[-1px]">installation</p>
-                </div>
-                <div className="w-full h-fit flex items-center w-2 h-2">
-                  <WorkIndexTypeIcon.performance className="mr-2 w-2 h-2" />
-                  <p className="translate-y-[-1px]">performance</p>
-                </div>
-                <div className="w-full h-fit flex items-center w-2 h-2">
-                  <WorkIndexTypeIcon.film className="mr-2 w-2 h-2" />
-                  <p className="translate-y-[-1px]">film</p>
-                </div>
-                <div className="w-full h-fit flex items-center w-2 h-2">
-                  <WorkIndexTypeIcon.print className="mr-2 w-2 h-2" />
-                  <p className="translate-y-[-1px]">print</p>
-                </div> */}
               </div>
             </div>
           </div>

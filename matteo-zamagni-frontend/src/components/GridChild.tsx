@@ -9,6 +9,9 @@ type GridChildProps = {
   y: number;
   height: number;
   width: number;
+  innerGridWidth?: number;
+  innerGridHeight?: number;
+  isGrid?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
@@ -18,19 +21,26 @@ export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
   width,
   children,
   className,
+  innerGridWidth,
+  innerGridHeight,
+  isGrid = true,
   style,
   ...divProps
 }) => {
   return (
     <div
-      className={`grid ${className}`}
+      className={`${isGrid ? "grid" : ""} ${className ? className : ""}`}
       style={{
         gridColumnStart: x + 1,
         gridColumnEnd: x + 1 + width,
         gridRowStart: y + 1,
         gridRowEnd: y + 1 + height,
-        gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
-        gridTemplateRows: `repeat(${height}, minmax(0, 1fr))`,
+        gridTemplateColumns: `repeat(${
+          innerGridWidth ? innerGridWidth : width
+        }, minmax(0, 1fr))`,
+        gridTemplateRows: `repeat(${
+          innerGridHeight ? innerGridHeight : height
+        }, minmax(0, 1fr))`,
         ...style,
       }}
       {...divProps}
