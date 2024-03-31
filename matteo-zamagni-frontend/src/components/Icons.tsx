@@ -2,7 +2,13 @@ import { SVGAttributes } from "react";
 
 export const Plus: React.FC<SVGAttributes<SVGSVGElement>> = ({ ...props }) => {
   return (
-    <svg viewBox="0 0 100 100" width="100" stroke="black" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      width="100"
+      stroke="black"
+      strokeWidth={8}
+      {...props}
+    >
       <line x1="50" y1="10" x2="50" y2="90" />
       <line x1="10" y1="50" x2="90" y2="50" />
     </svg>
@@ -13,7 +19,13 @@ export const TriangleDown: React.FC<SVGAttributes<SVGSVGElement>> = ({
   ...props
 }) => {
   return (
-    <svg viewBox="0 0 100 100" fill="none" stroke="black" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="black"
+      strokeWidth={8}
+      {...props}
+    >
       <path d="M10 15 L90 15 L50 85 Z" />
     </svg>
   );
@@ -23,7 +35,7 @@ export const HorizontalLines: React.FC<SVGAttributes<SVGSVGElement>> = ({
   ...props
 }) => {
   return (
-    <svg viewBox="0 0 100 100" stroke="black" {...props}>
+    <svg viewBox="0 0 100 100" stroke="black" strokeWidth={8} {...props}>
       <line x1="10" y1="20" x2="90" y2="20" />
       <line x1="10" y1="40" x2="90" y2="40" />
       <line x1="10" y1="60" x2="90" y2="60" />
@@ -36,7 +48,13 @@ export const Circle: React.FC<SVGAttributes<SVGSVGElement>> = ({
   ...props
 }) => {
   return (
-    <svg viewBox="0 0 100 100" fill="none" stroke="black" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="black"
+      strokeWidth={8}
+      {...props}
+    >
       <circle cx="50" cy="50" r="45" />
     </svg>
   );
@@ -44,7 +62,13 @@ export const Circle: React.FC<SVGAttributes<SVGSVGElement>> = ({
 
 export const Star: React.FC<SVGAttributes<SVGSVGElement>> = ({ ...props }) => {
   return (
-    <svg viewBox="0 0 100 100" stroke="black" fill="none" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      stroke="black"
+      strokeWidth={8}
+      fill="none"
+      {...props}
+    >
       <g>
         <line x1="10" y1="50" x2="90" y2="50" />
         <line x1="50" y1="10" x2="50" y2="90" />
@@ -59,7 +83,13 @@ export const BackChevrons: React.FC<SVGAttributes<SVGSVGElement>> = ({
   ...props
 }) => {
   return (
-    <svg viewBox="0 0 100 100" stroke="black" fill="none" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      stroke="black"
+      strokeWidth={8}
+      fill="none"
+      {...props}
+    >
       <g>
         <path d="M50 0 L20 50 L50 100" />
         <path d="M70 0 L40 50 L70 100" />
@@ -70,7 +100,13 @@ export const BackChevrons: React.FC<SVGAttributes<SVGSVGElement>> = ({
 
 export const Cross: React.FC<SVGAttributes<SVGSVGElement>> = ({ ...props }) => {
   return (
-    <svg viewBox="0 0 100 100" width="100" stroke="black" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      width="100"
+      stroke="black"
+      strokeWidth={8}
+      {...props}
+    >
       <line x1="10" y1="10" x2="90" y2="90" />
       <line x1="90" y1="10" x2="10" y2="90" />
     </svg>
