@@ -60,7 +60,9 @@ type GlobalAction =
   | { type: "SET_GRID_DIM"; dim: Dim2D }
   | { type: "UPDATE_GRID"; grid: Grid }
   | { type: "CLEAR_GRID" }
-  | { type: "SET_IS_DARK"; val: boolean };
+  | { type: "SET_IS_DARK"; val: boolean }
+  | { type: "SET_LED_ANIMATION_START" }
+  | { type: "SET_LED_ANIMATION_END" };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,

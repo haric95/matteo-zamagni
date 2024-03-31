@@ -7,6 +7,9 @@ import {
   SelectableIconComponent,
   TriangleDown,
 } from "@/components/Icons";
+import { lightPixel } from "@/helpers/gridHelpers";
+import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
+import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
@@ -74,26 +77,15 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
   },
 ];
 
-const imageEnterVariants = {
-  hidden: { opacity: 0, x: 0, y: 0 },
-  enter: { opacity: 1, x: 0, y: 0 },
-};
-
 export default function Home() {
   const dispatch = useGlobalContextDispatch();
-  const { gridDim } = useGlobalContext();
+  const { gridDim, grid } = useGlobalContext();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
     null
   );
 
-  const handleIconClick = (item: HomepageItem) => {
-    if (selectedItemTitle === item.title) {
-      setSelectedItemTitle(null);
-    } else {
-      setSelectedItemTitle(item.title);
-    }
-  };
+  const { startRectAnimation, clearRect } = useGridRectAnimation();
 
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
@@ -146,6 +138,21 @@ export default function Home() {
       return imageGridPos;
     }
   }, [selectedItem, getImagePos]);
+
+  const handleIconClick = useCallback(
+    (item: HomepageItem) => {
+      if (dispatch && grid) {
+        if (selectedItemTitle === item.title) {
+          setSelectedItemTitle(null);
+          clearRect();
+        } else {
+          setSelectedItemTitle(item.title);
+          startRectAnimation(0, 0, 10, 14);
+        }
+      }
+    },
+    [dispatch, grid, selectedItemTitle, startRectAnimation]
+  );
 
   useEffect(() => {
     if (dispatch) {
