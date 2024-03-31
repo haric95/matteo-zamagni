@@ -92,7 +92,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           </div>
           {/* HEADER LOWER */}
           <div
-            className={`row-span-full`}
+            className={`row-span-full relative`}
             style={{
               gridColumnStart: 1,
               gridColumnEnd: HEADER_CELL_WIDTH + 1,

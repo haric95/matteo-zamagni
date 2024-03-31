@@ -82,21 +82,26 @@ export const HeaderDateScroller = (props) => {
   };
 
   return (
-    <div
-      className={
-        "bg-background_Light dark:bg-background_Dark transition-color duration-500 font-decoration cursor-pointer wheel keen-slider wheel--perspective-" +
-        perspective
-      }
-      ref={sliderRef}
-    >
-      <div className="wheel__inner">
-        <div className="wheel__slides" style={{ width: 0 }}>
-          {slideValues().map(({ style, value }, idx) => (
-            <div className="wheel__slide" style={style} key={idx}>
-              <span className="translate-x-1/2">{value}</span>
-            </div>
-          ))}
+    <div className="w-full h-full relative">
+      <div
+        className={
+          "absolute bg-background_Light dark:bg-background_Dark transition-all duration-500 font-decoration cursor-pointer wheel keen-slider wheel--perspective-" +
+          perspective
+        }
+        ref={sliderRef}
+      >
+        <div className="wheel__inner">
+          <div className="wheel__slides" style={{ width: 0 }}>
+            {slideValues().map(({ style, value }, idx) => (
+              <div className="wheel__slide" style={style} key={idx}>
+                <span className="translate-x-1/2">{value}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
+      <div className="absolute w-full h-full flex justify-center">
+        <div className="w-24 border-x-[1px] border-fadedWhite"></div>
       </div>
     </div>
   );
