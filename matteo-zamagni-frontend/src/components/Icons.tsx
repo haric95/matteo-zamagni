@@ -3,10 +3,13 @@ import { SVGAttributes, useEffect, useState } from "react";
 export type IconComponent = React.FC<SVGAttributes<SVGSVGElement>>;
 
 export type SelectableIconComponent = React.FC<
-  SVGAttributes<SVGSVGElement> & { selected: boolean }
+  SVGAttributes<SVGSVGElement> & { selected?: boolean }
 >;
 
-export const Plus: SelectableIconComponent = ({ selected, ...props }) => {
+export const Plus: SelectableIconComponent = ({
+  selected = false,
+  ...props
+}) => {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -23,7 +26,7 @@ export const Plus: SelectableIconComponent = ({ selected, ...props }) => {
 };
 
 export const TriangleDown: SelectableIconComponent = ({
-  selected,
+  selected = false,
   ...props
 }) => {
   const [hasBeenSelected, setHasBeenSelected] = useState(false);

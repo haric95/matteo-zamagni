@@ -159,6 +159,7 @@ export default function Home() {
                     <Icon
                       className="w-4 mr-4 translate-y-[2px]"
                       stroke="white"
+                      selected={false}
                     />
                     <p>projects</p>
                   </div>
