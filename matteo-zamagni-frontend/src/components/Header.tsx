@@ -3,6 +3,7 @@ import { Dim2D } from "@/types/global";
 import Link from "next/link";
 import React, { ReactElement } from "react";
 import { PropsWithChildren } from "react";
+import { HeaderDateScroller } from "./HeaderDateScroller";
 
 const HEADER_CELL_WIDTH = 16;
 export const HEADER_OFFSET_Y = 1;
@@ -91,7 +92,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           </div>
           {/* HEADER LOWER */}
           <div
-            className={`bg-yellow-500 row-span-full`}
+            className={`row-span-full`}
             style={{
               gridColumnStart: 1,
               gridColumnEnd: HEADER_CELL_WIDTH + 1,
@@ -100,7 +101,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
                 HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT + HEADER_OFFSET_Y,
             }}
           >
-            {/* <button className="w-full bg-black">index</button> */}
+            <HeaderDateScroller loop />
           </div>
         </div>
       </div>
