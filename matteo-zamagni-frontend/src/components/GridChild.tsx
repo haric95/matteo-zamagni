@@ -43,7 +43,6 @@ export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
       // If we are using proportion to position
       const xCoord = Math.floor(outerGridSize.width * x) + 1;
       const yCoord = Math.floor(outerGridSize.height * y) + 1;
-      console.log(xCoord, yCoord);
       return {
         gridColumnStart: xCoord,
         gridRowStart: yCoord,

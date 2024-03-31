@@ -47,6 +47,17 @@ export const HeaderDateScroller = (props) => {
     mode: "free-snap",
     slides,
     slidesPerView,
+    afterChange: (s) => {
+      // TODO: Try and implement some kind of automatic returning to the center of the wheel
+      // so that the user is less likely to see the edges.
+      // using moveToSlideRelative() does work but the wheel flickers when it makes the move
+      // so need to find another way
+      // const relativeSlide = s.details().relativeSlide;
+      // if (relativeSlide < YEARS.length || relativeSlide >= YEARS.length * 2) {
+      //   const index = (s.details().relativeSlide % YEARS.length) + YEARS.length;
+      //   s.moveToSlideRelative(index, undefined, 0);
+      // }
+    },
     slideChanged: (s) => {
       setCurrentYearIndex(s.details().relativeSlide % YEARS.length);
     },

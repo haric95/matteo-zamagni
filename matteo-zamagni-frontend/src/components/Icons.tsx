@@ -35,7 +35,33 @@ export const TriangleDown: SelectableIconComponent = ({
       strokeLinecap="round"
       {...props}
     >
-      <path d="M10 25 L90 25 L50 95 Z" />
+      <line
+        style={{ transformOrigin: "10px 25px" }}
+        className={`${
+          selected
+            ? "animate-downTriangle_TopLine_Forwards"
+            : "animate-downTriangle_TopLine_Reverse"
+        }`}
+        {...{ x1: "10", y1: "25", x2: "90", y2: "25" }}
+      />
+      <line
+        style={{ transformOrigin: "50px 95px" }}
+        className={`${
+          selected
+            ? "animate-downTriangle_LeftLine_Forwards"
+            : "animate-downTriangle_LeftLine_Reverse"
+        }`}
+        {...{ x1: "50", y1: "95", x2: "10", y2: "25" }}
+      />
+      <line
+        style={{ transformOrigin: "50px 95px" }}
+        className={`${
+          selected
+            ? "animate-downTriangle_RightLine_Forwards"
+            : "animate-downTriangle_RightLine_Reverse"
+        }`}
+        {...{ x1: "90", y1: "25", x2: "50", y2: "95" }}
+      />
     </svg>
   );
 };
