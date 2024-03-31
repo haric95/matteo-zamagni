@@ -2,9 +2,18 @@ import { RootContent } from "@/components/RootContent";
 import { GlobalContextProvider } from "@/state/GlobalStore";
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400"] });
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-mono",
+});
+export const myFont = localFont({
+  src: "../fonts/Neutronica Geometric.ttf",
+  variable: "--font-decoration",
+});
 
 export const metadata: Metadata = {
   title: "Matteo Zamagni",
@@ -18,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={ibmPlexMono.className}>
+      <body className={`${ibmPlexMono.variable} ${myFont.variable} font-mono`}>
         <GlobalContextProvider>
           <RootContent>{children}</RootContent>
         </GlobalContextProvider>

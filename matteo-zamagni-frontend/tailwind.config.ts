@@ -23,6 +23,10 @@ const config: Config = {
         ledActive_Light: "#000000",
         highlight: "#FEF781",
       },
+      fontFamily: {
+        mono: ["var(--font-mono)"],
+        decoration: ["var(--font-decoration)"],
+      },
     },
   },
   plugins: [],
