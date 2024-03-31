@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-black overflow-hidden`}
+        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-black selection:bg-highlight selection:text-black overflow-hidden`}
       >
         <GlobalContextProvider>
           <RootContent>{children}</RootContent>
