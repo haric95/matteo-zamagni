@@ -58,7 +58,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
             </Link>
           </div>
           <div
-            className={`bg-green-500 row-span-full`}
+            className={`row-span-full`}
             style={{
               gridColumnStart: 1 + SIDE_HEADER_CELL_WIDTH,
               gridColumnEnd:

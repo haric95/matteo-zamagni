@@ -100,7 +100,7 @@ export const HeaderDateScroller = (props) => {
           </div>
         </div>
       </div>
-      <div className="absolute w-full h-full flex justify-center">
+      <div className="absolute top-0 w-full h-full flex justify-center pointer-events-none">
         <div className="w-24 border-x-[1px] border-fadedWhite"></div>
       </div>
     </div>
