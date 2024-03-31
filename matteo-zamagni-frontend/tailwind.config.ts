@@ -20,6 +20,7 @@ const config: Config = {
         ledInactive_Dark: "#333333",
         ledActive_Dark: "#ABABAB",
         ledInactive_Light: "#C5C4C4",
+        landingIconInactive: "#545353",
         ledActive_Light: "#000000",
         highlight: "#FEF781",
         fadedWhite: "#cccccc",

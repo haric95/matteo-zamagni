@@ -8,6 +8,7 @@ export type SelectableIconComponent = React.FC<
 
 export const Plus: SelectableIconComponent = ({
   selected = false,
+  className,
   ...props
 }) => {
   return (
@@ -16,7 +17,9 @@ export const Plus: SelectableIconComponent = ({
       width="100"
       stroke={"black"}
       strokeWidth={8}
-      className={`transition-all duration-500 ${selected ? "rotate-45" : ""}`}
+      className={`transition-all duration-500 ${
+        selected ? "rotate-45" : ""
+      } ${className}`}
       {...props}
     >
       <line {...{ x1: "50", y1: "10", x2: "50", y2: "90" }} />

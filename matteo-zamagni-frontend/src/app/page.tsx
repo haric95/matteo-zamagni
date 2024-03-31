@@ -179,9 +179,24 @@ export default function Home() {
                   className="w-full h-full flex items-center justify-center"
                 >
                   <Icon
-                    stroke="white"
                     strokeWidth={4}
                     selected={selectedItemTitle === item.title}
+                    // className={`${
+                    //   item.title
+                    //     ? item.title === selectedItemTitle
+                    //       ? "stroke-white"
+                    //       : "stroke-landingIconInactive"
+                    //     : "stroke-white"
+                    // }}`}
+                    className={`transition-all duration-500
+                      ${
+                        selectedItemTitle
+                          ? item.title === selectedItemTitle
+                            ? "stroke-highlight"
+                            : "stroke-landingIconInactive"
+                          : "stroke-white"
+                      }
+                    `}
                   />
                 </button>
               </GridChild>
