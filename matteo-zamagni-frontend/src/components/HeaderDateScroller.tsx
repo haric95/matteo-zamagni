@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
+import { Cross } from "@/components/Icons";
 import "keen-slider/keen-slider.min.css";
 import "./HeaderDateScroller.css";
 
@@ -103,6 +104,24 @@ export const HeaderDateScroller = (props) => {
       <div className="absolute top-0 w-full h-full flex justify-center pointer-events-none">
         <div className="w-24 border-x-[1px] border-fadedWhite"></div>
       </div>
+      {currentYearIndex !== 0 && (
+        <button
+          className="absolute flex justify-center items-center top-0 w-4 h-4 top-[2px] right-[-32px]"
+          onClick={() => {
+            if (slider) {
+              slider.moveToSlide(YEARS.length, 1000);
+            }
+          }}
+        >
+          <div className="w-[12px] h-[12px]">
+            <Cross
+              className="relative w-full h-full"
+              stroke="white"
+              strokeWidth={8}
+            />
+          </div>
+        </button>
+      )}
     </div>
   );
 };
