@@ -10,16 +10,11 @@ export const clearGrid = (grid: Grid) => {
 };
 
 export const lightPixel = (grid: Grid, x: number, y: number) => {
-  const updated: Grid = grid.map((currentRow, currentRowIndex) => {
-    return currentRow.map((currentValue, currentColIndex) => {
-      if (currentColIndex === x && currentRowIndex === y) {
-        return true;
-      } else {
-        return currentValue;
-      }
-    });
-  });
-  return updated;
+  const clonedGrid = [...grid];
+  const clonedRow = [...clonedGrid[y]];
+  clonedRow[x] = true;
+  clonedGrid[y] = clonedRow;
+  return clonedGrid;
 };
 
 export const drawVerticalLine = (
