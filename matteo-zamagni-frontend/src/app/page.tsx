@@ -93,8 +93,10 @@ export default function Home() {
     null
   );
 
-  const { startRectAnimation, clearRect } = useGridRectAnimation();
-  const { startAnimation } = useGridLineAnimation();
+  const { startRectAnimation, clearRect: clearRectAnimation } =
+    useGridRectAnimation();
+  const { startAnimation, cancelAnimation: cancelDiagonalAnimation } =
+    useGridLineAnimation();
 
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
@@ -151,7 +153,8 @@ export default function Home() {
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
       if (dispatch && grid) {
-        clearRect();
+        clearRectAnimation();
+        cancelDiagonalAnimation();
         if (selectedItemTitle === item.title) {
           setSelectedItemTitle(null);
         } else {
@@ -206,7 +209,7 @@ export default function Home() {
       grid,
       selectedItemTitle,
       startRectAnimation,
-      clearRect,
+      clearRectAnimation,
       getImagePos,
       centerContainerVals,
       gridDim,

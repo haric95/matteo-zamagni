@@ -4,7 +4,7 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Grid, Pos2D } from "@/types/global";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Using an variable outside of the hook so that the ref to the grid is not specific
 // to each instance of the hook. This means multiple instances of the hook can mutate
@@ -44,8 +44,11 @@ export const useGridLineAnimation = () => {
       const updatedGrid = clearGrid(outerGridRef);
       outerGridRef = updatedGrid;
       dispatch({ type: "CLEAR_GRID" });
+      if (currentTimeout) {
+        clearTimeout(currentTimeout);
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, currentTimeout]);
 
   const onTimeout = useCallback(
     async (points: Pos2D[], duration: number) => {
