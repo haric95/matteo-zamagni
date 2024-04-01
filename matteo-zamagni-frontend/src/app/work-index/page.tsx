@@ -1,12 +1,7 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
-import {
-  HEADER_LOWER_HEIGHT,
-  HEADER_OFFSET_Y,
-  HEADER_UPPER_HEIGHT,
-  TOTAL_HEADER_HEIGHT,
-} from "@/components/Header";
+import { HEADER_OFFSET_Y, TOTAL_HEADER_HEIGHT } from "@/components/Header";
 import {
   BackChevrons,
   Circle,
@@ -178,7 +173,8 @@ export default function Index() {
                   <div className="w-full">
                     <p
                       className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                        selectedType && item.tags.includes(selectedType)
+                        selectedType &&
+                        item.tags.slice(0, 3).includes(selectedType)
                           ? "text-highlight"
                           : "text-white"
                       }`}
@@ -229,7 +225,8 @@ export default function Index() {
                   <div className="w-full">
                     <p
                       className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                        selectedType && item.tags.includes(selectedType)
+                        selectedType &&
+                        item.tags.slice(0, 3).includes(selectedType)
                           ? "text-highlight"
                           : "text-white"
                       }`}
