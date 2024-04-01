@@ -2,6 +2,7 @@
 // Will automatically create a grid with the same cell size as the parent grid.
 // Grid positions are 0 indexed
 
+import { Dim2D, Pos2D } from "@/types/global";
 import { HTMLAttributes, PropsWithChildren, useMemo } from "react";
 
 type GridChildProps = {
@@ -15,6 +16,13 @@ type GridChildProps = {
   innerGridHeight?: number;
   isGrid?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
+
+export const getAbsGridCoords = (outerGridSize: Dim2D, propPos: Pos2D) => {
+  const xCoord = Math.floor(outerGridSize.x * propPos.x) + 1;
+  const yCoord = Math.floor(outerGridSize.y * propPos.y) + 1;
+
+  return { x: xCoord, y: yCoord };
+};
 
 export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
   x,
@@ -41,13 +49,16 @@ export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
       };
     } else if (outerGridSize && posType === "prop") {
       // If we are using proportion to position
-      const xCoord = Math.floor(outerGridSize.width * x) + 1;
-      const yCoord = Math.floor(outerGridSize.height * y) + 1;
+      const absGridCoords = getAbsGridCoords(
+        { x: outerGridSize.width, y: outerGridSize.height },
+        { x: x, y: y }
+      );
+
       return {
-        gridColumnStart: xCoord,
-        gridRowStart: yCoord,
-        gridColumnEnd: xCoord + width,
-        gridRowEnd: yCoord + height,
+        gridColumnStart: absGridCoords.x,
+        gridRowStart: absGridCoords.y,
+        gridColumnEnd: absGridCoords.x + width,
+        gridRowEnd: absGridCoords.y + height,
       };
     }
     return null;

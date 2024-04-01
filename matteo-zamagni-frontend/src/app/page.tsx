@@ -1,17 +1,20 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
-import { GridChild } from "@/components/GridChild";
+import { GridChild, getAbsGridCoords } from "@/components/GridChild";
 import { HEADER_OFFSET_Y, TOTAL_HEADER_HEIGHT } from "@/components/Header";
 import {
   Plus,
   SelectableIconComponent,
   TriangleDown,
 } from "@/components/Icons";
+import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
+import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
+import { Dim2D, Pos2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -84,6 +87,7 @@ export default function Home() {
   );
 
   const { startRectAnimation, clearRect } = useGridRectAnimation();
+  const { startAnimation } = useGridLineAnimation();
 
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
@@ -147,12 +151,45 @@ export default function Home() {
           setSelectedItemTitle(item.title);
           const imagePos = getImagePos(item.position);
           if (imagePos && centerContainerVals) {
+            const ledRect = {
+              x: centerContainerVals.x + imagePos.x - 1,
+              y: centerContainerVals.y + imagePos.y - 1,
+              width: imagePos.width + 1,
+              height: imagePos.height + 1,
+            };
             startRectAnimation(
-              centerContainerVals.x + imagePos.x - 1,
-              centerContainerVals.y + imagePos.y - 1,
-              imagePos.width + 1,
-              imagePos.height + 1
+              ledRect.x,
+              ledRect.y,
+              ledRect.width,
+              ledRect.height
             );
+            // Here, point coords are proportional (0-1).
+            // We need to scale to absolute grid coordinates to be able to run
+            // the tronPath algo.
+            if (gridDim) {
+              // These are for the whole grid.
+              const absPointCoords = getAbsGridCoords(
+                { x: centerContainerVals.width, y: centerContainerVals.height },
+                item.position
+              );
+              // But our points are positioned within the center grid. So need to offset
+              const outerGridPointCoords: Pos2D = {
+                x: absPointCoords.x + centerContainerVals.x - 1,
+                y: absPointCoords.y + centerContainerVals.y - 1,
+              };
+              const outerGridImagePos = {
+                ...imagePos,
+                x: imagePos.x + centerContainerVals.x,
+                y: imagePos.y + centerContainerVals.y,
+              };
+              console.log(outerGridImagePos);
+              const nearestImageCorner = findNearestCornerOfRect(
+                outerGridPointCoords, // point of icon click
+                outerGridImagePos // rect info
+              );
+              const path = tronPath(outerGridPointCoords, nearestImageCorner);
+              startAnimation(path, 1000);
+            }
           }
         }
       }
@@ -165,6 +202,8 @@ export default function Home() {
       clearRect,
       getImagePos,
       centerContainerVals,
+      gridDim,
+      startAnimation,
     ]
   );
 
@@ -202,13 +241,6 @@ export default function Home() {
                   <Icon
                     strokeWidth={4}
                     selected={selectedItemTitle === item.title}
-                    // className={`${
-                    //   item.title
-                    //     ? item.title === selectedItemTitle
-                    //       ? "stroke-white"
-                    //       : "stroke-landingIconInactive"
-                    //     : "stroke-white"
-                    // }}`}
                     className={`transition-all duration-500
                       ${
                         selectedItemTitle
