@@ -14,30 +14,28 @@ export const useGridRectAnimation = () => {
 
   const startRectAnimation = useCallback(
     (x: number, y: number, width: number, height: number) => {
-      const topPoints: Pos2D[] = new Array(width - 1)
-        .fill(null)
-        .map((_, index) => {
-          return { x: x + index, y: y };
-        });
-      const rightPoints: Pos2D[] = new Array(height - 1)
+      const topPoints: Pos2D[] = new Array(width).fill(null).map((_, index) => {
+        return { x: x + index, y: y };
+      });
+      const rightPoints: Pos2D[] = new Array(height)
         .fill(null)
         .map((_, index) => {
           return { x: x + width, y: y + index };
         });
-      const bottomPoints: Pos2D[] = new Array(width - 1)
+      const bottomPoints: Pos2D[] = new Array(width)
         .fill(null)
         .map((_, index) => {
           return { x: x + width - index, y: y + height };
         });
-      const leftPoints: Pos2D[] = new Array(height - 1)
+      const leftPoints: Pos2D[] = new Array(height)
         .fill(null)
         .map((_, index) => {
           return { x: x, y: y + height - index };
         });
 
-      // startAnimation1(topPoints);
-      // startAnimation2(rightPoints);
-      // startAnimation3(bottomPoints);
+      startAnimation1(topPoints);
+      startAnimation2(rightPoints);
+      startAnimation3(bottomPoints);
       startAnimation4(leftPoints);
     },
     [startAnimation1, startAnimation2, startAnimation3, startAnimation4]

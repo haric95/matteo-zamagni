@@ -4,7 +4,12 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Grid, Pos2D } from "@/types/global";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+// Using an variable outside of the hook so that the ref to the grid is not specific
+// to each instance of the hook. This means multiple instances of the hook can mutate
+// the grid simultaneously.
+let outerGridRef: Grid | null = null;
 
 export const useGridLineAnimation = () => {
   const { grid } = useGlobalContext();
@@ -13,14 +18,18 @@ export const useGridLineAnimation = () => {
     null
   );
 
-  const gridRef = useRef<Grid | null>(grid);
-
   const getUpdatedGrid = useCallback((pos: Pos2D) => {
-    if (gridRef.current) {
-      return lightPixel(gridRef.current, pos.x, pos.y);
+    if (outerGridRef) {
+      return lightPixel(outerGridRef, pos.x, pos.y);
     }
     return null;
   }, []);
+
+  useEffect(() => {
+    if (grid) {
+      outerGridRef = grid;
+    }
+  }, [grid]);
 
   const onAnimationEnd = useCallback(() => {
     // if (gridRef.current) {
@@ -31,9 +40,9 @@ export const useGridLineAnimation = () => {
 
   const clearLine = useCallback(() => {
     // TODO: Find a way to make this not clear whole grid
-    if (gridRef.current && dispatch) {
-      const updatedGrid = clearGrid(gridRef.current);
-      gridRef.current = updatedGrid;
+    if (outerGridRef && dispatch) {
+      const updatedGrid = clearGrid(outerGridRef);
+      outerGridRef = updatedGrid;
       dispatch({ type: "CLEAR_GRID" });
     }
   }, [dispatch]);
@@ -49,7 +58,7 @@ export const useGridLineAnimation = () => {
         const updatedGrid = getUpdatedGrid(points[0]);
         if (updatedGrid) {
           dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
-          gridRef.current = updatedGrid;
+          outerGridRef = updatedGrid;
           const updatedPointsArray = points.splice(1);
           const timeout = setTimeout(() => {
             onTimeout(updatedPointsArray, duration);

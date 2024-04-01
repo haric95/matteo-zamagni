@@ -7,8 +7,6 @@ import {
   SelectableIconComponent,
   TriangleDown,
 } from "@/components/Icons";
-import { lightPixel } from "@/helpers/gridHelpers";
-import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import {
   useGlobalContext,
@@ -147,11 +145,27 @@ export default function Home() {
           clearRect();
         } else {
           setSelectedItemTitle(item.title);
-          startRectAnimation(0, 0, 10, 14);
+          const imagePos = getImagePos(item.position);
+          if (imagePos && centerContainerVals) {
+            startRectAnimation(
+              centerContainerVals.x + imagePos.x - 1,
+              centerContainerVals.y + imagePos.y - 1,
+              imagePos.width + 1,
+              imagePos.height + 1
+            );
+          }
         }
       }
     },
-    [dispatch, grid, selectedItemTitle, startRectAnimation]
+    [
+      dispatch,
+      grid,
+      selectedItemTitle,
+      startRectAnimation,
+      clearRect,
+      getImagePos,
+      centerContainerVals,
+    ]
   );
 
   useEffect(() => {
