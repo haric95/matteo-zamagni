@@ -14,9 +14,11 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
+import Image from "next/image";
 import { Dim2D, Pos2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 0;
@@ -45,6 +47,7 @@ type HomepageItem = {
   title: string;
   year: string;
   imageSrc: string;
+  slug: string;
 };
 
 const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
@@ -53,28 +56,32 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     type: HomepageItemType.EXHIBITION,
     title: "HELLO TESTING",
     year: "2022",
-    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+    imageSrc: "/placeholder.png",
+    slug: "testing-1",
   },
   {
     position: { x: 0.4, y: 0.1 },
     type: HomepageItemType.PROJECT,
     title: "HELLO TESTING 2",
     year: "2021",
-    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+    imageSrc: "/placeholder.png",
+    slug: "testing-2",
   },
   {
     position: { x: 0.9, y: 0.8 },
     type: HomepageItemType.PROJECT,
     title: "HELLO TESTING 3",
     year: "2021",
-    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+    imageSrc: "/placeholder.png",
+    slug: "testing-3",
   },
   {
     position: { x: 0.1, y: 0.6 },
     type: HomepageItemType.PROJECT,
     title: "HELLO TESTING 4",
     year: "2021",
-    imageSrc: "https://placehold.co/600x400/EEE/31343C",
+    imageSrc: "/placeholder.png",
+    slug: "testing-4",
   },
 ];
 
@@ -144,9 +151,9 @@ export default function Home() {
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
       if (dispatch && grid) {
+        clearRect();
         if (selectedItemTitle === item.title) {
           setSelectedItemTitle(null);
-          clearRect();
         } else {
           setSelectedItemTitle(item.title);
           const imagePos = getImagePos(item.position);
@@ -264,13 +271,21 @@ export default function Home() {
                 className="relative"
               >
                 <motion.div
-                  className={`w-full h-full bg-green-500`}
+                  className={`w-full h-full`}
                   initial={{ opacity: 0 }}
                   exit={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ type: "ease-in-out", duration: 0.5 }}
+                  transition={{ type: "ease-in-out", duration: 1 }}
                   key={selectedItemTitle}
-                ></motion.div>
+                >
+                  <Image
+                    src={selectedItem.imageSrc}
+                    className="object-cover w-full h-full"
+                    alt=""
+                    width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                    height={selectedItemImagePos.height * TARGET_CELL_SIZE}
+                  />
+                </motion.div>
               </GridChild>
             )}
           </AnimatePresence>
