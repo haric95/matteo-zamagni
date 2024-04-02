@@ -18,8 +18,16 @@ type GridChildProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 export const getAbsGridCoords = (outerGridSize: Dim2D, propPos: Pos2D) => {
-  const xCoord = Math.floor(outerGridSize.x * propPos.x) + 1;
-  const yCoord = Math.floor(outerGridSize.y * propPos.y) + 1;
+  // Subtract small value to make sure a propPos of 1 doesn't cause grid
+  // coord values to not fit in grid
+  const xCoord =
+    propPos.x === 1
+      ? outerGridSize.x
+      : Math.floor(outerGridSize.x * propPos.x) + 1;
+  const yCoord =
+    propPos.y === 1
+      ? outerGridSize.y
+      : Math.floor(outerGridSize.y * propPos.y) + 1;
 
   return { x: xCoord, y: yCoord };
 };

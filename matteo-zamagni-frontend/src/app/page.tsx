@@ -138,8 +138,9 @@ export default function Home() {
     [centerContainerVals]
   );
   const selectedItem = useMemo(() => {
-    return DUMMY_HOMEPAGE_ITEMS.find(
-      (item) => item.title === selectedItemTitle
+    return (
+      DUMMY_HOMEPAGE_ITEMS.find((item) => item.title === selectedItemTitle) ||
+      null
     );
   }, [selectedItemTitle]);
 
@@ -148,6 +149,7 @@ export default function Home() {
       const imageGridPos = getImagePos(selectedItem.position);
       return imageGridPos;
     }
+    return null;
   }, [selectedItem, getImagePos]);
 
   const handleIconClick = useCallback(
@@ -192,7 +194,6 @@ export default function Home() {
                 x: imagePos.x + centerContainerVals.x,
                 y: imagePos.y + centerContainerVals.y,
               };
-              console.log(outerGridImagePos);
               const nearestImageCorner = findNearestCornerOfRect(
                 outerGridPointCoords, // point of icon click
                 outerGridImagePos // rect info
@@ -214,6 +215,7 @@ export default function Home() {
       centerContainerVals,
       gridDim,
       startAnimation,
+      cancelDiagonalAnimation,
     ]
   );
 
@@ -266,7 +268,7 @@ export default function Home() {
             );
           })}
           {/* Selected Item Image */}
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {selectedItem && selectedItemImagePos && (
               <GridChild
                 {...selectedItemImagePos}
@@ -278,7 +280,7 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   exit={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ type: "ease-in-out", duration: 1 }}
+                  transition={{ type: "ease-in-out", duration: 0.5 }}
                   key={selectedItemTitle}
                 >
                   <Image
