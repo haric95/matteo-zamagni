@@ -6,6 +6,7 @@ import { useKeenSlider } from "keen-slider/react";
 import { Cross } from "@/components/Icons";
 import "keen-slider/keen-slider.min.css";
 import "./HeaderDateScroller.css";
+import { useGlobalContextDispatch } from "@/state/GlobalStore";
 
 const YEARS = [
   "0000",
@@ -27,6 +28,7 @@ const CLONED_YEARS = new Array(MULTIPLIER).fill(YEARS).flat();
 
 // TODO: Resolve scroll issue that means visible overflow when reaching end of scroller wheel
 export const HeaderDateScroller = (props) => {
+  const dispatch = useGlobalContextDispatch();
   const perspective = "center";
   const wheelSize = CLONED_YEARS.length / MULTIPLIER;
   const slides = CLONED_YEARS.length;
@@ -59,7 +61,12 @@ export const HeaderDateScroller = (props) => {
       // }
     },
     slideChanged: (s) => {
+      const index = s.details().relativeSlide % YEARS.length;
       setCurrentYearIndex(s.details().relativeSlide % YEARS.length);
+      dispatch({
+        type: "SET_SELECTED_YEAR",
+        year: index === 0 ? null : YEARS[index],
+      });
     },
   });
 

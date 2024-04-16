@@ -16,6 +16,7 @@ type GlobalState = {
   gridDim: Dim2D | null;
   grid: boolean[][] | null;
   isDark: boolean;
+  selectedYear: null | string;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -24,6 +25,7 @@ const initialGlobalState: GlobalState = {
   gridDim: null,
   grid: null,
   isDark: true,
+  selectedYear: null,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -62,7 +64,8 @@ type GlobalAction =
   | { type: "CLEAR_GRID" }
   | { type: "SET_IS_DARK"; val: boolean }
   | { type: "SET_LED_ANIMATION_START" }
-  | { type: "SET_LED_ANIMATION_END" };
+  | { type: "SET_LED_ANIMATION_END" }
+  | { type: "SET_SELECTED_YEAR"; year: GlobalState["selectedYear"] };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
@@ -93,6 +96,9 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
         ...globalState,
         isDark: action.val,
       };
+    }
+    case "SET_SELECTED_YEAR": {
+      return { ...globalState, selectedYear: action.year };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));

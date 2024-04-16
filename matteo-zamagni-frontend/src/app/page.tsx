@@ -87,7 +87,7 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
 
 export default function Home() {
   const dispatch = useGlobalContextDispatch();
-  const { gridDim, grid } = useGlobalContext();
+  const { gridDim, grid, selectedYear } = useGlobalContext();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
     null
@@ -226,6 +226,19 @@ export default function Home() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (
+      selectedYear &&
+      selectedYear !== selectedItem?.year &&
+      cancelDiagonalAnimation &&
+      clearRectAnimation
+    ) {
+      clearRectAnimation();
+      cancelDiagonalAnimation();
+      setSelectedItemTitle(null);
+    }
+  }, [selectedItem, selectedYear, clearRectAnimation, cancelDiagonalAnimation]);
+
   return (
     <>
       {centerContainerVals && (
@@ -248,7 +261,11 @@ export default function Home() {
                   onClick={() => {
                     handleIconClick(item);
                   }}
-                  className="w-full h-full flex items-center justify-center"
+                  className={`relative w-full h-full flex items-center justify-center overflow-visible ${
+                    selectedYear === null || item.year === selectedYear
+                      ? ""
+                      : "pointer-events-none"
+                  }`}
                 >
                   <Icon
                     strokeWidth={4}
@@ -260,7 +277,11 @@ export default function Home() {
                             ? "stroke-highlight"
                             : "stroke-landingIconInactive"
                           : "stroke-white"
-                      }
+                      } ${
+                      selectedYear === null || item.year === selectedYear
+                        ? ""
+                        : "!stroke-landingIconInactive"
+                    }
                     `}
                   />
                 </button>
