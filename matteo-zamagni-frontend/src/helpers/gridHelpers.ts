@@ -80,11 +80,11 @@ export const findNearestCornerOfRect = (
 ) => {
   const nearestCornerX =
     Math.abs(point.x - rect.x) < Math.abs(point.x - (rect.x + rect.width))
-      ? rect.x
+      ? rect.x - 1
       : rect.x + rect.width;
   const nearestCornerY =
     Math.abs(point.y - rect.y) < Math.abs(point.y - (rect.y + rect.height))
-      ? rect.y
+      ? rect.y - 1
       : rect.y + rect.height;
 
   return { x: nearestCornerX, y: nearestCornerY };
