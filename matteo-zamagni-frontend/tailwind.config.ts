@@ -42,6 +42,7 @@ const config: Config = {
           "downTriangle_LeftLine_Reverse 0.5s ease-in-out forwards",
         downTriangle_RightLine_Reverse:
           "downTriangle_RightLine_Reverse 0.5s ease-in-out forwards",
+        arrowGesture: "arrowGesture 5s ease-in-out infinite",
         // wiggle: "wiggle 1s ease-in-out infinite",
       },
       keyframes: {
@@ -73,7 +74,15 @@ const config: Config = {
         },
         downTriangle_RightLine_Reverse: {
           "0%": { transform: "translate(28px, -15px) rotate(-75deg)" },
-          "1000%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(0deg)" },
+        },
+        arrowGesture: {
+          "0%": { transform: "translateX(0px)" },
+          "8%": { transform: "translateX(4px)" },
+          "16%": { transform: "translateX(0px)" },
+          "24%": { transform: "translateX(4px)" },
+          "32%": { transform: "translateX(0px)" },
+          "100%": { transform: "translateX(0px)" },
         },
       },
     },

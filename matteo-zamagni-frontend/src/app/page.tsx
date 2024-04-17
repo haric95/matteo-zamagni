@@ -19,9 +19,10 @@ import { Dim2D, Pos2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
+import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
-const CONTENT_GRID_PADDING_Y = 0;
+const CONTENT_GRID_PADDING_Y = 2;
 
 enum HomepageItemType {
   EXHIBITION = "exhibition",
@@ -48,6 +49,7 @@ type HomepageItem = {
   year: string;
   imageSrc: string;
   slug: string;
+  tags?: string[];
 };
 
 const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
@@ -58,6 +60,7 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     year: "2022",
     imageSrc: "/placeholder.png",
     slug: "testing-1",
+    tags: ["ar", "vr", "moving image"],
   },
   {
     position: { x: 0.4, y: 0.1 },
@@ -66,6 +69,7 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     year: "2021",
     imageSrc: "/placeholder.png",
     slug: "testing-2",
+    tags: ["tag 1", "tag 5"],
   },
   {
     position: { x: 0.9, y: 0.8 },
@@ -74,6 +78,7 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     year: "2021",
     imageSrc: "/placeholder.png",
     slug: "testing-3",
+    tags: ["tag 1", "tag 5"],
   },
   {
     position: { x: 0.1, y: 0.6 },
@@ -84,6 +89,8 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     slug: "testing-4",
   },
 ];
+
+const QUADRANT_PADDING = { x: 2, y: 2 };
 
 export default function Home() {
   const dispatch = useGlobalContextDispatch();
@@ -117,7 +124,6 @@ export default function Home() {
   const getImagePos = useCallback(
     (itemPos: HomepageItem["position"]) => {
       // TODO: Make this dynamic
-      const QUADRANT_PADDING = { x: 2, y: 2 };
       if (centerContainerVals) {
         const width = centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
         const height = centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
@@ -137,6 +143,7 @@ export default function Home() {
     },
     [centerContainerVals]
   );
+
   const selectedItem = useMemo(() => {
     return (
       DUMMY_HOMEPAGE_ITEMS.find((item) => item.title === selectedItemTitle) ||
@@ -151,6 +158,32 @@ export default function Home() {
     }
     return null;
   }, [selectedItem, getImagePos]);
+
+  const selectedItemDescriptionPos = useMemo(() => {
+    if (selectedItem && centerContainerVals && gridDim) {
+      // TODO: Make this dynamic
+      const width = 9;
+      const height = 3;
+      const absPos = getAbsGridCoords(
+        { x: centerContainerVals.width, y: centerContainerVals.height },
+        selectedItem.position
+      );
+      return {
+        x: selectedItem.position.x < 0.5 ? absPos.x + 1 : absPos.x - width - 2,
+        y:
+          selectedItem.position.y < 0.5
+            ? absPos.y - height < 0
+              ? absPos.y - height / 2 < 0
+                ? absPos.y
+                : absPos.y - height / 2
+              : absPos.y - height
+            : absPos.y,
+        width,
+        height,
+      };
+    }
+    return null;
+  }, [centerContainerVals, selectedItem, gridDim]);
 
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
@@ -291,29 +324,77 @@ export default function Home() {
           {/* Selected Item Image */}
           <AnimatePresence mode="sync">
             {selectedItem && selectedItemImagePos && (
-              <GridChild
-                {...selectedItemImagePos}
-                isGrid={false}
-                className="relative"
-              >
-                <motion.div
-                  className={`w-full h-full`}
-                  initial={{ opacity: 0 }}
-                  exit={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ type: "ease-in-out", duration: 0.5 }}
-                  key={selectedItemTitle}
+              <>
+                <GridChild
+                  {...selectedItemImagePos}
+                  isGrid={false}
+                  className="relative"
                 >
-                  <Image
-                    src={selectedItem.imageSrc}
-                    className="object-cover w-full h-full"
-                    alt=""
-                    width={selectedItemImagePos.width * TARGET_CELL_SIZE}
-                    height={selectedItemImagePos.height * TARGET_CELL_SIZE}
-                  />
-                </motion.div>
-              </GridChild>
+                  <motion.div
+                    className={`w-full h-full`}
+                    initial={{ opacity: 0 }}
+                    exit={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ type: "ease-in-out", duration: 0.5 }}
+                    key={selectedItemTitle}
+                  >
+                    <Image
+                      src={selectedItem.imageSrc}
+                      className="object-cover w-full h-full"
+                      alt=""
+                      width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                      height={selectedItemImagePos.height * TARGET_CELL_SIZE}
+                    />
+                  </motion.div>
+                </GridChild>
+              </>
             )}
+          </AnimatePresence>
+          <AnimatePresence mode="sync">
+            {selectedItem &&
+              selectedItemDescriptionPos &&
+              selectedItemImagePos && (
+                <>
+                  <GridChild
+                    {...selectedItemDescriptionPos}
+                    isGrid={false}
+                    className="relative bg-black"
+                  >
+                    <motion.button
+                      className={`w-full h-full text-left`}
+                      initial={{ opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ type: "ease-in-out", duration: 0.5 }}
+                      key={selectedItemTitle}
+                    >
+                      <div className="flex h-full w-full">
+                        <div className="w-[90%] h-full flex flex-col justify-between">
+                          <TypeAnimation
+                            sequence={[selectedItem.title]}
+                            wrapper="span"
+                            speed={50}
+                            style={{ display: "inline-block" }}
+                            className="bg-black"
+                          />
+                          <div className="text-xs">
+                            <p className="bg-black width-fit">
+                              {selectedItem.tags
+                                ? selectedItem.tags.join(", ")
+                                : null}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="w-[10%] h-full flex">
+                          <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture">
+                            <p className="text-xs">→</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  </GridChild>
+                </>
+              )}
           </AnimatePresence>
         </GridChild>
       )}
