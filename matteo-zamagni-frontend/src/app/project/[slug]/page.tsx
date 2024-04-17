@@ -13,11 +13,54 @@ const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
 
+type ProjectData = {
+  text: { text: string };
+  images: {
+    thumbnailURL: string;
+    imageURL: string;
+    alt: string;
+  }[];
+  video?: { url: string };
+};
+
 enum ProjectMode {
   TEXT,
   IMAGES,
   VIDEO,
 }
+
+const DUMMY_DATA: ProjectData = {
+  text: {
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit lorem et felis condimentum elementum non a nunc. Duis maximus nunc sit amet nisl cursus, sit amet efficitur purus rutrum. Pellentesque egestas egestas velit nec posuere. In faucibus dui ut placerat viverra. Nam sollicitudin aliquam orci id egestas. Morbi tempus euismod porttitor. Donec fringilla euismod lectus, condimentum laoreet mauris fermentum vel. Donec molestie gravida scelerisque. Aenean scelerisque egestas mauris sed sagittis. Praesent metus eros, cursus ac eleifend eu, lobortis at dolor. Mauris magna lacus, egestas eget est vitae, blandit laoreet quam. Nam quis faucibus eros. Morbi consequat est in libero congue consequat. Cras placerat nibh eget ligula luctus dignissim. Ut pretium nisi nunc, eget condimentum libero cursus ac. Morbi sed purus imperdiet, iaculis lacus sit amet, accumsan quam. In lorem metus, finibus in sodales eu, aliquam ut nibh. Vivamus sagittis, mi sed tristique vehicula, metus tellus viverra arcu, ut ultrices orci ante non elit. Maecenas interdum, ante non posuere consequat, metus nisl varius urna, id mattis dolor tortor eu augue. Cras nec efficitur dui. Quisque eu ex odio. Donec pretium bibendum mi porttitor ultricies. Pellentesque vehicula sapien in ex scelerisque, at vehicula libero venenatis. Proin ullamcorper ullamcorper ligula, nec vestibulum purus blandit facilisis. In mattis rutrum justo et posuere. Nulla elementum imperdiet mi, et condimentum libero cursus eget. In ac justo ac metus consequat viverra. Cras rutrum leo at venenatis scelerisque.",
+  },
+  images: [
+    {
+      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      alt: "image description",
+    },
+    {
+      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      alt: "image description",
+    },
+    {
+      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      alt: "image description",
+    },
+    {
+      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      alt: "image description",
+    },
+    {
+      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      alt: "image description",
+    },
+  ],
+};
 
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
@@ -79,6 +122,8 @@ export default function Home() {
     }
   }, [dispatch]);
 
+  useEffect(() => {}, []);
+
   return (
     <>
       <div
@@ -92,18 +137,20 @@ export default function Home() {
           // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
         }}
       >
-        <div className="w-full h-full overflow-auto"></div>
+        <div className="w-full h-full overflow-auto">
+          {DUMMY_DATA.text.text}
+        </div>
       </div>
-      <FooterRight footerRightHeight={8} footerRightWidth={6}>
+      <FooterRight footerRightHeight={5} footerRightWidth={6}>
         <div
-          className="grid col-span-full row-span-full  "
+          className="grid col-span-full row-span-full translate-y-[8px]"
           style={{
             gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
           }}
         >
           <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
-            <p className="text-[12px]">navigation</p>
+            <p className="text-[12px] translate-y-[-12px]">navigation</p>
           </div>
           <div
             className={`col-span-full flex items-start`}
@@ -117,8 +164,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block ${
                     projectMode === ProjectMode.TEXT
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-textInactive"
                   }`}
                   onClick={() => {
                     setProjectMode(ProjectMode.TEXT);
@@ -129,8 +176,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block ${
                     projectMode === ProjectMode.IMAGES
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-textInactive"
                   }`}
                   onClick={() => {
                     setProjectMode(ProjectMode.IMAGES);
@@ -141,8 +188,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block ${
                     projectMode === ProjectMode.VIDEO
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-textInactive"
                   }`}
                   onClick={() => {
                     setProjectMode(ProjectMode.VIDEO);

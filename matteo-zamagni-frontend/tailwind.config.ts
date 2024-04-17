@@ -24,6 +24,7 @@ const config: Config = {
         ledActive_Light: "#000000",
         highlight: "#FEF781",
         fadedWhite: "#cccccc",
+        textInactive: "#545353",
       },
       fontFamily: {
         mono: ["var(--font-mono)"],
