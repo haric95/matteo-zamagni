@@ -17,17 +17,29 @@ type GridChildProps = {
   isGrid?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
-export const getAbsGridCoords = (outerGridSize: Dim2D, propPos: Pos2D) => {
+export const getAbsGridCoords = (
+  outerGridSize: Dim2D,
+  propPos: Pos2D,
+  mode: "floor" | "round" | "ceil" = "floor"
+) => {
   // Subtract small value to make sure a propPos of 1 doesn't cause grid
   // coord values to not fit in grid
   const xCoord =
     propPos.x === 1
       ? outerGridSize.x
-      : Math.floor(outerGridSize.x * propPos.x) + 1;
+      : mode === "floor"
+      ? Math.floor(outerGridSize.x * propPos.x)
+      : mode === "ceil"
+      ? Math.ceil(outerGridSize.x * propPos.x)
+      : Math.round(outerGridSize.x * propPos.x);
   const yCoord =
     propPos.y === 1
       ? outerGridSize.y
-      : Math.floor(outerGridSize.y * propPos.y) + 1;
+      : mode === "floor"
+      ? Math.floor(outerGridSize.y * propPos.y)
+      : mode === "ceil"
+      ? Math.ceil(outerGridSize.y * propPos.y)
+      : Math.round(outerGridSize.y * propPos.y);
 
   return { x: xCoord, y: yCoord };
 };
