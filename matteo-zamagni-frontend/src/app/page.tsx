@@ -386,8 +386,8 @@ export default function Home() {
                           </div>
                         </div>
                         <div className="w-[10%] h-full flex">
-                          <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture">
-                            <p className="text-xs">→</p>
+                          <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture animation-delay-500">
+                            <p className="text-xs">{">"}</p>
                           </div>
                         </div>
                       </div>

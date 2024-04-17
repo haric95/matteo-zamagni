@@ -42,7 +42,7 @@ const config: Config = {
           "downTriangle_LeftLine_Reverse 0.5s ease-in-out forwards",
         downTriangle_RightLine_Reverse:
           "downTriangle_RightLine_Reverse 0.5s ease-in-out forwards",
-        arrowGesture: "arrowGesture 5s ease-in-out infinite",
+        arrowGesture: "arrowGesture 5s ease-in-out 2000ms infinite",
         // wiggle: "wiggle 1s ease-in-out infinite",
       },
       keyframes: {
