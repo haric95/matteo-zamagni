@@ -10,12 +10,13 @@ import {
   Star,
   TriangleDown,
 } from "@/components/Icons";
+import { useOnNavigate } from "@/hooks/useOnNavigate";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -129,6 +130,14 @@ export default function Index() {
       dispatch({ type: "CLEAR_GRID" });
     }
   }, [dispatch]);
+
+  const handleNavigate = useCallback(() => {
+    if (dispatch) {
+      dispatch({ type: "CLEAR_GRID" });
+    }
+  }, [dispatch]);
+
+  useOnNavigate(handleNavigate);
 
   return (
     <>

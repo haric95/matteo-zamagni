@@ -1,12 +1,13 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
+import { useOnNavigate } from "@/hooks/useOnNavigate";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
@@ -80,6 +81,14 @@ export default function Home() {
       dispatch({ type: "SET_IS_DARK", val: false });
     }
   }, [dispatch]);
+
+  const handleNavigate = useCallback(() => {
+    if (dispatch) {
+      dispatch({ type: "CLEAR_GRID" });
+    }
+  }, [dispatch]);
+
+  useOnNavigate(handleNavigate);
 
   return (
     <>
