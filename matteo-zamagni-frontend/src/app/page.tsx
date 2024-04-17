@@ -433,7 +433,7 @@ export default function Home() {
                       stroke="white"
                       selected={false}
                     />
-                    <p>projects</p>
+                    <p>{type}</p>
                   </div>
                 );
               })}
