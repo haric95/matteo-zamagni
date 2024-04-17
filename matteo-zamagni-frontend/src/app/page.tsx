@@ -10,15 +10,17 @@ import {
 import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
+import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import Image from "next/image";
-import { Dim2D, Pos2D } from "@/types/global";
+import { Pos2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
@@ -272,6 +274,16 @@ export default function Home() {
     }
   }, [selectedItem, selectedYear, clearRectAnimation, cancelDiagonalAnimation]);
 
+  const handleNavigate = useCallback(() => {
+    if (dispatch) {
+      dispatch({ type: "CLEAR_GRID" });
+    }
+    cancelDiagonalAnimation();
+    clearRectAnimation();
+  }, [dispatch, cancelDiagonalAnimation, clearRectAnimation]);
+
+  useOnNavigate(handleNavigate);
+
   return (
     <>
       {centerContainerVals && (
@@ -360,7 +372,7 @@ export default function Home() {
                     isGrid={false}
                     className="relative"
                   >
-                    <motion.button
+                    <motion.div
                       className={`w-full h-full text-left bg-black`}
                       initial={{ opacity: 0 }}
                       exit={{ opacity: 0 }}
@@ -368,7 +380,10 @@ export default function Home() {
                       transition={{ type: "ease-in-out", duration: 0.5 }}
                       key={selectedItemTitle}
                     >
-                      <div className="flex h-full w-full">
+                      <Link
+                        href={`/project/${selectedItem.slug}`}
+                        className="flex h-full w-full"
+                      >
                         <div className="w-[90%] h-full flex flex-col justify-between">
                           <TypeAnimation
                             sequence={[selectedItem.title]}
@@ -389,8 +404,8 @@ export default function Home() {
                             <p className="text-xs">{">"}</p>
                           </div>
                         </div>
-                      </div>
-                    </motion.button>
+                      </Link>
+                    </motion.div>
                   </GridChild>
                 </>
               )}
