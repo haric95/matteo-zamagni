@@ -358,10 +358,10 @@ export default function Home() {
                   <GridChild
                     {...selectedItemDescriptionPos}
                     isGrid={false}
-                    className="relative bg-black"
+                    className="relative"
                   >
                     <motion.button
-                      className={`w-full h-full text-left`}
+                      className={`w-full h-full text-left bg-black`}
                       initial={{ opacity: 0 }}
                       exit={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -375,10 +375,9 @@ export default function Home() {
                             wrapper="span"
                             speed={50}
                             style={{ display: "inline-block" }}
-                            className="bg-black"
                           />
                           <div className="text-xs">
-                            <p className="bg-black width-fit">
+                            <p className="width-fit">
                               {selectedItem.tags
                                 ? selectedItem.tags.join(", ")
                                 : null}
