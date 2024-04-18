@@ -1,4 +1,5 @@
-import { Grid, Pos2D } from "@/types/global";
+import { getAbsGridCoords } from "@/components/GridChild";
+import { Dim2D, Grid, PolarPos2d, Pos2D } from "@/types/global";
 
 export const clearGrid = (grid: Grid) => {
   const updated: Grid = grid.map((currentRow, currentRowIndex) => {
@@ -15,6 +16,15 @@ export const lightPixel = (grid: Grid, x: number, y: number) => {
   clonedRow[x] = true;
   clonedGrid[y] = clonedRow;
   return clonedGrid;
+};
+
+// This could be optimized.
+export const lightPixels = (grid: Grid, points: Pos2D[]) => {
+  let localGrid = grid;
+  points.forEach((point) => {
+    localGrid = lightPixel(localGrid, point.x, point.y);
+  });
+  return localGrid;
 };
 
 export const drawVerticalLine = (
@@ -88,4 +98,49 @@ export const findNearestCornerOfRect = (
       : rect.y + rect.height;
 
   return { x: nearestCornerX, y: nearestCornerY };
+};
+
+export const getCirclePolarCoordinates = (
+  radius: number,
+  numPoints: number
+) => {
+  const relPoints = new Array(numPoints).fill(null).map((_, index) => {
+    const theta =
+      ((Math.PI * 2) / numPoints) * index - Math.PI / 2 - Math.PI / numPoints;
+    return { radius, theta };
+  });
+  return relPoints;
+};
+
+export const convertPolarToCartesian = (
+  coord: PolarPos2d,
+  center: Pos2D,
+  scaling: Dim2D = { x: 1, y: 1 }
+): Pos2D | null => {
+  const x = coord.radius * Math.cos(coord.theta) * scaling.x + center.x;
+  const y = coord.radius * Math.sin(coord.theta) * scaling.y + center.y;
+  if (x < 0 || y < 0 || x >= 1 || y >= 1) {
+    return null;
+  }
+
+  return { x, y };
+};
+
+export const getCirclePoints = (
+  center: Pos2D,
+  radius: number,
+  numPoints: number,
+  gridDim: Dim2D
+) => {
+  const absPoints = getCirclePolarCoordinates(radius, numPoints)
+    .map((coord) =>
+      convertPolarToCartesian(coord, center, {
+        x: Math.min(1, gridDim.y / gridDim.x),
+        y: Math.min(1, gridDim.x / gridDim.y),
+      })
+    )
+    .filter((point): point is Pos2D => point !== null)
+    .map((relPoint) => getAbsGridCoords(gridDim, relPoint, "round"));
+
+  return absPoints;
 };

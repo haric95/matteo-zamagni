@@ -1,12 +1,19 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
-import { drawVerticalLine } from "@/helpers/gridHelpers";
-import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { GridChild } from "@/components/GridChild";
+import {
+  getCirclePoints,
+  drawVerticalLine,
+  lightPixels,
+  clearGrid,
+} from "@/helpers/gridHelpers";
+import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
@@ -24,9 +31,9 @@ type ProjectData = {
 };
 
 enum ProjectMode {
-  TEXT,
-  IMAGES,
-  VIDEO,
+  TEXT = "text",
+  IMAGES = "images",
+  VIDEO = "video",
 }
 
 const DUMMY_DATA: ProjectData = {
@@ -74,7 +81,12 @@ export default function Home() {
   const [projectMode, setProjectMode] = useState<ProjectMode>(ProjectMode.TEXT);
   const [ledIsSet, setLedIsSet] = useState(false);
 
-  const centerCellPos = useMemo(() => {
+  const {
+    startAnimation: startCircleAnimation,
+    cancelAnimation: cancelCircleAnimation,
+  } = useGridLineAnimation();
+
+  const textCenterCellPos = useMemo(() => {
     const width =
       Math.floor(gridDim.x * 0.5 * CENTER_CELL_WIDTH_PROPOPRTION) * 2;
     const height =
@@ -83,38 +95,73 @@ export default function Home() {
     const yCenterOffest = Math.floor(gridDim.y * CENTER_CELL_OFFSET_PROPORTION);
 
     return {
-      colStart: 1 + gridDim.x / 2 - width / 2,
-      colEnd: 1 + gridDim.x / 2 + width / 2,
-      rowStart: 1 + gridDim.y / 2 + yCenterOffest - height / 2,
-      rowEnd: 1 + gridDim.y / 2 + yCenterOffest + height / 2,
+      x: 1 + gridDim.x / 2 - width / 2,
+      y: 1 + gridDim.y / 2 + yCenterOffest - height / 2,
+      width,
+      height,
     };
   }, [gridDim]);
 
+  const updateLEDs = useCallback(
+    (mode: ProjectMode) => {
+      cancelCircleAnimation();
+      if (dispatch) {
+        const clearedGrid = clearGrid(grid);
+        if (mode === ProjectMode.TEXT) {
+          const updatedGrid = drawVerticalLine(
+            drawVerticalLine(
+              clearedGrid,
+              // grid is 0 indexed and we want to highlight the column on the outside of the box
+              textCenterCellPos.x - 1,
+              textCenterCellPos.y,
+              textCenterCellPos.y + textCenterCellPos.height
+            ),
+            textCenterCellPos.x + textCenterCellPos.width,
+            textCenterCellPos.y,
+            textCenterCellPos.y + textCenterCellPos.height
+          );
+          dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
+        } else if (mode === ProjectMode.IMAGES) {
+          const circlePoints = getCirclePoints(
+            { x: 0.5, y: 0.5 },
+            0.05,
+            6,
+            gridDim
+          );
+          const updatedGrid = lightPixels(clearedGrid, circlePoints);
+          dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
+        } else if (mode === ProjectMode.VIDEO) {
+          dispatch({ type: "CLEAR_GRID" });
+        }
+      }
+    },
+    [dispatch, grid, gridDim, cancelCircleAnimation, textCenterCellPos]
+  );
+
+  const handleChangeProjectMode = useCallback(
+    (mode: ProjectMode) => {
+      setProjectMode(mode);
+      updateLEDs(mode);
+      if (!ledIsSet) {
+        setLedIsSet(true);
+      }
+    },
+    [updateLEDs, ledIsSet]
+  );
+
+  // Reset LEDs on gridDim change
   useEffect(() => {
     if (gridDim) {
       setLedIsSet(false);
     }
   }, [gridDim]);
 
+  // Retrigger LEDs setting function when
   useEffect(() => {
-    const updatedGrid = drawVerticalLine(
-      drawVerticalLine(
-        grid,
-        // grid is 0 indexed and we want to highlight the column on the outside of the box
-        centerCellPos.colStart - 2,
-        centerCellPos.rowStart - 1,
-        centerCellPos.rowEnd - 1
-      ),
-      centerCellPos.colEnd - 1,
-      centerCellPos.rowStart - 1,
-      centerCellPos.rowEnd - 1
-    );
-    if (dispatch && !ledIsSet) {
-      setLedIsSet(true);
-      dispatch({ type: "CLEAR_GRID" });
-      dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
+    if (!ledIsSet) {
+      handleChangeProjectMode(projectMode);
     }
-  }, [centerCellPos, grid, dispatch, ledIsSet]);
+  }, [ledIsSet, projectMode, handleChangeProjectMode]);
 
   useEffect(() => {
     if (dispatch) {
@@ -122,25 +169,35 @@ export default function Home() {
     }
   }, [dispatch]);
 
-  useEffect(() => {}, []);
-
   return (
     <>
-      <div
-        className=""
-        style={{
-          gridColumnStart: centerCellPos.colStart,
-          gridColumnEnd: centerCellPos.colEnd,
-          gridRowStart: centerCellPos.rowStart,
-          gridRowEnd: centerCellPos.rowEnd,
-          // gridTemplateColumns: `repeat(${SIDE_HEADER_CELL_WIDTH}, minmax(0, 1fr))`,
-          // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
-        }}
-      >
-        <div className="w-full h-full overflow-auto">
-          {DUMMY_DATA.text.text}
-        </div>
-      </div>
+      {/* Text View */}
+      <AnimatePresence>
+        {projectMode === ProjectMode.TEXT && (
+          <GridChild className="" {...textCenterCellPos} isGrid={false}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ type: "ease-in-out", duration: 0.5 }}
+              key={projectMode}
+              className="w-full h-full overflow-auto bg-black"
+            >
+              {DUMMY_DATA.text.text}
+            </motion.div>
+          </GridChild>
+        )}
+      </AnimatePresence>
+      {/* Image View */}
+      <AnimatePresence>
+        {projectMode === ProjectMode.IMAGES && (
+          <GridChild
+            className=""
+            {...textCenterCellPos}
+            isGrid={false}
+          ></GridChild>
+        )}
+      </AnimatePresence>
       <FooterRight footerRightHeight={5} footerRightWidth={6}>
         <div
           className="grid col-span-full row-span-full translate-y-[8px]"
@@ -168,7 +225,7 @@ export default function Home() {
                       : "text-textInactive"
                   }`}
                   onClick={() => {
-                    setProjectMode(ProjectMode.TEXT);
+                    handleChangeProjectMode(ProjectMode.TEXT);
                   }}
                 >
                   text
@@ -180,7 +237,7 @@ export default function Home() {
                       : "text-textInactive"
                   }`}
                   onClick={() => {
-                    setProjectMode(ProjectMode.IMAGES);
+                    handleChangeProjectMode(ProjectMode.IMAGES);
                   }}
                 >
                   images
@@ -192,7 +249,7 @@ export default function Home() {
                       : "text-textInactive"
                   }`}
                   onClick={() => {
-                    setProjectMode(ProjectMode.VIDEO);
+                    handleChangeProjectMode(ProjectMode.VIDEO);
                   }}
                 >
                   video

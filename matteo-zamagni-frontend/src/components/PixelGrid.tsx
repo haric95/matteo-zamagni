@@ -2,7 +2,7 @@
 import { useGlobalContext } from "@/state/GlobalStore";
 import React, { PropsWithChildren } from "react";
 
-const GRID_PIXEL_SIZE = 1.5; // LED pixel size
+const GRID_PIXEL_SIZE = 2; // LED pixel size
 
 const PIXEL_TRANSITION_DURATION = 500;
 

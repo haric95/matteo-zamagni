@@ -90,6 +90,14 @@ const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
     imageSrc: "/placeholder.png",
     slug: "testing-4",
   },
+  {
+    position: { x: 0.7, y: 0.2 },
+    type: HomepageItemType.EXHIBITION,
+    title: "HELLO TESTING 5",
+    year: "2015",
+    imageSrc: "/placeholder.png",
+    slug: "testing-4",
+  },
 ];
 
 const QUADRANT_PADDING = { x: 2, y: 2 };
