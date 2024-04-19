@@ -12,7 +12,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className="fixed relative w-screen h-screen">
       <div className="absolute h-full w-full">
-        <img className="h-full w-full" src="/testbg.jpeg" />
+        <img className="h-full w-full" src="/othergif.gif" />
       </div>
       <div
         className={`w-full h-full absolute grid pointer-events-none transition-all duration-500`}
@@ -26,7 +26,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
             return columns.map((pixelIsLit, columnIndex) => {
               return (
                 <div className="relative" key={`${rowIndex}-${columnIndex}`}>
-                  <div className="absolute h-full w-full bg-white opacity-0" />
+                  <div className="absolute h-full w-full bg-white opacity-25" />
                   <div
                     className="absolute h-full w-full"
                     style={{ backgroundImage: 'url("/pixel.png")' }}
