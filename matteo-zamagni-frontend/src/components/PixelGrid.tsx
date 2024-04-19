@@ -11,8 +11,11 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <main className="fixed relative w-screen h-screen">
+      <div className="absolute h-full w-full">
+        <img className="h-full w-full" src="/testbg.jpeg" />
+      </div>
       <div
-        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all duration-500`}
+        className={`w-full h-full absolute grid pointer-events-none transition-all duration-500`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
@@ -22,22 +25,12 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           grid.map((columns, rowIndex) => {
             return columns.map((pixelIsLit, columnIndex) => {
               return (
-                <div
-                  className="flex justify-center items-center"
-                  key={`${rowIndex}-${columnIndex}`}
-                >
+                <div className="relative" key={`${rowIndex}-${columnIndex}`}>
+                  <div className="absolute h-full w-full bg-white opacity-0" />
                   <div
-                    className={`transition-all ${
-                      pixelIsLit
-                        ? "bg-ledActive_Light dark:bg-ledActive_Dark"
-                        : "bg-ledInactive_Light dark:bg-ledInactive_Dark"
-                    }`}
-                    style={{
-                      width: GRID_PIXEL_SIZE,
-                      height: GRID_PIXEL_SIZE,
-                      transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
-                    }}
-                  ></div>
+                    className="absolute h-full w-full"
+                    style={{ backgroundImage: 'url("/pixel.png")' }}
+                  />
                 </div>
               );
             });
