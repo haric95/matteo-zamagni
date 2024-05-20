@@ -6,13 +6,15 @@ import {
   drawVerticalLine,
   lightPixels,
   clearGrid,
+  getCirclePolarCoordinates,
+  convertPolarToCartesian,
 } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid } from "@/types/global";
+import { Dim2D, Grid, Pos2D, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -56,16 +58,21 @@ const DUMMY_DATA: ProjectData = {
       imageURL: "https://placehold.co/640x480/EEE/ff0000",
       alt: "image description",
     },
-    {
-      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000",
-      alt: "image description",
-    },
-    {
-      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000",
-      alt: "image description",
-    },
+    // {
+    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
+    //   alt: "image description",
+    // },
+    // {
+    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
+    //   alt: "image description",
+    // },
+    // {
+    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
+    //   alt: "image description",
+    // },
   ],
 };
 
@@ -122,12 +129,10 @@ export default function Home() {
           );
           dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
         } else if (mode === ProjectMode.IMAGES) {
-          const circlePoints = getCirclePoints(
-            { x: 0.5, y: 0.5 },
-            0.05,
-            6,
-            gridDim
-          );
+          const circlePoints = getCirclePoints({ x: 0.5, y: 0.5 }, 0.1, 8, {
+            x: gridDim.x - 1,
+            y: gridDim.y - 1,
+          });
           const updatedGrid = lightPixels(clearedGrid, circlePoints);
           dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
         } else if (mode === ProjectMode.VIDEO) {
@@ -148,6 +153,29 @@ export default function Home() {
     },
     [updateLEDs, ledIsSet]
   );
+
+  const imageGridPositions: PosAndDim2D[] | null = useMemo(() => {
+    if (projectMode !== ProjectMode.IMAGES) {
+      return null;
+    }
+
+    const WIDTH = 4;
+    const HEIGHT = 4;
+
+    const imageCoords = getCirclePoints(
+      { x: 0.5, y: 0.5 },
+      0.3,
+      DUMMY_DATA.images.length,
+      gridDim
+    ).map((coord) => ({
+      x: Math.round(coord.x - WIDTH / 2),
+      y: Math.round(coord.y - HEIGHT / 2),
+      width: WIDTH,
+      height: HEIGHT,
+    }));
+
+    return imageCoords;
+  }, [projectMode, gridDim]);
 
   // Reset LEDs on gridDim change
   useEffect(() => {
@@ -190,13 +218,16 @@ export default function Home() {
       </AnimatePresence>
       {/* Image View */}
       <AnimatePresence>
-        {projectMode === ProjectMode.IMAGES && (
-          <GridChild
-            className=""
-            {...textCenterCellPos}
-            isGrid={false}
-          ></GridChild>
-        )}
+        {projectMode === ProjectMode.IMAGES &&
+          imageGridPositions &&
+          imageGridPositions.map((imagePos, index) => (
+            <GridChild
+              key={DUMMY_DATA.images[index].imageURL}
+              className="bg-red-500"
+              {...imagePos}
+              isGrid={false}
+            ></GridChild>
+          ))}
       </AnimatePresence>
       <FooterRight footerRightHeight={5} footerRightWidth={6}>
         <div
