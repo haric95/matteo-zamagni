@@ -159,7 +159,7 @@ export default function Home() {
             <div className="w-full h-full flex flex-col justify-center items-start">
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.BIO ? "text-black" : "text-white"
                   }`}
                   onClick={() => {
@@ -169,7 +169,7 @@ export default function Home() {
                   bio
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.AWARDS ? "text-black" : "text-white"
                   }`}
                   onClick={() => {
@@ -179,7 +179,7 @@ export default function Home() {
                   awards
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.RESIDENCIES
                       ? "text-black"
                       : "text-white"
@@ -191,7 +191,7 @@ export default function Home() {
                   residencies
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.PERFORMANCES
                       ? "text-black"
                       : "text-white"
@@ -203,7 +203,7 @@ export default function Home() {
                   performances
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.SCREENINGS
                       ? "text-black"
                       : "text-white"
@@ -215,7 +215,7 @@ export default function Home() {
                   screenings
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.TALKS ? "text-black" : "text-white"
                   }`}
                   onClick={() => {

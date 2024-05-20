@@ -132,7 +132,7 @@ export const HeaderDateScroller = (props) => {
             }
           }}
         >
-          <div className="w-[12px] h-[12px]">
+          <div className="w-[12px] h-[12px] interactable-button">
             <Cross
               className="relative w-full h-full"
               stroke="white"

@@ -32,3 +32,27 @@ body {
 .logo-hover-glow:hover {
   filter: drop-shadow(0 0 16px #ffffff80);
 }
+
+.icon-hover-glow:hover {
+  filter: drop-shadow(0px 0px 3px white);
+}
+
+.interactable-button {
+  filter: none;
+  transform: scale(1);
+}
+
+.interactable-button:hover {
+  filter: drop-shadow(0px 0px 3px white);
+  transition: all;
+  transition-duration: 500ms;
+  transform: scale(1.05);
+}
+
+.fill-mode-none	{
+  animation-fill-mode: none;
+}
+
+.fill-mode-forwards	{
+  animation-fill-mode: forwards;
+}

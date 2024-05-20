@@ -323,7 +323,7 @@ export default function Home() {
                   <Icon
                     strokeWidth={4}
                     selected={selectedItemTitle === item.title}
-                    className={`transition-all duration-500
+                    className={`icon-hover-glow hover:scale-125 transition-all duration-500
                       ${
                         selectedItemTitle
                           ? item.title === selectedItemTitle
@@ -332,7 +332,9 @@ export default function Home() {
                           : "stroke-white"
                       } ${
                       selectedYear === null || item.year === selectedYear
-                        ? ""
+                        ? selectedYear !== null
+                          ? "transition-all scale-110"
+                          : ""
                         : "!stroke-landingIconInactive"
                     }
                     `}

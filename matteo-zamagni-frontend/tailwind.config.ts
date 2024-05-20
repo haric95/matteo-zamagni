@@ -50,6 +50,7 @@ const config: Config = {
           "downTriangle_RightLine_Reverse 0.5s ease-in-out forwards",
         arrowGesture: "arrowGesture 5s ease-in-out 2000ms infinite",
         // wiggle: "wiggle 1s ease-in-out infinite",
+        pingOnce: "ping 0.5s cubic-bezier(0, 0, 0.2, 1) none",
       },
       keyframes: {
         downTriangle_TopLine_Forwards: {

@@ -16,7 +16,10 @@ import {
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { MdClose } from "react-icons/md";
+import { DEFAULT_ANIMATE_MODE } from "@/const";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -257,8 +260,21 @@ export default function Index() {
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
           }}
         >
-          <div className="col-span-full row-span-1 flex items-start border-black border-b-[1px]">
+          <div className="col-span-full row-span-1 flex justify-between items-start border-black border-b-[1px]">
             <p className="text-[12px]">legend</p>
+            <AnimatePresence>
+              {selectedType !== null && (
+                <motion.button
+                  {...DEFAULT_ANIMATE_MODE}
+                  className="icon-hover-glow transition-all duration-500"
+                  onClick={() => {
+                    setSelectedType(null);
+                  }}
+                >
+                  <MdClose />
+                </motion.button>
+              )}
+            </AnimatePresence>
           </div>
           <div
             className={`col-span-full flex items-start`}
