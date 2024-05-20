@@ -19,7 +19,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       />
       <div className="w-[90%] h-[90%] flex justify-center items-center z-10 relative">
         <button
-          className="absolute top-0 right-0 w-8 h-8 flex justify-center"
+          className="absolute top-0 right-0 w-8 h-8 flex justify-center icon-hover-glow transition-all duration-500"
           onClick={() => handleClose()}
         >
           <MdClose />

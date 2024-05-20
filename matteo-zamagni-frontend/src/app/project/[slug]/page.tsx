@@ -296,7 +296,7 @@ export default function Home() {
           >
             <VideoPlayer
               url={"https://vimeo.com/203563626"}
-              handleClose={() => setProjectMode(ProjectMode.TEXT)}
+              handleClose={() => handleChangeProjectMode(ProjectMode.TEXT)}
             />
           </MotionGridChild>
         ) : null}
