@@ -352,22 +352,24 @@ export default function Home() {
                   isGrid={false}
                   className="relative"
                 >
-                  <motion.div
-                    className={`w-full h-full`}
+                  <motion.button
+                    className={`w-full h-full icon-hover-glow duration-500`}
                     initial={{ opacity: 0 }}
                     exit={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ type: "ease-in-out", duration: 0.5 }}
                     key={selectedItemTitle}
                   >
-                    <Image
-                      src={selectedItem.imageSrc}
-                      className="object-cover w-full h-full"
-                      alt=""
-                      width={selectedItemImagePos.width * TARGET_CELL_SIZE}
-                      height={selectedItemImagePos.height * TARGET_CELL_SIZE}
-                    />
-                  </motion.div>
+                    <Link href={`/project/${selectedItem.slug}`}>
+                      <Image
+                        src={selectedItem.imageSrc}
+                        className="object-cover w-full h-full"
+                        alt=""
+                        width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                        height={selectedItemImagePos.height * TARGET_CELL_SIZE}
+                      />
+                    </Link>
+                  </motion.button>
                 </GridChild>
               </>
             )}
@@ -394,12 +396,13 @@ export default function Home() {
                         href={`/project/${selectedItem.slug}`}
                         className="flex h-full w-full"
                       >
-                        <div className="w-[90%] h-full flex flex-col justify-between">
+                        <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
                           <TypeAnimation
                             sequence={[selectedItem.title]}
                             wrapper="span"
                             speed={50}
                             style={{ display: "inline-block" }}
+                            className=""
                           />
                           <div className="text-xs">
                             <p className="width-fit">

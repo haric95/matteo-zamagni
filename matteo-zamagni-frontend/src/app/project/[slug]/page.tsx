@@ -323,7 +323,7 @@ export default function Home() {
             <div className="w-full h-full flex flex-col justify-center items-start">
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                 <button
-                  className={`text-[12px] block ${
+                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.TEXT
                       ? "text-white"
                       : "text-textInactive"
@@ -335,7 +335,7 @@ export default function Home() {
                   text
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.IMAGES
                       ? "text-white"
                       : "text-textInactive"
@@ -347,7 +347,7 @@ export default function Home() {
                   images
                 </button>
                 <button
-                  className={`text-[12px] block ${
+                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.VIDEO
                       ? "text-white"
                       : "text-textInactive"
