@@ -11,13 +11,14 @@ import {
   lightPixels,
 } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
+import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
@@ -111,6 +112,14 @@ export default function Home() {
       height,
     };
   }, [gridDim]);
+
+  const textElementRef = useRef<HTMLDivElement | null>(null);
+  useLEDScrollbar(
+    textCenterCellPos.y,
+    textCenterCellPos.y + textCenterCellPos.height - 1,
+    textCenterCellPos.x + textCenterCellPos.width + 1,
+    textElementRef
+  );
 
   const updateLEDs = useCallback(
     (mode: ProjectMode) => {
@@ -224,12 +233,13 @@ export default function Home() {
         {projectMode === ProjectMode.TEXT && (
           <GridChild className="" {...textCenterCellPos} isGrid={false}>
             <motion.div
+              ref={textElementRef}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0, transition: { delay: 0 } }}
               animate={{ opacity: 1 }}
               transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
               key={projectMode}
-              className="w-full h-full overflow-auto bg-black"
+              className="w-full h-full overflow-auto bg-black no-scrollbar"
             >
               {DUMMY_DATA.text.text}
             </motion.div>

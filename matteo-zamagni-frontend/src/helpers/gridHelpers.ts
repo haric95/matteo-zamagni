@@ -18,11 +18,28 @@ export const lightPixel = (grid: Grid, x: number, y: number) => {
   return clonedGrid;
 };
 
+export const dimPixel = (grid: Grid, x: number, y: number) => {
+  const clonedGrid = [...grid];
+  const clonedRow = [...clonedGrid[y]];
+  clonedRow[x] = false;
+  clonedGrid[y] = clonedRow;
+  return clonedGrid;
+};
+
 // This could be optimized.
 export const lightPixels = (grid: Grid, points: Pos2D[]) => {
   let localGrid = grid;
   points.forEach((point) => {
     localGrid = lightPixel(localGrid, point.x, point.y);
+  });
+  return localGrid;
+};
+
+// This could be optimized.
+export const dimPixels = (grid: Grid, points: Pos2D[]) => {
+  let localGrid = grid;
+  points.forEach((point) => {
+    localGrid = dimPixel(localGrid, point.x, point.y);
   });
   return localGrid;
 };
