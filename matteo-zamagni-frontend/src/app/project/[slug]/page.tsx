@@ -3,6 +3,7 @@ import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
 import { ImageGallery } from "@/components/ImageGallery";
 import { MotionGridChild } from "@/components/MotionGridChild";
+import { VideoPlayer } from "@/components/VideoPlayer";
 import {
   clearGrid,
   drawVerticalLine,
@@ -281,6 +282,26 @@ export default function Home() {
           </MotionGridChild>
         ) : null}
       </AnimatePresence>
+      {/* Video Player View */}
+      <AnimatePresence>
+        {projectMode === ProjectMode.VIDEO ? (
+          <MotionGridChild
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0, transition: { delay: 0 } }}
+            animate={{ opacity: 1 }}
+            transition={{ type: "ease-in-out", duration: 0.5 }}
+            {...galleryGridPosition}
+            className="z-10 relative"
+            isGrid={false}
+          >
+            <VideoPlayer
+              url={"https://vimeo.com/203563626"}
+              handleClose={() => setProjectMode(ProjectMode.TEXT)}
+            />
+          </MotionGridChild>
+        ) : null}
+      </AnimatePresence>
+
       <FooterRight footerRightHeight={5} footerRightWidth={6}>
         <div
           className="grid col-span-full row-span-full translate-y-[8px]"
