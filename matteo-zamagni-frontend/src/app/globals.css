@@ -26,5 +26,9 @@ body {
 }
 
 .hover-glow:hover {
-  text-shadow: 0 0 16px #ffffff80, 0 0 16px #ffffff80;
+  text-shadow: 0 0 8px #ffffff80, 0 0 8px #ffffff80;
+}
+
+.logo-hover-glow:hover {
+  filter: drop-shadow(0 0 16px #ffffff80);
 }
