@@ -1,22 +1,23 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
+import { ImageGallery } from "@/components/ImageGallery";
+import { MotionGridChild } from "@/components/MotionGridChild";
 import {
-  getCirclePoints,
-  drawVerticalLine,
-  lightPixels,
   clearGrid,
-  getCirclePolarCoordinates,
-  convertPolarToCartesian,
+  drawVerticalLine,
+  getCirclePoints,
+  lightPixels,
 } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid, Pos2D, PosAndDim2D } from "@/types/global";
+import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { MdClose } from "react-icons/md";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
@@ -45,17 +46,17 @@ const DUMMY_DATA: ProjectData = {
   images: [
     {
       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
       alt: "image description",
     },
     {
       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
       alt: "image description",
     },
     {
       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000",
+      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
       alt: "image description",
     },
     // {
@@ -87,6 +88,7 @@ export default function Home() {
 
   const [projectMode, setProjectMode] = useState<ProjectMode>(ProjectMode.TEXT);
   const [ledIsSet, setLedIsSet] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
 
   const {
     startAnimation: startCircleAnimation,
@@ -177,12 +179,29 @@ export default function Home() {
     return imageCoords;
   }, [projectMode, gridDim]);
 
+  const galleryGridPosition = useMemo<PosAndDim2D>(() => {
+    const GALLERY_PADDING_X = 12;
+    const GALLERY_PADDING_Y = 4;
+    return {
+      x: GALLERY_PADDING_X,
+      y: GALLERY_PADDING_Y + 1,
+      width: gridDim.x - GALLERY_PADDING_X * 2,
+      height: gridDim.y - GALLERY_PADDING_Y * 2,
+    };
+  }, [gridDim]);
+
   // Reset LEDs on gridDim change
   useEffect(() => {
     if (gridDim) {
       setLedIsSet(false);
     }
   }, [gridDim]);
+
+  useEffect(() => {
+    if (projectMode !== ProjectMode.IMAGES) {
+      setActiveImageIndex(null);
+    }
+  }, [projectMode]);
 
   // Retrigger LEDs setting function when
   useEffect(() => {
@@ -205,9 +224,9 @@ export default function Home() {
           <GridChild className="" {...textCenterCellPos} isGrid={false}>
             <motion.div
               initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, transition: { delay: 0 } }}
               animate={{ opacity: 1 }}
-              transition={{ type: "ease-in-out", duration: 0.5 }}
+              transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
               key={projectMode}
               className="w-full h-full overflow-auto bg-black"
             >
@@ -218,16 +237,49 @@ export default function Home() {
       </AnimatePresence>
       {/* Image View */}
       <AnimatePresence>
-        {projectMode === ProjectMode.IMAGES &&
-          imageGridPositions &&
-          imageGridPositions.map((imagePos, index) => (
-            <GridChild
-              key={DUMMY_DATA.images[index].imageURL}
-              className="bg-red-500"
-              {...imagePos}
-              isGrid={false}
-            ></GridChild>
-          ))}
+        {projectMode === ProjectMode.IMAGES && imageGridPositions && (
+          <>
+            {imageGridPositions.map((imagePos, index) => (
+              <MotionGridChild
+                key={`${DUMMY_DATA.images[index].imageURL}-${index}`}
+                initial={{ opacity: 0 }}
+                exit={{ opacity: 0, transition: { delay: 0 } }}
+                animate={{ opacity: 1 }}
+                transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
+                className=""
+                {...imagePos}
+                isGrid={false}
+              >
+                <button
+                  className="w-full h-full bg-red-500"
+                  onClick={() => {
+                    setActiveImageIndex(index);
+                  }}
+                ></button>
+              </MotionGridChild>
+            ))}
+          </>
+        )}
+      </AnimatePresence>
+      {/* Image Gallery View */}
+      <AnimatePresence>
+        {activeImageIndex !== null ? (
+          <MotionGridChild
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0, transition: { delay: 0 } }}
+            animate={{ opacity: 1 }}
+            transition={{ type: "ease-in-out", duration: 0.5 }}
+            {...galleryGridPosition}
+            className="z-10 relative"
+            isGrid={false}
+          >
+            <ImageGallery
+              images={DUMMY_DATA.images}
+              initialSlide={activeImageIndex}
+              handleClose={() => setActiveImageIndex(null)}
+            />
+          </MotionGridChild>
+        ) : null}
       </AnimatePresence>
       <FooterRight footerRightHeight={5} footerRightWidth={6}>
         <div
