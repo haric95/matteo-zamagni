@@ -10,6 +10,7 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --text-glow-color: white;
   }
 }
 
@@ -22,4 +23,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.hover-glow:hover {
+  text-shadow: 0 0 16px #ffffff80, 0 0 16px #ffffff80;
 }
