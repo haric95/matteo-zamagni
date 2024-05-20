@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { ReactElement } from "react";
 import { PropsWithChildren } from "react";
 import { HeaderDateScroller } from "./HeaderDateScroller";
+import { Logo } from "./Icons";
 
 const HEADER_CELL_WIDTH = 16;
 export const HEADER_OFFSET_Y = 1;
@@ -69,9 +70,9 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           >
             <Link
               href="/"
-              className="w-full h-full flex justify-center items-center"
+              className="w-full h-full flex justify-center items-start translate-y-[-16px]"
             >
-              LOGO
+              <Logo height={96} width={96} />
             </Link>
           </div>
           <div
