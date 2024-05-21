@@ -14,7 +14,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   return (
     <div className="w-screen h-screen fixed left-0 top-0 z-10 flex justify-center items-center">
       <div
-        className="w-full h-full absolute bg-black opacity-90"
+        className="w-full h-full absolute bg-black opacity-80"
         onClick={handleClose}
       />
       <div className="w-[90%] h-[90%] flex justify-center items-center z-10 relative">
