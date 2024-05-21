@@ -343,7 +343,7 @@ export default function Home() {
                         ? selectedYear !== null
                           ? "transition-all scale-110"
                           : ""
-                        : "!stroke-landingIconInactive"
+                        : "!stroke-landingIconInactive blur-[1px]"
                     }
                     `}
                   />
