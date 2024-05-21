@@ -20,6 +20,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
+import { useTheme } from "@/hooks/useTheme";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -127,20 +128,21 @@ export default function Index() {
     return null;
   }, [centerContainerVals]);
 
+  const { shouldMount } = useTheme({ isDark: false });
+
   useEffect(() => {
     if (dispatch) {
-      dispatch({ type: "SET_IS_DARK", val: false });
       dispatch({ type: "CLEAR_GRID" });
     }
   }, [dispatch]);
 
-  const handleNavigate = useCallback(() => {
+  const clearGrid = useCallback(() => {
     if (dispatch) {
       dispatch({ type: "CLEAR_GRID" });
     }
   }, [dispatch]);
 
-  useOnNavigate(handleNavigate);
+  useOnNavigate(clearGrid);
 
   return (
     <>
@@ -252,7 +254,11 @@ export default function Index() {
           </GridChild>
         </GridChild>
       )}
-      <FooterRight footerRightHeight={8} footerRightWidth={6}>
+      <FooterRight
+        footerRightHeight={8}
+        footerRightWidth={6}
+        isMounted={shouldMount}
+      >
         <div
           className="grid col-span-full row-span-full  "
           style={{

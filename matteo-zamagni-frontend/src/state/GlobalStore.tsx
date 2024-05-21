@@ -18,6 +18,7 @@ type GlobalState = {
   isDark: boolean;
   selectedYear: null | string;
   hasLoaded: boolean;
+  isThemeTransitioning: boolean;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -28,6 +29,7 @@ const initialGlobalState: GlobalState = {
   isDark: true,
   selectedYear: null,
   hasLoaded: false,
+  isThemeTransitioning: false,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -68,6 +70,8 @@ type GlobalAction =
   | { type: "SET_LED_ANIMATION_START" }
   | { type: "SET_LED_ANIMATION_END" }
   | { type: "SET_SELECTED_YEAR"; year: GlobalState["selectedYear"] }
+  | { type: "START_THEME_TRANSITION" }
+  | { type: "END_THEME_TRANSITION" }
   | { type: "SET_LOADED" };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
@@ -105,6 +109,12 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
     }
     case "SET_LOADED": {
       return { ...globalState, hasLoaded: true };
+    }
+    case "START_THEME_TRANSITION": {
+      return { ...globalState, isThemeTransitioning: true };
+    }
+    case "END_THEME_TRANSITION": {
+      return { ...globalState, isThemeTransitioning: false };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));

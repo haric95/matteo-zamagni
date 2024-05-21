@@ -1,6 +1,16 @@
 "use client";
-import { useGlobalContext } from "@/state/GlobalStore";
-import React, { PropsWithChildren } from "react";
+import { useSetDarkThemeClass } from "@/hooks/useSetDarkThemeClass";
+import {
+  useGlobalContext,
+  useGlobalContextDispatch,
+} from "@/state/GlobalStore";
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const GRID_PIXEL_SIZE = 2; // LED pixel size
 
@@ -8,11 +18,25 @@ const PIXEL_TRANSITION_DURATION = 500;
 
 export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim, grid } = useGlobalContext();
+  const dispatch = useGlobalContextDispatch();
+
+  const handleThemeTransitionEnd = useCallback(() => {
+    if (dispatch) {
+      console.log("tranitionend");
+      dispatch({
+        type: "END_THEME_TRANSITION",
+      });
+    }
+  }, [dispatch]);
 
   return (
     <main className="fixed relative w-screen h-screen">
       <div
-        className={`bg-background_Light dark:bg-background_Dark w-full h-full absolute grid pointer-events-none transition-all duration-500`}
+        className="absolute w-full h-full bg-background_Light dark:bg-background_Dark transition-[background-color] duration-500"
+        onTransitionEnd={handleThemeTransitionEnd}
+      />
+      <div
+        className={`w-full h-full absolute grid pointer-events-none`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
