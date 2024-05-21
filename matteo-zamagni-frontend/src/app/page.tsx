@@ -7,11 +7,14 @@ import {
   SelectableIconComponent,
   TriangleDown,
 } from "@/components/Icons";
+import { MotionGridChild } from "@/components/MotionGridChild";
+import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
+import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
@@ -114,6 +117,8 @@ export default function Home() {
     useGridRectAnimation();
   const { startAnimation, cancelAnimation: cancelDiagonalAnimation } =
     useGridLineAnimation();
+
+  const { shouldMount } = useTheme({ isDark: true });
 
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
@@ -265,7 +270,6 @@ export default function Home() {
   useEffect(() => {
     if (dispatch) {
       dispatch({ type: "CLEAR_GRID" });
-      dispatch({ type: "SET_IS_DARK", val: true });
     }
   }, [dispatch]);
 
@@ -294,8 +298,12 @@ export default function Home() {
 
   return (
     <>
-      {centerContainerVals && (
-        <GridChild {...centerContainerVals} className="">
+      {centerContainerVals && shouldMount && (
+        <MotionGridChild
+          {...DEFAULT_ANIMATE_MODE}
+          {...centerContainerVals}
+          className=""
+        >
           {DUMMY_HOMEPAGE_ITEMS.map((item) => {
             const Icon = HomepageItemTypeIconMap[item.type];
             return (
@@ -344,88 +352,76 @@ export default function Home() {
             );
           })}
           {/* Selected Item Image */}
-          <AnimatePresence mode="sync">
-            {selectedItem && selectedItemImagePos && (
+          {selectedItem && selectedItemImagePos && (
+            <>
+              <GridChild
+                {...selectedItemImagePos}
+                isGrid={false}
+                className="relative"
+              >
+                <button
+                  className={`w-full h-full icon-hover-glow duration-500`}
+                >
+                  <Link href={`/project/${selectedItem.slug}`}>
+                    <Image
+                      src={selectedItem.imageSrc}
+                      className="object-cover w-full h-full"
+                      alt=""
+                      width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                      height={selectedItemImagePos.height * TARGET_CELL_SIZE}
+                    />
+                  </Link>
+                </button>
+              </GridChild>
+            </>
+          )}
+          {selectedItem &&
+            selectedItemDescriptionPos &&
+            selectedItemImagePos && (
               <>
                 <GridChild
-                  {...selectedItemImagePos}
+                  {...selectedItemDescriptionPos}
                   isGrid={false}
                   className="relative"
                 >
-                  <motion.button
-                    className={`w-full h-full icon-hover-glow duration-500`}
-                    initial={{ opacity: 0 }}
-                    exit={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ type: "ease-in-out", duration: 0.5 }}
-                    key={selectedItemTitle}
-                  >
-                    <Link href={`/project/${selectedItem.slug}`}>
-                      <Image
-                        src={selectedItem.imageSrc}
-                        className="object-cover w-full h-full"
-                        alt=""
-                        width={selectedItemImagePos.width * TARGET_CELL_SIZE}
-                        height={selectedItemImagePos.height * TARGET_CELL_SIZE}
-                      />
+                  <div className={`w-full h-full text-left bg-black`}>
+                    <Link
+                      href={`/project/${selectedItem.slug}`}
+                      className="flex h-full w-full"
+                    >
+                      <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
+                        <TypeAnimation
+                          sequence={[selectedItem.title]}
+                          wrapper="span"
+                          speed={50}
+                          style={{ display: "inline-block" }}
+                          className=""
+                        />
+                        <div className="text-xs">
+                          <p className="width-fit">
+                            {selectedItem.tags
+                              ? selectedItem.tags.join(", ")
+                              : null}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-[10%] h-full flex">
+                        <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture animation-delay-500">
+                          <p className="text-xs">{">"}</p>
+                        </div>
+                      </div>
                     </Link>
-                  </motion.button>
+                  </div>
                 </GridChild>
               </>
             )}
-          </AnimatePresence>
-          <AnimatePresence mode="sync">
-            {selectedItem &&
-              selectedItemDescriptionPos &&
-              selectedItemImagePos && (
-                <>
-                  <GridChild
-                    {...selectedItemDescriptionPos}
-                    isGrid={false}
-                    className="relative"
-                  >
-                    <motion.div
-                      className={`w-full h-full text-left bg-black`}
-                      initial={{ opacity: 0 }}
-                      exit={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ type: "ease-in-out", duration: 0.5 }}
-                      key={selectedItemTitle}
-                    >
-                      <Link
-                        href={`/project/${selectedItem.slug}`}
-                        className="flex h-full w-full"
-                      >
-                        <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
-                          <TypeAnimation
-                            sequence={[selectedItem.title]}
-                            wrapper="span"
-                            speed={50}
-                            style={{ display: "inline-block" }}
-                            className=""
-                          />
-                          <div className="text-xs">
-                            <p className="width-fit">
-                              {selectedItem.tags
-                                ? selectedItem.tags.join(", ")
-                                : null}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="w-[10%] h-full flex">
-                          <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture animation-delay-500">
-                            <p className="text-xs">{">"}</p>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  </GridChild>
-                </>
-              )}
-          </AnimatePresence>
-        </GridChild>
+        </MotionGridChild>
       )}
-      <FooterRight footerRightHeight={4} footerRightWidth={6}>
+      <FooterRight
+        footerRightHeight={4}
+        footerRightWidth={6}
+        isMounted={shouldMount}
+      >
         <GridChild
           x={0}
           y={0}

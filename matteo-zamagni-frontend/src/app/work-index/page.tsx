@@ -21,6 +21,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { useTheme } from "@/hooks/useTheme";
+import { MotionGridChild } from "@/components/MotionGridChild";
 
 enum WorkIndexType {
   PROJECT = "project",
@@ -145,9 +146,9 @@ export default function Index() {
   useOnNavigate(clearGrid);
 
   return (
-    <>
-      {centerContainerVals && splitIndexItems && (
-        <GridChild {...centerContainerVals}>
+    <AnimatePresence>
+      {centerContainerVals && splitIndexItems && shouldMount && (
+        <MotionGridChild {...DEFAULT_ANIMATE_MODE} {...centerContainerVals}>
           <GridChild
             x={0}
             y={0}
@@ -252,7 +253,7 @@ export default function Index() {
               );
             })}
           </GridChild>
-        </GridChild>
+        </MotionGridChild>
       )}
       <FooterRight
         footerRightHeight={8}
@@ -268,19 +269,16 @@ export default function Index() {
         >
           <div className="col-span-full row-span-1 flex justify-between items-start border-black border-b-[1px]">
             <p className="text-[12px]">legend</p>
-            <AnimatePresence>
-              {selectedType !== null && (
-                <motion.button
-                  {...DEFAULT_ANIMATE_MODE}
-                  className="icon-hover-glow transition-all duration-500"
-                  onClick={() => {
-                    setSelectedType(null);
-                  }}
-                >
-                  <MdClose />
-                </motion.button>
-              )}
-            </AnimatePresence>
+            {selectedType !== null && (
+              <button
+                className="icon-hover-glow transition-all duration-500"
+                onClick={() => {
+                  setSelectedType(null);
+                }}
+              >
+                <MdClose />
+              </button>
+            )}
           </div>
           <div
             className={`col-span-full flex items-start`}
@@ -327,6 +325,6 @@ export default function Index() {
           </div>
         </div>
       </FooterRight>
-    </>
+    </AnimatePresence>
   );
 }
