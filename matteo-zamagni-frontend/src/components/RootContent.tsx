@@ -8,6 +8,7 @@ import { useSetDarkThemeClass } from "@/hooks/useSetDarkThemeClass";
 import { Header } from "./Header";
 import { FooterLeft } from "./FooterLeft";
 import PageAnimatePresence from "./PageAnimatePresence";
+import { LoadingScreen } from "./LoadingScreen";
 
 const WaitForGridLoad: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim } = useGlobalContext();
@@ -21,13 +22,15 @@ export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <PixelGrid>
-        <WaitForGridLoad>
-          <Header />
-          <PageAnimatePresence>{children}</PageAnimatePresence>
-          <FooterLeft />
-        </WaitForGridLoad>
-      </PixelGrid>
+      <LoadingScreen>
+        <PixelGrid>
+          <WaitForGridLoad>
+            <Header />
+            <PageAnimatePresence>{children}</PageAnimatePresence>
+            <FooterLeft />
+          </WaitForGridLoad>
+        </PixelGrid>
+      </LoadingScreen>
     </>
   );
 };
