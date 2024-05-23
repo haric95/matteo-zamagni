@@ -22,7 +22,6 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
 
   const handleThemeTransitionEnd = useCallback(() => {
     if (dispatch) {
-      console.log("tranitionend");
       dispatch({
         type: "END_THEME_TRANSITION",
       });
