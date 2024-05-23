@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_homepage_homepage_items",
+  "info": {
+    "displayName": "HomepageItem",
+    "icon": "asterisk",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Exhibition",
+        "Project"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "position": {
+      "type": "component",
+      "repeatable": false,
+      "component": "vec.pos2-d"
+    }
+  }
+}

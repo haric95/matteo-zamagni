@@ -6,7 +6,10 @@
 const nextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [{ hostname: "placehold.co" }],
+    remotePatterns: [
+      { hostname: "placehold.co" },
+      { hostname: "res.cloudinary.com" },
+    ],
     formats: ["image/webp"],
   },
 };

@@ -14,13 +14,14 @@ import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
+import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Pos2D } from "@/types/global";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -30,8 +31,8 @@ const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
 
 enum HomepageItemType {
-  EXHIBITION = "exhibition",
-  PROJECT = "project",
+  EXHIBITION = "Exhibition",
+  PROJECT = "Project",
 }
 
 const homepageItemArray = [
@@ -52,60 +53,71 @@ type HomepageItem = {
   type: HomepageItemType;
   title: string;
   year: string;
-  imageSrc: string;
+  image: StrapiImageResponse;
   slug: string;
-  tags?: string[];
+  tags: string;
 };
 
-const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
-  {
-    position: { x: 0.2, y: 0.2 },
-    type: HomepageItemType.EXHIBITION,
-    title: "HELLO TESTING",
-    year: "2022",
-    imageSrc: "/placeholder.png",
-    slug: "testing-1",
-    tags: ["ar", "vr", "moving image"],
-  },
-  {
-    position: { x: 0.4, y: 0.1 },
-    type: HomepageItemType.PROJECT,
-    title: "HELLO TESTING 2",
-    year: "2021",
-    imageSrc: "/placeholder.png",
-    slug: "testing-2",
-    tags: ["tag 1", "tag 5"],
-  },
-  {
-    position: { x: 0.9, y: 0.8 },
-    type: HomepageItemType.PROJECT,
-    title: "HELLO TESTING 3",
-    year: "2021",
-    imageSrc: "/placeholder.png",
-    slug: "testing-3",
-    tags: ["tag 1", "tag 5"],
-  },
-  {
-    position: { x: 0.1, y: 0.6 },
-    type: HomepageItemType.PROJECT,
-    title: "HELLO TESTING 4",
-    year: "2021",
-    imageSrc: "/placeholder.png",
-    slug: "testing-4",
-  },
-  {
-    position: { x: 0.7, y: 0.2 },
-    type: HomepageItemType.EXHIBITION,
-    title: "HELLO TESTING 5",
-    year: "2015",
-    imageSrc: "/placeholder.png",
-    slug: "testing-4",
-  },
-];
+type HomepageData = {
+  items: HomepageItem[];
+};
+
+// const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
+//   {
+//     position: { x: 0.2, y: 0.2 },
+//     type: HomepageItemType.EXHIBITION,
+//     title: "HELLO TESTING",
+//     year: "2022",
+//     imageSrc: "/placeholder.png",
+//     slug: "testing-1",
+//     tags: "ar, vr, moving image"],
+//   },
+//   {
+//     position: { x: 0.4, y: 0.1 },
+//     type: HomepageItemType.PROJECT,
+//     title: "HELLO TESTING 2",
+//     year: "2021",
+//     imageSrc: "/placeholder.png",
+//     slug: "testing-2",
+//     tags: ["tag 1", "tag 5"],
+//   },
+//   {
+//     position: { x: 0.9, y: 0.8 },
+//     type: HomepageItemType.PROJECT,
+//     title: "HELLO TESTING 3",
+//     year: "2021",
+//     imageSrc: "/placeholder.png",
+//     slug: "testing-3",
+//     tags: ["tag 1", "tag 5"],
+//   },
+//   {
+//     position: { x: 0.1, y: 0.6 },
+//     type: HomepageItemType.PROJECT,
+//     title: "HELLO TESTING 4",
+//     year: "2021",
+//     imageSrc: "/placeholder.png",
+//     slug: "testing-4",
+//   },
+//   {
+//     position: { x: 0.7, y: 0.2 },
+//     type: HomepageItemType.EXHIBITION,
+//     title: "HELLO TESTING 5",
+//     year: "2015",
+//     imageSrc: "/placeholder.png",
+//     slug: "testing-4",
+//   },
+// ];
 
 const QUADRANT_PADDING = { x: 2, y: 2 };
 
 export default function Home() {
+  const homepageData = useStrapi<HomepageData>("/homepage", {
+    "populate[items][populate][0]": "position",
+    "populate[items][populate][1]": "image",
+  });
+
+  console.log(homepageData);
+
   const dispatch = useGlobalContextDispatch();
   const { gridDim, grid, selectedYear } = useGlobalContext();
 
@@ -161,10 +173,10 @@ export default function Home() {
 
   const selectedItem = useMemo(() => {
     return (
-      DUMMY_HOMEPAGE_ITEMS.find((item) => item.title === selectedItemTitle) ||
+      homepageData?.items.find((item) => item.title === selectedItemTitle) ||
       null
     );
-  }, [selectedItemTitle]);
+  }, [homepageData, selectedItemTitle]);
 
   const selectedItemImagePos = useMemo(() => {
     if (selectedItem) {
@@ -304,7 +316,7 @@ export default function Home() {
           {...centerContainerVals}
           className=""
         >
-          {DUMMY_HOMEPAGE_ITEMS.map((item) => {
+          {homepageData?.items.map((item) => {
             const Icon = HomepageItemTypeIconMap[item.type];
             return (
               <GridChild
@@ -352,9 +364,10 @@ export default function Home() {
             );
           })}
           {/* Selected Item Image */}
-          {selectedItem && selectedItemImagePos && (
-            <>
-              <GridChild
+          <AnimatePresence>
+            {selectedItem && selectedItemImagePos && (
+              <MotionGridChild
+                {...DEFAULT_ANIMATE_MODE}
                 {...selectedItemImagePos}
                 isGrid={false}
                 className="relative"
@@ -364,7 +377,7 @@ export default function Home() {
                 >
                   <Link href={`/project/${selectedItem.slug}`}>
                     <Image
-                      src={selectedItem.imageSrc}
+                      src={selectedItem.image.data.attributes.url}
                       className="object-cover w-full h-full"
                       alt=""
                       width={selectedItemImagePos.width * TARGET_CELL_SIZE}
@@ -372,9 +385,9 @@ export default function Home() {
                     />
                   </Link>
                 </button>
-              </GridChild>
-            </>
-          )}
+              </MotionGridChild>
+            )}
+          </AnimatePresence>
           {selectedItem &&
             selectedItemDescriptionPos &&
             selectedItemImagePos && (
@@ -398,11 +411,7 @@ export default function Home() {
                           className=""
                         />
                         <div className="text-xs">
-                          <p className="width-fit">
-                            {selectedItem.tags
-                              ? selectedItem.tags.join(", ")
-                              : null}
-                          </p>
+                          <p className="width-fit">{selectedItem.tags}</p>
                         </div>
                       </div>
                       <div className="w-[10%] h-full flex">

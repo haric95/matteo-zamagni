@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_vec_pos2_ds",
+  "info": {
+    "displayName": "pos2D"
+  },
+  "options": {},
+  "attributes": {
+    "x": {
+      "type": "float"
+    },
+    "y": {
+      "type": "decimal"
+    }
+  }
+}
