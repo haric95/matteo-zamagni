@@ -13,6 +13,7 @@ import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
@@ -22,6 +23,7 @@ import {
 } from "@/state/GlobalStore";
 import { Pos2D } from "@/types/global";
 import { AnimatePresence } from "framer-motion";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -116,7 +118,9 @@ export default function Home() {
     "populate[items][populate][1]": "image",
   });
 
-  console.log(homepageData);
+  usePrefetchImages(
+    homepageData?.items.map((item) => item.image.data.attributes.url) || null
+  );
 
   const dispatch = useGlobalContextDispatch();
   const { gridDim, grid, selectedYear } = useGlobalContext();
