@@ -89,11 +89,6 @@ export default function Project({ params }: { params: { slug: string } }) {
     }
   }, [projectItem]);
 
-  const {
-    startAnimation: startCircleAnimation,
-    cancelAnimation: cancelCircleAnimation,
-  } = useGridLineAnimation();
-
   const textCenterCellPos = useMemo(() => {
     const width =
       Math.floor(gridDim.x * 0.5 * CENTER_CELL_WIDTH_PROPOPRTION) * 2;
@@ -112,15 +107,14 @@ export default function Project({ params }: { params: { slug: string } }) {
 
   const textElementRef = useRef<HTMLDivElement | null>(null);
   useLEDScrollbar(
-    textCenterCellPos.y - 1,
-    textCenterCellPos.y + textCenterCellPos.height,
+    textCenterCellPos.y,
+    textCenterCellPos.y + textCenterCellPos.height - 1,
     textCenterCellPos.x + textCenterCellPos.width + 1,
     textElementRef
   );
 
   const updateLEDs = useCallback(
     (mode: ProjectMode) => {
-      cancelCircleAnimation();
       if (dispatch) {
         const clearedGrid = clearGrid(grid);
         if (mode === ProjectMode.TEXT) {
@@ -149,7 +143,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         }
       }
     },
-    [dispatch, grid, gridDim, cancelCircleAnimation, textCenterCellPos]
+    [dispatch, grid, gridDim, textCenterCellPos]
   );
 
   const handleChangeProjectMode = useCallback(
@@ -205,6 +199,12 @@ export default function Project({ params }: { params: { slug: string } }) {
       setLedIsSet(false);
     }
   }, [gridDim]);
+
+  useEffect(() => {
+    if (!ledIsSet) {
+      handleChangeProjectMode(projectMode);
+    }
+  }, [ledIsSet, handleChangeProjectMode, projectMode]);
 
   useEffect(() => {
     if (projectMode !== ProjectMode.IMAGES) {
