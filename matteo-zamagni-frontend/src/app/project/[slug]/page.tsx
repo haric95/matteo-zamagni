@@ -13,6 +13,7 @@ import {
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
+import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
@@ -59,9 +60,21 @@ export default function Project({ params }: { params: { slug: string } }) {
   };
   const dispatch = useGlobalContextDispatch();
 
-  const [projectMode, setProjectMode] = useState<ProjectMode>(ProjectMode.TEXT);
+  const [projectMode, setProjectMode] = useState<ProjectMode | null>(
+    ProjectMode.TEXT
+  );
   const [ledIsSet, setLedIsSet] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (projectItem) {
+      if (projectItem.attributes.videoURL) {
+        setProjectMode(ProjectMode.VIDEO);
+      } else {
+        setProjectMode(ProjectMode.TEXT);
+      }
+    }
+  }, [projectItem]);
 
   const {
     startAnimation: startCircleAnimation,
@@ -127,11 +140,13 @@ export default function Project({ params }: { params: { slug: string } }) {
   );
 
   const handleChangeProjectMode = useCallback(
-    (mode: ProjectMode) => {
-      setProjectMode(mode);
-      updateLEDs(mode);
-      if (!ledIsSet) {
-        setLedIsSet(true);
+    (mode: ProjectMode | null) => {
+      if (mode) {
+        setProjectMode(mode);
+        updateLEDs(mode);
+        if (!ledIsSet) {
+          setLedIsSet(true);
+        }
       }
     },
     [updateLEDs, ledIsSet]
@@ -184,18 +199,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     }
   }, [projectMode]);
 
-  // Retrigger LEDs setting function when
-  useEffect(() => {
-    if (!ledIsSet) {
-      handleChangeProjectMode(projectMode);
-    }
-  }, [ledIsSet, projectMode, handleChangeProjectMode]);
-
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({ type: "SET_IS_DARK", val: true });
-    }
-  }, [dispatch]);
+  useTheme({ isDark: true });
 
   return (
     <>
