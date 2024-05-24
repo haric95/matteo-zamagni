@@ -112,8 +112,8 @@ export default function Project({ params }: { params: { slug: string } }) {
 
   const textElementRef = useRef<HTMLDivElement | null>(null);
   useLEDScrollbar(
-    textCenterCellPos.y,
-    textCenterCellPos.y + textCenterCellPos.height - 1,
+    textCenterCellPos.y - 1,
+    textCenterCellPos.y + textCenterCellPos.height,
     textCenterCellPos.x + textCenterCellPos.width + 1,
     textElementRef
   );

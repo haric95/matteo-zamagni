@@ -6,12 +6,6 @@ import {
 import { Pos2D } from "@/types/global";
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-type useLEDScrollbarArgs = {
-  rowStart: number;
-  rowEnd: number;
-  element: HTMLDivElement;
-};
-
 export const useLEDScrollbar = (
   rowStart: number,
   rowEnd: number,
@@ -20,7 +14,7 @@ export const useLEDScrollbar = (
 ) => {
   const dispatch = useGlobalContextDispatch();
   const { grid } = useGlobalContext();
-  const [litPixelRow, setLitPixelRow] = useState<number>(rowEnd - rowStart);
+  const [litPixelRow, setLitPixelRow] = useState<number>(rowStart);
   const [uiLitPixelRow, setUILitPixelRow] = useState<number | null>(null);
   const scrollHandler = useCallback(() => {
     const numLEDs = rowEnd - rowStart;
