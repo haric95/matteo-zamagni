@@ -4,7 +4,6 @@ import { GridChild } from "@/components/GridChild";
 import { ImageGallery } from "@/components/ImageGallery";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { VideoPlayer } from "@/components/VideoPlayer";
-import Image from "next/image";
 import {
   clearGrid,
   drawVerticalLine,
@@ -20,51 +19,18 @@ import {
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/router";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
 
-type ProjectData = {
-  text: { text: string };
-  images: {
-    thumbnailURL: string;
-    imageURL: string;
-    alt: string;
-  }[];
-  video?: { url: string };
-};
-
 enum ProjectMode {
   TEXT = "text",
   IMAGES = "images",
   VIDEO = "video",
 }
-
-// const DUMMY_DATA: ProjectData = {
-//   text: {
-//     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit lorem et felis condimentum elementum non a nunc. Duis maximus nunc sit amet nisl cursus, sit amet efficitur purus rutrum. Pellentesque egestas egestas velit nec posuere. In faucibus dui ut placerat viverra. Nam sollicitudin aliquam orci id egestas. Morbi tempus euismod porttitor. Donec fringilla euismod lectus, condimentum laoreet mauris fermentum vel. Donec molestie gravida scelerisque. Aenean scelerisque egestas mauris sed sagittis. Praesent metus eros, cursus ac eleifend eu, lobortis at dolor. Mauris magna lacus, egestas eget est vitae, blandit laoreet quam. Nam quis faucibus eros. Morbi consequat est in libero congue consequat. Cras placerat nibh eget ligula luctus dignissim. Ut pretium nisi nunc, eget condimentum libero cursus ac. Morbi sed purus imperdiet, iaculis lacus sit amet, accumsan quam. In lorem metus, finibus in sodales eu, aliquam ut nibh. Vivamus sagittis, mi sed tristique vehicula, metus tellus viverra arcu, ut ultrices orci ante non elit. Maecenas interdum, ante non posuere consequat, metus nisl varius urna, id mattis dolor tortor eu augue. Cras nec efficitur dui. Quisque eu ex odio. Donec pretium bibendum mi porttitor ultricies. Pellentesque vehicula sapien in ex scelerisque, at vehicula libero venenatis. Proin ullamcorper ullamcorper ligula, nec vestibulum purus blandit facilisis. In mattis rutrum justo et posuere. Nulla elementum imperdiet mi, et condimentum libero cursus eget. In ac justo ac metus consequat viverra. Cras rutrum leo at venenatis scelerisque.",
-//   },
-//   images: [
-//     {
-//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-//       alt: "image description",
-//     },
-//     {
-//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-//       alt: "image description",
-//     },
-//     {
-//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-//       alt: "image description",
-//     },
-//   ],
-// };
 
 type ProjectPageData = {
   slug: string;
@@ -191,7 +157,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     }));
 
     return imageCoords;
-  }, [gridDim, projectData]);
+  }, [gridDim, projectItem]);
 
   const galleryGridPosition = useMemo<PosAndDim2D>(() => {
     const GALLERY_PADDING_X = 12;
@@ -267,7 +233,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                     duration: 0.5,
                     delay: 0.5,
                   }}
-                  className=""
+                  className="image-hover-glow hover:scale-105 transition-all duration-500"
                   {...imagePos}
                   isGrid={false}
                 >
