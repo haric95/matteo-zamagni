@@ -10,15 +10,21 @@ export const useLEDScrollbar = (
   rowStart: number,
   rowEnd: number,
   column: number,
-  element: MutableRefObject<HTMLDivElement | null>
+  element: MutableRefObject<HTMLDivElement | null>,
+  isActive: boolean
 ) => {
   const dispatch = useGlobalContextDispatch();
   const { grid } = useGlobalContext();
   const [litPixelRow, setLitPixelRow] = useState<number>(rowStart);
   const [uiLitPixelRow, setUILitPixelRow] = useState<number | null>(null);
+
   const scrollHandler = useCallback(() => {
     const numLEDs = rowEnd - rowStart;
-    if (element.current) {
+    if (
+      element.current &&
+      element.current.scrollHeight &&
+      element.current.scrollHeight !== element.current.offsetHeight
+    ) {
       const litLED =
         Math.floor(
           (element.current.scrollTop /
@@ -57,8 +63,9 @@ export const useLEDScrollbar = (
 
   useEffect(() => {
     const div = element.current;
-    if (div) {
+    if (div && isActive) {
       div.addEventListener("scroll", scrollHandler);
+      scrollHandler();
     }
 
     return () => {
@@ -66,5 +73,5 @@ export const useLEDScrollbar = (
         div.removeEventListener("scroll", scrollHandler);
       }
     };
-  }, [element, scrollHandler]);
+  }, [element, scrollHandler, isActive]);
 };
