@@ -21,6 +21,7 @@ import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Markdown from "react-markdown";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
@@ -209,9 +210,10 @@ export default function Project({ params }: { params: { slug: string } }) {
               animate={{ opacity: 1 }}
               transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
               key={projectMode}
+              style={{ whiteSpace: "break-spaces" }}
               className="w-full h-full overflow-auto bg-black no-scrollbar"
             >
-              {projectItem?.attributes.text}
+              <Markdown>{projectItem?.attributes.text}</Markdown>
             </motion.div>
           </GridChild>
         )}

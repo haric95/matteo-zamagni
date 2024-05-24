@@ -57,7 +57,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           className="w-[5%] h-1/2 flex items-center justify-center"
           onClick={() => handleClick("left")}
         >
-          <div className="h-fit w-fit">
+          <div className="h-fit w-fit icon-hover-glow hover:scale-110 transition-all duration-500">
             <MdChevronLeft width={16} height={16} />
           </div>
         </button>
@@ -96,7 +96,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           className="w-[5%] h-1/2 flex items-center justify-center z-10"
           onClick={() => handleClick("right")}
         >
-          <div className="h-fit w-fit">
+          <div className="h-fit w-fit icon-hover-glow hover:scale-110 transition-all duration-500">
             <MdChevronRight width={"32px"} height={"32px"} />
           </div>
         </button>
