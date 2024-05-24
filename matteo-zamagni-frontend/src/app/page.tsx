@@ -72,8 +72,6 @@ export default function Home() {
     "populate[items][populate][1]": "image",
   });
 
-  homepageData?.data;
-
   usePrefetchImages(
     homepageData?.data.attributes.items.map(
       (item) => item.image.data.attributes.url
