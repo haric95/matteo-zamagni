@@ -12,6 +12,7 @@ import {
 } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
+import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
@@ -39,7 +40,7 @@ type ProjectPageData = {
   text?: string;
   images: {
     image: StrapiImageResponse;
-    thumbnai?: StrapiImageResponse;
+    thumbnail?: StrapiImageResponse;
     alt?: string;
   }[];
   videoURL?: string;
@@ -53,6 +54,18 @@ export default function Project({ params }: { params: { slug: string } }) {
     populate: "deep",
   });
   const projectItem = projectData?.data[0];
+
+  usePrefetchImages(
+    projectItem?.attributes.images.map(
+      (image) => image.image.data.attributes.url
+    ) || null
+  );
+  usePrefetchImages(
+    projectItem?.attributes.images.map(
+      (image) =>
+        image.thumbnail?.data.attributes.url || image.image.data.attributes.url
+    ) || null
+  );
 
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;

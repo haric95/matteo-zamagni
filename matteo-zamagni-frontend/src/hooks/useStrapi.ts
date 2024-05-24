@@ -43,7 +43,6 @@ export const useStrapi = <R = any, A = false>(
     });
     if (data.status === 200) {
       const jsonData: StrapiResponse<R, A> = await data.json();
-      console.log(jsonData.data);
       setResponseData(jsonData);
     }
   }, [path, queryString]);
