@@ -4,6 +4,7 @@ import { GridChild } from "@/components/GridChild";
 import { ImageGallery } from "@/components/ImageGallery";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { VideoPlayer } from "@/components/VideoPlayer";
+import Image from "next/image";
 import {
   clearGrid,
   drawVerticalLine,
@@ -12,14 +13,15 @@ import {
 } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridAnimation";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
+import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { MdClose } from "react-icons/md";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
@@ -41,47 +43,49 @@ enum ProjectMode {
   VIDEO = "video",
 }
 
-const DUMMY_DATA: ProjectData = {
-  text: {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit lorem et felis condimentum elementum non a nunc. Duis maximus nunc sit amet nisl cursus, sit amet efficitur purus rutrum. Pellentesque egestas egestas velit nec posuere. In faucibus dui ut placerat viverra. Nam sollicitudin aliquam orci id egestas. Morbi tempus euismod porttitor. Donec fringilla euismod lectus, condimentum laoreet mauris fermentum vel. Donec molestie gravida scelerisque. Aenean scelerisque egestas mauris sed sagittis. Praesent metus eros, cursus ac eleifend eu, lobortis at dolor. Mauris magna lacus, egestas eget est vitae, blandit laoreet quam. Nam quis faucibus eros. Morbi consequat est in libero congue consequat. Cras placerat nibh eget ligula luctus dignissim. Ut pretium nisi nunc, eget condimentum libero cursus ac. Morbi sed purus imperdiet, iaculis lacus sit amet, accumsan quam. In lorem metus, finibus in sodales eu, aliquam ut nibh. Vivamus sagittis, mi sed tristique vehicula, metus tellus viverra arcu, ut ultrices orci ante non elit. Maecenas interdum, ante non posuere consequat, metus nisl varius urna, id mattis dolor tortor eu augue. Cras nec efficitur dui. Quisque eu ex odio. Donec pretium bibendum mi porttitor ultricies. Pellentesque vehicula sapien in ex scelerisque, at vehicula libero venenatis. Proin ullamcorper ullamcorper ligula, nec vestibulum purus blandit facilisis. In mattis rutrum justo et posuere. Nulla elementum imperdiet mi, et condimentum libero cursus eget. In ac justo ac metus consequat viverra. Cras rutrum leo at venenatis scelerisque.",
-  },
-  images: [
-    {
-      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-      alt: "image description",
-    },
-    {
-      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-      alt: "image description",
-    },
-    {
-      thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-      imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
-      alt: "image description",
-    },
-    // {
-    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
-    //   alt: "image description",
-    // },
-    // {
-    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
-    //   alt: "image description",
-    // },
-    // {
-    //   thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
-    //   imageURL: "https://placehold.co/640x480/EEE/ff0000",
-    //   alt: "image description",
-    // },
-  ],
+// const DUMMY_DATA: ProjectData = {
+//   text: {
+//     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit lorem et felis condimentum elementum non a nunc. Duis maximus nunc sit amet nisl cursus, sit amet efficitur purus rutrum. Pellentesque egestas egestas velit nec posuere. In faucibus dui ut placerat viverra. Nam sollicitudin aliquam orci id egestas. Morbi tempus euismod porttitor. Donec fringilla euismod lectus, condimentum laoreet mauris fermentum vel. Donec molestie gravida scelerisque. Aenean scelerisque egestas mauris sed sagittis. Praesent metus eros, cursus ac eleifend eu, lobortis at dolor. Mauris magna lacus, egestas eget est vitae, blandit laoreet quam. Nam quis faucibus eros. Morbi consequat est in libero congue consequat. Cras placerat nibh eget ligula luctus dignissim. Ut pretium nisi nunc, eget condimentum libero cursus ac. Morbi sed purus imperdiet, iaculis lacus sit amet, accumsan quam. In lorem metus, finibus in sodales eu, aliquam ut nibh. Vivamus sagittis, mi sed tristique vehicula, metus tellus viverra arcu, ut ultrices orci ante non elit. Maecenas interdum, ante non posuere consequat, metus nisl varius urna, id mattis dolor tortor eu augue. Cras nec efficitur dui. Quisque eu ex odio. Donec pretium bibendum mi porttitor ultricies. Pellentesque vehicula sapien in ex scelerisque, at vehicula libero venenatis. Proin ullamcorper ullamcorper ligula, nec vestibulum purus blandit facilisis. In mattis rutrum justo et posuere. Nulla elementum imperdiet mi, et condimentum libero cursus eget. In ac justo ac metus consequat viverra. Cras rutrum leo at venenatis scelerisque.",
+//   },
+//   images: [
+//     {
+//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
+//       alt: "image description",
+//     },
+//     {
+//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
+//       alt: "image description",
+//     },
+//     {
+//       thumbnailURL: "https://placehold.co/100x100/EEE/31343C",
+//       imageURL: "https://placehold.co/640x480/EEE/ff0000/webp",
+//       alt: "image description",
+//     },
+//   ],
+// };
+
+type ProjectPageData = {
+  slug: string;
+  text?: string;
+  images: {
+    image: StrapiImageResponse;
+    thumbnai?: StrapiImageResponse;
+    alt?: string;
+  }[];
+  videoURL?: string;
 };
 
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
-export default function Home() {
+export default function Project({ params }: { params: { slug: string } }) {
+  const projectData = useStrapi<ProjectPageData, true>("/projects", {
+    "filters[slug][$eq]": params.slug,
+    populate: "deep",
+  });
+  const projectItem = projectData?.data[0];
+
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
@@ -167,7 +171,7 @@ export default function Home() {
   );
 
   const imageGridPositions: PosAndDim2D[] | null = useMemo(() => {
-    if (projectMode !== ProjectMode.IMAGES) {
+    if (!projectItem || !projectItem.attributes.images.length) {
       return null;
     }
 
@@ -177,7 +181,7 @@ export default function Home() {
     const imageCoords = getCirclePoints(
       { x: 0.5, y: 0.5 },
       0.3,
-      DUMMY_DATA.images.length,
+      projectItem.attributes.images.length,
       gridDim
     ).map((coord) => ({
       x: Math.round(coord.x - WIDTH / 2),
@@ -187,7 +191,7 @@ export default function Home() {
     }));
 
     return imageCoords;
-  }, [projectMode, gridDim]);
+  }, [gridDim, projectData]);
 
   const galleryGridPosition = useMemo<PosAndDim2D>(() => {
     const GALLERY_PADDING_X = 12;
@@ -241,40 +245,56 @@ export default function Home() {
               key={projectMode}
               className="w-full h-full overflow-auto bg-black no-scrollbar"
             >
-              {DUMMY_DATA.text.text}
+              {projectItem?.attributes.text}
             </motion.div>
           </GridChild>
         )}
       </AnimatePresence>
       {/* Image View */}
       <AnimatePresence>
-        {projectMode === ProjectMode.IMAGES && imageGridPositions && (
-          <>
-            {imageGridPositions.map((imagePos, index) => (
-              <MotionGridChild
-                key={`${DUMMY_DATA.images[index].imageURL}-${index}`}
-                initial={{ opacity: 0 }}
-                exit={{ opacity: 0, transition: { delay: 0 } }}
-                animate={{ opacity: 1 }}
-                transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
-                className=""
-                {...imagePos}
-                isGrid={false}
-              >
-                <button
-                  className="w-full h-full bg-red-500"
-                  onClick={() => {
-                    setActiveImageIndex(index);
+        {projectMode === ProjectMode.IMAGES &&
+          imageGridPositions &&
+          projectItem && (
+            <>
+              {imageGridPositions.map((imagePos, index) => (
+                <MotionGridChild
+                  key={`${projectItem.attributes.images[index].image.data.attributes.url}-${index}`}
+                  initial={{ opacity: 0 }}
+                  exit={{ opacity: 0, transition: { delay: 0 } }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    type: "ease-in-out",
+                    duration: 0.5,
+                    delay: 0.5,
                   }}
-                ></button>
-              </MotionGridChild>
-            ))}
-          </>
-        )}
+                  className=""
+                  {...imagePos}
+                  isGrid={false}
+                >
+                  <button
+                    className="w-full h-full relative"
+                    onClick={() => {
+                      setActiveImageIndex(index);
+                    }}
+                  >
+                    <Image
+                      src={
+                        projectItem.attributes.images[index].image.data
+                          .attributes.url
+                      }
+                      alt={""}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </button>
+                </MotionGridChild>
+              ))}
+            </>
+          )}
       </AnimatePresence>
       {/* Image Gallery View */}
       <AnimatePresence>
-        {activeImageIndex !== null ? (
+        {activeImageIndex !== null && projectItem ? (
           <MotionGridChild
             initial={{ opacity: 0 }}
             exit={{ opacity: 0, transition: { delay: 0 } }}
@@ -285,7 +305,10 @@ export default function Home() {
             isGrid={false}
           >
             <ImageGallery
-              images={DUMMY_DATA.images}
+              images={projectItem.attributes.images.map((image) => ({
+                imageURL: image.image.data.attributes.url,
+                alt: image.alt ?? "",
+              }))}
               initialSlide={activeImageIndex}
               handleClose={() => setActiveImageIndex(null)}
             />
@@ -294,7 +317,8 @@ export default function Home() {
       </AnimatePresence>
       {/* Video Player View */}
       <AnimatePresence>
-        {projectMode === ProjectMode.VIDEO ? (
+        {projectMode === ProjectMode.VIDEO &&
+        projectItem?.attributes.videoURL ? (
           <MotionGridChild
             initial={{ opacity: 0 }}
             exit={{ opacity: 0, transition: { delay: 0 } }}
@@ -305,7 +329,7 @@ export default function Home() {
             isGrid={false}
           >
             <VideoPlayer
-              url={"https://vimeo.com/203563626"}
+              url={projectItem.attributes.videoURL}
               handleClose={() => handleChangeProjectMode(ProjectMode.TEXT)}
             />
           </MotionGridChild>

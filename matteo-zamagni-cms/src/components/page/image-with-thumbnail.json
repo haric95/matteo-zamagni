@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_page_image_with_thumbnails",
+  "info": {
+    "displayName": "Image With Thumbnail",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageAlt": {
+      "type": "text"
+    }
+  }
+}

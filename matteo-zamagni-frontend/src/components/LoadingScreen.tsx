@@ -5,6 +5,7 @@ import {
 import React, { PropsWithChildren, useEffect, useState } from "react";
 
 export const LoadingScreen = ({ children }: PropsWithChildren) => {
+  return <>{children}</>;
   const { hasLoaded } = useGlobalContext();
   const dispatch = useGlobalContextDispatch();
   const [videoEnded, setVideoEnded] = useState(false);

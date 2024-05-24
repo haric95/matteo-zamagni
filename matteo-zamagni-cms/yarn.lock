@@ -10083,6 +10083,11 @@
   "resolved" "https://registry.npmjs.org/std-env/-/std-env-3.3.1.tgz"
   "version" "3.3.1"
 
+"strapi-plugin-populate-deep@^3.0.1":
+  "integrity" "sha512-7t1bPPBN1AGKZlFT/6qsqmwgd7SzTA9CNzEBSzeYEjL/e0GKD2lf4wF11C2vMkfsQW2GhRAXZQRCGlLnV2XHFQ=="
+  "resolved" "https://registry.npmjs.org/strapi-plugin-populate-deep/-/strapi-plugin-populate-deep-3.0.1.tgz"
+  "version" "3.0.1"
+
 "stream-browserify@^3.0.0":
   "integrity" "sha512-H73RAHsVBapbim0tU2JwwOiXUj+fikfiaoYAKHF3VJfA0pe2BCzkhAHBlLG6REzE+2WNZcxOXjK7lkso+9euLA=="
   "resolved" "https://registry.npmjs.org/stream-browserify/-/stream-browserify-3.0.0.tgz"

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_project_pages",
+  "info": {
+    "displayName": "Project Page",
+    "icon": "align-justify",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "richtext",
+      "required": false
+    },
+    "videoURL": {
+      "type": "string"
+    },
+    "images": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.image-with-thumbnail"
+    }
+  }
+}

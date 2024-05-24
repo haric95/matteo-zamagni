@@ -113,13 +113,17 @@ type HomepageData = {
 const QUADRANT_PADDING = { x: 2, y: 2 };
 
 export default function Home() {
-  const homepageData = useStrapi<HomepageData>("/homepage", {
+  const homepageData = useStrapi<HomepageData, false>("/homepage", {
     "populate[items][populate][0]": "position",
     "populate[items][populate][1]": "image",
   });
 
+  homepageData?.data;
+
   usePrefetchImages(
-    homepageData?.items.map((item) => item.image.data.attributes.url) || null
+    homepageData?.data.attributes.items.map(
+      (item) => item.image.data.attributes.url
+    ) || null
   );
 
   const dispatch = useGlobalContextDispatch();
@@ -177,8 +181,9 @@ export default function Home() {
 
   const selectedItem = useMemo(() => {
     return (
-      homepageData?.items.find((item) => item.title === selectedItemTitle) ||
-      null
+      homepageData?.data.attributes.items.find(
+        (item) => item.title === selectedItemTitle
+      ) || null
     );
   }, [homepageData, selectedItemTitle]);
 
@@ -320,7 +325,7 @@ export default function Home() {
           {...centerContainerVals}
           className=""
         >
-          {homepageData?.items.map((item) => {
+          {homepageData?.data.attributes.items.map((item) => {
             const Icon = HomepageItemTypeIconMap[item.type];
             return (
               <GridChild

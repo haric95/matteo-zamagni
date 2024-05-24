@@ -3,28 +3,35 @@ import { useCallback, useEffect, useState } from "react";
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
 
-export type StrapiResponse<R> = {
-  data: {
-    id: number;
-    attributes: {
-      createdAt: string;
-      publishedAt: string;
-      updatedAt: string;
-    } & R;
-  };
+type True = true;
+
+type StrapiData<R> = {
+  id: number;
+  attributes: {
+    createdAt: string;
+    publishedAt: string;
+    updatedAt: string;
+  } & R;
+};
+
+type StrapiResponse<R = any, A = boolean> = {
+  data: A extends True ? StrapiData<R>[] : StrapiData<R>;
   meta: any;
 };
 
 type StrapiImage = { url: string };
 
-export type StrapiImageResponse = StrapiResponse<StrapiImage>;
+export type StrapiImageResponse = StrapiResponse<StrapiImage, false>;
+export type StrapiImagesResponse = StrapiResponse<StrapiImage, true>;
 
-export const useStrapi = <R = any, P = any>(
+export const useStrapi = <R = any, A = false>(
   path: string,
   // TODO: Make this type more specific
   strapiOptions: Record<string, string> = { populate: "*" }
 ) => {
-  const [responseData, setResponseData] = useState<R | null>(null);
+  const [responseData, setResponseData] = useState<StrapiResponse<R, A> | null>(
+    null
+  );
   const queryString = new URLSearchParams(strapiOptions).toString();
 
   const fetchData = useCallback(async () => {
@@ -35,8 +42,9 @@ export const useStrapi = <R = any, P = any>(
       },
     });
     if (data.status === 200) {
-      const jsonData: StrapiResponse<R> = await data.json();
-      setResponseData(jsonData.data.attributes);
+      const jsonData: StrapiResponse<R, A> = await data.json();
+      console.log(jsonData.data);
+      setResponseData(jsonData);
     }
   }, [path, queryString]);
 
