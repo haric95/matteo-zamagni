@@ -382,7 +382,7 @@ export default function Home() {
                 className="relative"
               >
                 <button
-                  className={`w-full h-full icon-hover-glow duration-500`}
+                  className={`w-full h-full image-hover-glow hover:scale-[101%] duration-500 transition-all duration-500`}
                 >
                   <Link href={`/project/${selectedItem.slug}`}>
                     <Image
@@ -411,7 +411,7 @@ export default function Home() {
                       href={`/project/${selectedItem.slug}`}
                       className="flex h-full w-full"
                     >
-                      <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
+                      <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow hover:scale-105 transition-all duration-500">
                         <TypeAnimation
                           sequence={[selectedItem.title]}
                           wrapper="span"
