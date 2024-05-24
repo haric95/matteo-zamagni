@@ -64,52 +64,6 @@ type HomepageData = {
   items: HomepageItem[];
 };
 
-// const DUMMY_HOMEPAGE_ITEMS: HomepageItem[] = [
-//   {
-//     position: { x: 0.2, y: 0.2 },
-//     type: HomepageItemType.EXHIBITION,
-//     title: "HELLO TESTING",
-//     year: "2022",
-//     imageSrc: "/placeholder.png",
-//     slug: "testing-1",
-//     tags: "ar, vr, moving image"],
-//   },
-//   {
-//     position: { x: 0.4, y: 0.1 },
-//     type: HomepageItemType.PROJECT,
-//     title: "HELLO TESTING 2",
-//     year: "2021",
-//     imageSrc: "/placeholder.png",
-//     slug: "testing-2",
-//     tags: ["tag 1", "tag 5"],
-//   },
-//   {
-//     position: { x: 0.9, y: 0.8 },
-//     type: HomepageItemType.PROJECT,
-//     title: "HELLO TESTING 3",
-//     year: "2021",
-//     imageSrc: "/placeholder.png",
-//     slug: "testing-3",
-//     tags: ["tag 1", "tag 5"],
-//   },
-//   {
-//     position: { x: 0.1, y: 0.6 },
-//     type: HomepageItemType.PROJECT,
-//     title: "HELLO TESTING 4",
-//     year: "2021",
-//     imageSrc: "/placeholder.png",
-//     slug: "testing-4",
-//   },
-//   {
-//     position: { x: 0.7, y: 0.2 },
-//     type: HomepageItemType.EXHIBITION,
-//     title: "HELLO TESTING 5",
-//     year: "2015",
-//     imageSrc: "/placeholder.png",
-//     slug: "testing-4",
-//   },
-// ];
-
 const QUADRANT_PADDING = { x: 2, y: 2 };
 
 export default function Home() {
