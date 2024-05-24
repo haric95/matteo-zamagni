@@ -360,12 +360,14 @@ export default function Home() {
                   isGrid={false}
                   className="relative"
                 >
-                  <div className={`w-full h-full text-left bg-black`}>
+                  <div
+                    className={`w-full h-full text-left bg-black transition-all duration-500 hover:scale-[102%]`}
+                  >
                     <Link
                       href={`/project/${selectedItem.slug}`}
                       className="flex h-full w-full"
                     >
-                      <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow hover:scale-105 transition-all duration-500">
+                      <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
                         <TypeAnimation
                           sequence={[selectedItem.title]}
                           wrapper="span"
