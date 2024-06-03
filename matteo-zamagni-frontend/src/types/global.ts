@@ -9,3 +9,8 @@ export type PosAndDim2D = {
 };
 
 export type Grid = boolean[][];
+
+export enum HomepageItemType {
+  EXHIBITION = "Exhibition",
+  PROJECT = "Project",
+}

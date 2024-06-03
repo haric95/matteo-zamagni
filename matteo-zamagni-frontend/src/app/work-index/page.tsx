@@ -17,15 +17,11 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid } from "@/types/global";
+import { Dim2D, Grid, HomepageItemType } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
-import {
-  HomepageItemType,
-  HomepageItemTypeIconMap,
-  homepageItemArray,
-} from "../page";
+import { HomepageItemTypeIconMap, homepageItemArray } from "@/const";
 import Link from "next/link";
 import { parseTagsString } from "@/helpers/parseTagsString";
 

@@ -8,7 +8,11 @@ import {
   TriangleDown,
 } from "@/components/Icons";
 import { MotionGridChild } from "@/components/MotionGridChild";
-import { DEFAULT_ANIMATE_MODE } from "@/const";
+import {
+  DEFAULT_ANIMATE_MODE,
+  HomepageItemTypeIconMap,
+  homepageItemArray,
+} from "@/const";
 import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
@@ -21,7 +25,7 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Pos2D } from "@/types/global";
+import { HomepageItemType, Pos2D } from "@/types/global";
 import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
@@ -31,24 +35,6 @@ import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
-
-export enum HomepageItemType {
-  EXHIBITION = "Exhibition",
-  PROJECT = "Project",
-}
-
-export const homepageItemArray = [
-  HomepageItemType.EXHIBITION,
-  HomepageItemType.PROJECT,
-];
-
-export const HomepageItemTypeIconMap: Record<
-  HomepageItemType,
-  SelectableIconComponent
-> = {
-  [HomepageItemType.EXHIBITION]: Plus,
-  [HomepageItemType.PROJECT]: TriangleDown,
-};
 
 type HomepageItem = {
   position: { x: number; y: number };
