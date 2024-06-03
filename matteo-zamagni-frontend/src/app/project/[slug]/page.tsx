@@ -110,7 +110,8 @@ export default function Project({ params }: { params: { slug: string } }) {
     textCenterCellPos.y,
     textCenterCellPos.y + textCenterCellPos.height - 1,
     textCenterCellPos.x + textCenterCellPos.width + 1,
-    textElementRef
+    textElementRef,
+    projectMode === ProjectMode.TEXT
   );
 
   const updateLEDs = useCallback(

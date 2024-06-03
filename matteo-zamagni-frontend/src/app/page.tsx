@@ -32,17 +32,17 @@ import { TypeAnimation } from "react-type-animation";
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
 
-enum HomepageItemType {
+export enum HomepageItemType {
   EXHIBITION = "Exhibition",
   PROJECT = "Project",
 }
 
-const homepageItemArray = [
+export const homepageItemArray = [
   HomepageItemType.EXHIBITION,
   HomepageItemType.PROJECT,
 ];
 
-const HomepageItemTypeIconMap: Record<
+export const HomepageItemTypeIconMap: Record<
   HomepageItemType,
   SelectableIconComponent
 > = {

@@ -6,35 +6,35 @@ import {
   BackChevrons,
   Circle,
   HorizontalLines,
-  Plus,
   Star,
-  TriangleDown,
 } from "@/components/Icons";
+import { MotionGridChild } from "@/components/MotionGridChild";
+import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { useStrapi } from "@/hooks/useStrapi";
+import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Dim2D, Grid } from "@/types/global";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { DEFAULT_ANIMATE_MODE } from "@/const";
-import { useTheme } from "@/hooks/useTheme";
-import { MotionGridChild } from "@/components/MotionGridChild";
+import {
+  HomepageItemType,
+  HomepageItemTypeIconMap,
+  homepageItemArray,
+} from "../page";
 
 enum WorkIndexType {
-  PROJECT = "project",
-  EXHIBITION = "exhibition",
-  INSTALLATION = "installation",
-  PERFORMANCE = "performance",
-  FILM = "film",
-  PRINT = "print",
+  INSTALLATION = "Installation",
+  PERFORMANCE = "Performance",
+  FILM = "Film",
+  PRINT = "Print",
 }
 
 const WORK_INDEX_TYPE_ARRAY = [
-  WorkIndexType.PROJECT,
-  WorkIndexType.EXHIBITION,
   WorkIndexType.INSTALLATION,
   WorkIndexType.PERFORMANCE,
   WorkIndexType.FILM,
@@ -42,8 +42,6 @@ const WORK_INDEX_TYPE_ARRAY = [
 ];
 
 const WorkIndexTypeIcon = {
-  [WorkIndexType.PROJECT]: Plus,
-  [WorkIndexType.EXHIBITION]: TriangleDown,
   [WorkIndexType.INSTALLATION]: HorizontalLines,
   [WorkIndexType.PERFORMANCE]: Circle,
   [WorkIndexType.FILM]: Star,
@@ -51,46 +49,37 @@ const WorkIndexTypeIcon = {
 };
 
 type IndexItem = {
+  type: HomepageItemType;
   title: string;
-  tags: WorkIndexType[];
+  year: string;
+  slug: string;
+  tags: string;
 };
 
-const DUMMY_INDEX_ITEMS: IndexItem[] = new Array(10)
-  .fill([
-    {
-      title: "Ambient Occlusion",
-      tags: [WorkIndexType.EXHIBITION, WorkIndexType.INSTALLATION],
-    },
-    {
-      title: "Anise Gallery",
-      tags: [WorkIndexType.INSTALLATION, WorkIndexType.PERFORMANCE],
-    },
-    {
-      title: "Arebyte Gallery",
-      tags: [
-        WorkIndexType.PRINT,
-        WorkIndexType.PROJECT,
-        WorkIndexType.FILM,
-        WorkIndexType.INSTALLATION,
-      ],
-    },
-  ])
-  .flat();
+type IndexPageData = {
+  items: IndexItem[];
+};
 
 const CONTENT_GRID_PADDING_X = 8;
 const CONTENT_GRID_PADDING_Y = 2;
 
-// TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Find a way to prevent content being hidden on smaller screen sizes
 export default function Index() {
+  const indexData = useStrapi<IndexPageData, false>("/homepage", {
+    populate: "deep",
+  });
+
   const { gridDim } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
   };
-  const dispatch = useGlobalContextDispatch();
-  const [selectedType, setSelectedType] = useState<WorkIndexType | null>(null);
 
-  const handleFilterClick = (type: WorkIndexType) => {
+  const dispatch = useGlobalContextDispatch();
+  const [selectedType, setSelectedType] = useState<
+    WorkIndexType | HomepageItemType | null
+  >(null);
+
+  const handleFilterClick = (type: typeof selectedType) => {
     if (selectedType === type) {
       setSelectedType(null);
     } else {
@@ -115,19 +104,19 @@ export default function Index() {
   }, [gridDim]);
 
   const splitIndexItems = useMemo(() => {
-    if (centerContainerVals) {
-      const leftIndexItems = DUMMY_INDEX_ITEMS.slice(
+    if (indexData && centerContainerVals) {
+      const leftIndexItems = indexData.data.attributes.items.slice(
         0,
         centerContainerVals.height
       );
-      const rightIndexItems = DUMMY_INDEX_ITEMS.slice(
+      const rightIndexItems = indexData.data.attributes.items.slice(
         centerContainerVals.height,
         centerContainerVals.height * 2
       );
       return { leftIndexItems, rightIndexItems };
     }
     return null;
-  }, [centerContainerVals]);
+  }, [centerContainerVals, indexData]);
 
   const { shouldMount } = useTheme({ isDark: false });
 
@@ -168,22 +157,52 @@ export default function Index() {
                   isGrid={false}
                 >
                   <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                    {item.tags.map((tag, index) => {
-                      const Icon = WorkIndexTypeIcon[tag];
-                      return (
-                        index < 3 && (
-                          <Icon
-                            key={tag}
-                            strokeWidth={8}
-                            className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                              selectedType === tag
-                                ? "stroke-highlight"
-                                : "stroke-white"
-                            }`}
-                          />
-                        )
-                      );
-                    })}
+                    <>
+                      {homepageItemArray.map((type) => {
+                        if (item.type === type) {
+                          const Icon = HomepageItemTypeIconMap[type];
+                          return (
+                            <Icon
+                              key={`${item.title}-type`}
+                              strokeWidth={8}
+                              className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                selectedType === type
+                                  ? "stroke-highlight"
+                                  : "stroke-white"
+                              }`}
+                            />
+                          );
+                        }
+                      })}
+                    </>
+                    {item.tags
+                      .split(",")
+                      .map((item) => item.trim())
+                      .map((tag, index) => {
+                        if (
+                          WorkIndexTypeIcon[
+                            tag as keyof typeof WorkIndexTypeIcon
+                          ]
+                        ) {
+                          const Icon =
+                            WorkIndexTypeIcon[
+                              tag as keyof typeof WorkIndexTypeIcon
+                            ];
+                          return (
+                            index < 2 && (
+                              <Icon
+                                key={tag}
+                                strokeWidth={8}
+                                className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                  selectedType === tag
+                                    ? "stroke-highlight"
+                                    : "stroke-white"
+                                }`}
+                              />
+                            )
+                          );
+                        }
+                      })}
                   </div>
                   <div className="w-full">
                     <p
@@ -220,22 +239,34 @@ export default function Index() {
                   isGrid={false}
                 >
                   <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                    {item.tags.map((tag, index) => {
-                      const Icon = WorkIndexTypeIcon[tag];
-                      return (
-                        index < 3 && (
-                          <Icon
-                            key={tag}
-                            strokeWidth={8}
-                            className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                              selectedType === tag
-                                ? "stroke-highlight"
-                                : "stroke-white"
-                            }`}
-                          />
-                        )
-                      );
-                    })}
+                    {item.tags
+                      .split(",")
+                      .map((item) => item.trim())
+                      .map((tag, index) => {
+                        if (
+                          WorkIndexTypeIcon[
+                            tag as keyof typeof WorkIndexTypeIcon
+                          ]
+                        ) {
+                          const Icon =
+                            WorkIndexTypeIcon[
+                              tag as keyof typeof WorkIndexTypeIcon
+                            ];
+                          return (
+                            index < 3 && (
+                              <Icon
+                                key={tag}
+                                strokeWidth={8}
+                                className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                  selectedType === tag
+                                    ? "stroke-highlight"
+                                    : "stroke-white"
+                                }`}
+                              />
+                            )
+                          );
+                        }
+                      })}
                   </div>
                   <div className="w-full">
                     <p
@@ -289,6 +320,34 @@ export default function Index() {
           >
             <div className="w-full h-full flex flex-col justify-center items-end">
               <div className="w-full h-full flex flex-col justify-around items-start py-2 text-xs">
+                {homepageItemArray.map((indexType) => {
+                  const Component = HomepageItemTypeIconMap[indexType];
+                  return (
+                    <button
+                      key={indexType}
+                      onClick={() => handleFilterClick(indexType)}
+                      className="w-full h-4 flex items-center transition-all duration-500"
+                    >
+                      <Component
+                        className={`mr-2 w-4 h-4 transition-color duration-500 ${
+                          selectedType === indexType
+                            ? "stroke-highlight"
+                            : "stroke-white"
+                        }`}
+                        strokeWidth={8}
+                      ></Component>
+                      <p
+                        className={`translate-y-[-1px] transition-color duration-500 ${
+                          selectedType === indexType
+                            ? "text-highlight"
+                            : "white"
+                        }`}
+                      >
+                        {indexType}
+                      </p>
+                    </button>
+                  );
+                })}
                 {WORK_INDEX_TYPE_ARRAY.map((indexType) => {
                   const Component =
                     WorkIndexTypeIcon[
