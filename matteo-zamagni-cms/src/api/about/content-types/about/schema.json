@@ -1,0 +1,33 @@
+{
+  "kind": "singleType",
+  "collectionName": "abouts",
+  "info": {
+    "singularName": "about",
+    "pluralName": "abouts",
+    "displayName": "About"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Bio": {
+      "type": "richtext"
+    },
+    "Awards": {
+      "type": "richtext"
+    },
+    "Residencies": {
+      "type": "richtext"
+    },
+    "Performances": {
+      "type": "richtext"
+    },
+    "Screenings": {
+      "type": "richtext"
+    },
+    "Talks": {
+      "type": "richtext"
+    }
+  }
+}

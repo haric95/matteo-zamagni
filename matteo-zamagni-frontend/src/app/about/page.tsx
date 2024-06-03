@@ -3,6 +3,7 @@ import { FooterRight } from "@/components/FooterRight";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
@@ -11,23 +12,36 @@ import {
 import { Dim2D, Grid } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Markdown from "react-markdown";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
 
 enum AboutMode {
-  BIO,
-  AWARDS,
-  RESIDENCIES,
-  PERFORMANCES,
-  SCREENINGS,
-  TALKS,
+  BIO = "Bio",
+  AWARDS = "Awards",
+  RESIDENCIES = "Residencies",
+  PERFORMANCES = "Performances",
+  SCREENINGS = "Screenings",
+  TALKS = "Talks",
 }
+
+type AboutPageData = {
+  [AboutMode.BIO]: string;
+  [AboutMode.AWARDS]: string;
+  [AboutMode.RESIDENCIES]: string;
+  [AboutMode.PERFORMANCES]: string;
+  [AboutMode.SCREENINGS]: string;
+  [AboutMode.TALKS]: string;
+};
 
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
 export default function Home() {
+  const aboutPageData = useStrapi<AboutPageData, false>("/about", {
+    populate: "deep",
+  });
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
@@ -105,41 +119,10 @@ export default function Home() {
               // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
             }}
           >
-            <div className="w-full h-full overflow-auto">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                finibus neque nulla, vel tincidunt risus dignissim non. Integer
-                euismod nisl ligula, non lobortis felis sagittis non. Fusce
-                accumsan vestibulum metus vitae semper. Etiam convallis viverra
-                augue vitae tempus. Suspendisse sodales, dui in molestie semper,
-                sem nisl dictum mi, id congue lacus metus euismod nisi. Donec
-                non ipsum nibh. In hac habitasse platea dictumst. Aliquam erat
-                volutpat. Aenean ante mauris, pretium ac est vel, varius
-                malesuada sem. Proin volutpat porttitor lectus. Etiam dignissim
-                mi id diam sollicitudin vulputate. Aliquam auctor nulla at lacus
-                scelerisque interdum quis eget elit. Fusce finibus arcu sed
-                maximus posuere. Etiam magna velit, molestie in imperdiet ac,
-                efficitur non nibh.{" "}
-              </p>
-              <br />
-              <p>
-                In hac habitasse platea dictumst. Duis quis tortor consectetur,
-                pulvinar nisl et, tincidunt est. Curabitur ac eros et ligula
-                maximus mollis a sit amet dolor. Praesent tempor vulputate
-                felis, sit amet iaculis lorem bibendum id. Vivamus quam diam,
-                volutpat quis purus quis, tincidunt hendrerit ex. Aliquam est
-                metus, mollis vitae dignissim ac, varius ac metus. Quisque
-                porttitor orci mi, vel efficitur tellus porttitor ut. Sed
-                tincidunt est in tortor pulvinar porta. Donec aliquet elit sed
-                nunc ornare, eget feugiat odio varius. In velit nulla,
-                scelerisque ornare sem vel, scelerisque porttitor felis.
-                Praesent consequat augue at dapibus dapibus. Ut et scelerisque
-                elit. Morbi facilisis id turpis non varius. Fusce lorem velit,
-                congue in dolor sit amet, malesuada venenatis magna.
-                Pellentesque habitant morbi tristique senectus et netus et
-                malesuada fames ac turpis egestas. Mauris ullamcorper laoreet
-                lobortis. Nulla id turpis ut leo varius pulvinar.
-              </p>
+            <div className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar">
+              <Markdown>
+                {aboutPageData && aboutPageData.data.attributes[aboutMode]}
+              </Markdown>
             </div>
           </motion.div>
         )}
