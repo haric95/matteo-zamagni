@@ -116,14 +116,16 @@ export const HeaderDateScroller = (props) => {
           <div className="wheel__slides" style={{ width: 0 }}>
             {slideValues().map(({ style, value }, idx) => (
               <div className="wheel__slide" style={style} key={idx}>
-                <span className="translate-x-1/2">{value}</span>
+                <span className="translate-x-1/2 dark:text-white text-black transition-all duration-500">
+                  {value}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </div>
       <div className="absolute top-0 w-full h-full flex justify-center pointer-events-none">
-        <div className="w-24 border-x-[1px] border-fadedWhite"></div>
+        <div className="w-24 border-x-[1px] dark:border-fadedWhite border-black transition-all duration-500"></div>
       </div>
       <AnimatePresence>
         {currentYearIndex !== 0 && (
@@ -138,8 +140,7 @@ export const HeaderDateScroller = (props) => {
           >
             <div className="w-[12px] h-[12px] interactable-button">
               <Cross
-                className="relative w-full h-full"
-                stroke="white"
+                className="relative w-full h-full dark:stroke-white stroke-black"
                 strokeWidth={8}
               />
             </div>
