@@ -1,8 +1,10 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
+import { GridChild } from "@/components/GridChild";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
+import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
@@ -12,7 +14,7 @@ import {
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
@@ -51,6 +53,7 @@ export default function Home() {
 
   const [aboutMode, setAboutMode] = useState<AboutMode>(AboutMode.BIO);
   const [ledIsSet, setLedIsSet] = useState(false);
+  const [scrollDiv, setScrollDiv] = useState<HTMLDivElement | null>(null);
 
   const { shouldMount } = useTheme({ isDark: false });
   const centerCellPos = useMemo<PosAndDim2D>(() => {
@@ -68,6 +71,19 @@ export default function Home() {
       height,
     };
   }, [gridDim]);
+
+  const handleScrollDivChange = useCallback((div: HTMLDivElement) => {
+    if (div) {
+      setScrollDiv(div);
+    }
+  }, []);
+
+  useLEDScrollbar(
+    centerCellPos.y,
+    centerCellPos.y + centerCellPos.height - 1,
+    centerCellPos.x + centerCellPos.width + 1,
+    scrollDiv
+  );
 
   useEffect(() => {
     if (gridDim) {
@@ -115,7 +131,10 @@ export default function Home() {
             {...centerCellPos}
             key={aboutMode}
           >
-            <div className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar">
+            <div
+              ref={handleScrollDivChange}
+              className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar"
+            >
               <Markdown>
                 {aboutPageData && aboutPageData.data.attributes[aboutMode]}
               </Markdown>

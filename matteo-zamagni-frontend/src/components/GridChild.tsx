@@ -3,7 +3,12 @@
 // Grid positions are 0 indexed
 
 import { Dim2D, Pos2D } from "@/types/global";
-import { HTMLAttributes, PropsWithChildren, useMemo } from "react";
+import {
+  HTMLAttributes,
+  PropsWithChildren,
+  RefAttributes,
+  useMemo,
+} from "react";
 
 type GridChildProps = {
   x: number;
@@ -15,6 +20,7 @@ type GridChildProps = {
   innerGridWidth?: number;
   innerGridHeight?: number;
   isGrid?: boolean;
+  ref?: RefAttributes<HTMLDivElement>["ref"];
 } & HTMLAttributes<HTMLDivElement>;
 
 export const getAbsGridCoords = (
@@ -57,6 +63,7 @@ export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
   innerGridHeight,
   isGrid = true,
   style,
+  ref,
   ...divProps
 }) => {
   const position = useMemo(() => {
@@ -98,6 +105,7 @@ export const GridChild: React.FC<PropsWithChildren<GridChildProps>> = ({
           }, minmax(0, 1fr))`,
           ...style,
         }}
+        ref={ref || null}
         {...divProps}
       >
         {children}

@@ -10,8 +10,7 @@ export const useLEDScrollbar = (
   rowStart: number,
   rowEnd: number,
   column: number,
-  element: MutableRefObject<HTMLDivElement | null>,
-  isActive: boolean
+  element: HTMLDivElement | null
 ) => {
   const dispatch = useGlobalContextDispatch();
   const { grid } = useGlobalContext();
@@ -21,14 +20,13 @@ export const useLEDScrollbar = (
   const scrollHandler = useCallback(() => {
     const numLEDs = rowEnd - rowStart;
     if (
-      element.current &&
-      element.current.scrollHeight &&
-      element.current.scrollHeight !== element.current.offsetHeight
+      element &&
+      element.scrollHeight &&
+      element.scrollHeight !== element.offsetHeight
     ) {
       const litLED =
         Math.floor(
-          (element.current.scrollTop /
-            (element.current.scrollHeight - element.current.offsetHeight)) *
+          (element.scrollTop / (element.scrollHeight - element.offsetHeight)) *
             numLEDs
         ) + rowStart;
       setLitPixelRow(litLED);
@@ -62,16 +60,17 @@ export const useLEDScrollbar = (
   ]);
 
   useEffect(() => {
-    const div = element.current;
-    if (div && isActive) {
-      div.addEventListener("scroll", scrollHandler);
+    if (element) {
+      console.log("attatching");
+      element.addEventListener("scroll", scrollHandler);
       scrollHandler();
     }
 
     return () => {
-      if (div) {
-        div.removeEventListener("scroll", scrollHandler);
+      if (element) {
+        console.log("removing");
+        element.removeEventListener("scroll", scrollHandler);
       }
     };
-  }, [element, scrollHandler, isActive]);
+  }, [element, scrollHandler]);
 };
