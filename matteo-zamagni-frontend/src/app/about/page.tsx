@@ -139,7 +139,7 @@ export default function Home() {
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
           }}
         >
-          <div className="col-span-full row-span-1 flex items-start border-black border-b-[1px]">
+          <div className="col-span-full row-span-1 flex items-start border-black border-b-[1px] text-black">
             <p className="text-[12px]">navigation</p>
           </div>
           <div
@@ -153,7 +153,7 @@ export default function Home() {
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.BIO ? "text-black" : "text-white"
+                    aboutMode === AboutMode.BIO ? "text-white" : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.BIO);
@@ -163,7 +163,7 @@ export default function Home() {
                 </button>
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.AWARDS ? "text-black" : "text-white"
+                    aboutMode === AboutMode.AWARDS ? "text-white" : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.AWARDS);
@@ -174,8 +174,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.RESIDENCIES
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.RESIDENCIES);
@@ -186,8 +186,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.PERFORMANCES
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.PERFORMANCES);
@@ -198,8 +198,8 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.SCREENINGS
-                      ? "text-black"
-                      : "text-white"
+                      ? "text-white"
+                      : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.SCREENINGS);
@@ -209,7 +209,7 @@ export default function Home() {
                 </button>
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.TALKS ? "text-black" : "text-white"
+                    aboutMode === AboutMode.TALKS ? "text-white" : "text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.TALKS);
