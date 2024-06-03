@@ -26,6 +26,8 @@ import {
   HomepageItemTypeIconMap,
   homepageItemArray,
 } from "../page";
+import Link from "next/link";
+import { parseTagsString } from "@/helpers/parseTagsString";
 
 enum WorkIndexType {
   INSTALLATION = "Installation",
@@ -153,69 +155,74 @@ export default function Index() {
                   y={index}
                   height={1}
                   width={1}
-                  className="flex items-center justify-center px-16"
+                  className="w-full h-full"
                   isGrid={false}
                 >
-                  <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                    <>
-                      {homepageItemArray.map((type) => {
-                        if (item.type === type) {
-                          const Icon = HomepageItemTypeIconMap[type];
-                          return (
-                            <Icon
-                              key={`${item.title}-type`}
-                              strokeWidth={8}
-                              className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                selectedType === type
-                                  ? "stroke-highlight"
-                                  : "stroke-white"
-                              }`}
-                            />
-                          );
-                        }
-                      })}
-                    </>
-                    {item.tags
-                      .split(",")
-                      .map((item) => item.trim())
-                      .map((tag, index) => {
-                        if (
-                          WorkIndexTypeIcon[
-                            tag as keyof typeof WorkIndexTypeIcon
-                          ]
-                        ) {
-                          const Icon =
-                            WorkIndexTypeIcon[
-                              tag as keyof typeof WorkIndexTypeIcon
-                            ];
-                          return (
-                            index < 2 && (
+                  <Link
+                    href={`/project/${item.slug}`}
+                    className="w-fit h-full flex items-center justify-center hover-glow-light"
+                  >
+                    <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                      <>
+                        {homepageItemArray.map((type) => {
+                          if (item.type === type) {
+                            const Icon = HomepageItemTypeIconMap[type];
+                            return (
                               <Icon
-                                key={tag}
+                                key={`${item.title}-type`}
                                 strokeWidth={8}
                                 className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                  selectedType === tag
+                                  selectedType === type
                                     ? "stroke-highlight"
                                     : "stroke-white"
                                 }`}
                               />
-                            )
-                          );
-                        }
-                      })}
-                  </div>
-                  <div className="w-full">
-                    <p
-                      className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                        selectedType &&
-                        item.tags.slice(0, 3).includes(selectedType)
-                          ? "text-highlight"
-                          : "text-black"
-                      }`}
-                    >
-                      {item.title.toUpperCase()}
-                    </p>
-                  </div>
+                            );
+                          }
+                        })}
+                      </>
+                      {item.tags
+                        .split(",")
+                        .map((item) => item.trim())
+                        .map((tag, index) => {
+                          if (
+                            WorkIndexTypeIcon[
+                              tag as keyof typeof WorkIndexTypeIcon
+                            ]
+                          ) {
+                            const Icon =
+                              WorkIndexTypeIcon[
+                                tag as keyof typeof WorkIndexTypeIcon
+                              ];
+                            return (
+                              index < 2 && (
+                                <Icon
+                                  key={tag}
+                                  strokeWidth={8}
+                                  className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                    selectedType === tag
+                                      ? "stroke-highlight"
+                                      : "stroke-white"
+                                  }`}
+                                />
+                              )
+                            );
+                          }
+                        })}
+                    </div>
+                    <div className="w-full">
+                      <p
+                        className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                          selectedType &&
+                          parseTagsString(item.tags).includes(selectedType)
+                            ? "text-highlight"
+                            : "text-black"
+                        }`}
+                      >
+                        {item.title.toUpperCase()}
+                      </p>
+                    </div>
+                  </Link>
                 </GridChild>
               );
             })}
