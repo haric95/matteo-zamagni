@@ -366,18 +366,22 @@ export default function Project({ params }: { params: { slug: string } }) {
                 >
                   images
                 </button>
-                <button
-                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
-                    projectMode === ProjectMode.VIDEO
-                      ? "text-white"
-                      : "text-textInactive"
-                  }`}
-                  onClick={() => {
-                    handleChangeProjectMode(ProjectMode.VIDEO);
-                  }}
-                >
-                  video
-                </button>
+                {projectItem?.attributes.videoURL ? (
+                  <button
+                    className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
+                      projectMode === ProjectMode.VIDEO
+                        ? "text-white"
+                        : "text-textInactive"
+                    }`}
+                    onClick={() => {
+                      handleChangeProjectMode(ProjectMode.VIDEO);
+                    }}
+                  >
+                    video
+                  </button>
+                ) : (
+                  <div className="h-[18px]" />
+                )}
               </div>
             </div>
           </div>
