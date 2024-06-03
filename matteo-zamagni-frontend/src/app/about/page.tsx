@@ -1,5 +1,6 @@
 "use client";
 import { FooterRight } from "@/components/FooterRight";
+import { MotionGridChild } from "@/components/MotionGridChild";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
@@ -9,7 +10,7 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid } from "@/types/global";
+import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
@@ -52,8 +53,7 @@ export default function Home() {
   const [ledIsSet, setLedIsSet] = useState(false);
 
   const { shouldMount } = useTheme({ isDark: false });
-
-  const centerCellPos = useMemo(() => {
+  const centerCellPos = useMemo<PosAndDim2D>(() => {
     const width =
       Math.floor(gridDim.x * 0.5 * CENTER_CELL_WIDTH_PROPOPRTION) * 2;
     const height =
@@ -62,10 +62,10 @@ export default function Home() {
     const yCenterOffest = Math.floor(gridDim.y * CENTER_CELL_OFFSET_PROPORTION);
 
     return {
-      colStart: 1 + gridDim.x / 2 - width / 2,
-      colEnd: 1 + gridDim.x / 2 + width / 2,
-      rowStart: 1 + gridDim.y / 2 + yCenterOffest - height / 2,
-      rowEnd: 1 + gridDim.y / 2 + yCenterOffest + height / 2,
+      x: 1 + gridDim.x / 2 - width / 2,
+      y: 1 + 1 + gridDim.y / 2 + yCenterOffest - height / 2,
+      width,
+      height,
     };
   }, [gridDim]);
 
@@ -80,13 +80,13 @@ export default function Home() {
       drawVerticalLine(
         grid,
         // grid is 0 indexed and we want to highlight the column on the outside of the box
-        centerCellPos.colStart - 2,
-        centerCellPos.rowStart - 1,
-        centerCellPos.rowEnd - 1
+        centerCellPos.x - 1,
+        centerCellPos.y,
+        centerCellPos.y + centerCellPos.height
       ),
-      centerCellPos.colEnd - 1,
-      centerCellPos.rowStart - 1,
-      centerCellPos.rowEnd - 1
+      centerCellPos.x + centerCellPos.width,
+      centerCellPos.y,
+      centerCellPos.y + centerCellPos.height
     );
     if (dispatch && !ledIsSet && shouldMount) {
       setLedIsSet(true);
@@ -106,18 +106,13 @@ export default function Home() {
   return (
     <>
       <AnimatePresence>
-        {shouldMount && (
-          <motion.div
+        {shouldMount && centerCellPos && (
+          <MotionGridChild
+            isGrid={false}
+            {...centerCellPos}
             {...DEFAULT_ANIMATE_MODE}
             className="bg-background_Light"
-            style={{
-              gridColumnStart: centerCellPos.colStart,
-              gridColumnEnd: centerCellPos.colEnd,
-              gridRowStart: centerCellPos.rowStart,
-              gridRowEnd: centerCellPos.rowEnd,
-              // gridTemplateColumns: `repeat(${SIDE_HEADER_CELL_WIDTH}, minmax(0, 1fr))`,
-              // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
-            }}
+            {...centerCellPos}
             key={aboutMode}
           >
             <div className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar">
@@ -125,7 +120,7 @@ export default function Home() {
                 {aboutPageData && aboutPageData.data.attributes[aboutMode]}
               </Markdown>
             </div>
-          </motion.div>
+          </MotionGridChild>
         )}
       </AnimatePresence>
       <FooterRight
