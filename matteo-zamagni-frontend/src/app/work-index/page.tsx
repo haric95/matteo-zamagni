@@ -210,7 +210,7 @@ export default function Index() {
                         selectedType &&
                         item.tags.slice(0, 3).includes(selectedType)
                           ? "text-highlight"
-                          : "text-white"
+                          : "text-black"
                       }`}
                     >
                       {item.title.toUpperCase()}
@@ -292,7 +292,7 @@ export default function Index() {
         isMounted={shouldMount}
       >
         <div
-          className="grid col-span-full row-span-full  "
+          className="grid col-span-full row-span-full text-black"
           style={{
             gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
