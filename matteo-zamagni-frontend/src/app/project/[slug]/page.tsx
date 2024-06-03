@@ -78,6 +78,9 @@ export default function Project({ params }: { params: { slug: string } }) {
   );
   const [ledIsSet, setLedIsSet] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
+    null
+  );
 
   useEffect(() => {
     if (projectItem) {
@@ -105,13 +108,17 @@ export default function Project({ params }: { params: { slug: string } }) {
     };
   }, [gridDim]);
 
-  const textElementRef = useRef<HTMLDivElement | null>(null);
+  const handleChangeTextElement = useCallback((div: HTMLDivElement | null) => {
+    if (HTMLDivElement) {
+      setScrollElement(div);
+    }
+  }, []);
+
   useLEDScrollbar(
     textCenterCellPos.y,
     textCenterCellPos.y + textCenterCellPos.height - 1,
     textCenterCellPos.x + textCenterCellPos.width + 1,
-    textElementRef,
-    projectMode === ProjectMode.TEXT
+    scrollElement
   );
 
   const updateLEDs = useCallback(
@@ -222,7 +229,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         {projectMode === ProjectMode.TEXT && (
           <GridChild className="" {...textCenterCellPos} isGrid={false}>
             <motion.div
-              ref={textElementRef}
+              ref={handleChangeTextElement}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0, transition: { delay: 0 } }}
               animate={{ opacity: 1 }}

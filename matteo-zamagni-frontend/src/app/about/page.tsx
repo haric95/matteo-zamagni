@@ -72,7 +72,7 @@ export default function Home() {
     };
   }, [gridDim]);
 
-  const handleScrollDivChange = useCallback((div: HTMLDivElement) => {
+  const handleScrollDivChange = useCallback((div: HTMLDivElement | null) => {
     if (div) {
       setScrollDiv(div);
     }
