@@ -118,6 +118,7 @@ export default function Home() {
               // gridTemplateColumns: `repeat(${SIDE_HEADER_CELL_WIDTH}, minmax(0, 1fr))`,
               // gridTemplateRows: `repeat(${HEADER_UPPER_HEIGHT}, minmax(0, 1fr))`,
             }}
+            key={aboutMode}
           >
             <div className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar">
               <Markdown>
