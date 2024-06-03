@@ -22,6 +22,8 @@ const config: Config = {
       colors: {
         background_Dark: "#000000",
         background_Light: "#A6A7A7",
+        text_Dark: "#ffffff",
+        text_Light: "#000000",
         ledInactive_Dark: "#333333",
         ledActive_Dark: "#ABABAB",
         ledInactive_Light: "#C5C4C4",

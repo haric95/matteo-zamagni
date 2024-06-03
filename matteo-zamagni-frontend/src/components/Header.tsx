@@ -1,8 +1,7 @@
 import { useGlobalContext } from "@/state/GlobalStore";
 import { Dim2D } from "@/types/global";
 import Link from "next/link";
-import React, { ReactElement } from "react";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import { HeaderDateScroller } from "./HeaderDateScroller";
 import { Logo } from "./Icons";
 
@@ -53,7 +52,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           >
             <Link
               href="/about"
-              className="w-full bg-background_Light dark:bg-background_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
+              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-text_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
             >
               about
             </Link>
@@ -76,7 +75,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
                 <Logo
                   height={96}
                   width={96}
-                  className="logo-hover-glow hover:scale-105 transition-all duration-1000"
+                  className="logo-hover-glow hover:scale-105 transition-all duration-1000 fill-black dark:fill-white"
                 />
               </div>
             </Link>
@@ -92,7 +91,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           >
             <Link
               href="/work-index"
-              className="w-full bg-background_Light dark:bg-background_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
+              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-text_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
             >
               index
             </Link>
