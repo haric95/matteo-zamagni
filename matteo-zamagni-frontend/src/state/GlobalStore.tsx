@@ -19,6 +19,7 @@ type GlobalState = {
   selectedYear: null | string;
   hasLoaded: boolean;
   isThemeTransitioning: boolean;
+  creditsIsOpen: boolean;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -30,6 +31,7 @@ const initialGlobalState: GlobalState = {
   selectedYear: null,
   hasLoaded: false,
   isThemeTransitioning: false,
+  creditsIsOpen: false,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -72,6 +74,8 @@ type GlobalAction =
   | { type: "SET_SELECTED_YEAR"; year: GlobalState["selectedYear"] }
   | { type: "START_THEME_TRANSITION" }
   | { type: "END_THEME_TRANSITION" }
+  | { type: "OPEN_CREDITS" }
+  | { type: "CLOSE_CREDITS" }
   | { type: "SET_LOADED" };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
@@ -115,6 +119,12 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
     }
     case "END_THEME_TRANSITION": {
       return { ...globalState, isThemeTransitioning: false };
+    }
+    case "OPEN_CREDITS": {
+      return { ...globalState, creditsIsOpen: true };
+    }
+    case "CLOSE_CREDITS": {
+      return { ...globalState, creditsIsOpen: false };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));

@@ -1,6 +1,9 @@
-import { useGlobalContext } from "@/state/GlobalStore";
+import {
+  useGlobalContext,
+  useGlobalContextDispatch,
+} from "@/state/GlobalStore";
 import { Dim2D } from "@/types/global";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useCallback } from "react";
 
 const FOOTER_LEFT_HEIGHT = 3;
 const FOOTER_LEFT_WIDTH = 1;
@@ -9,12 +12,19 @@ const FOOTER_LEFT_OFFSET_Y = 2;
 
 export const FooterLeft: React.FC<PropsWithChildren> = () => {
   const { gridDim } = useGlobalContext() as { gridDim: Dim2D };
+  const dispatch = useGlobalContextDispatch();
+
+  const handleOpenCredits = useCallback(() => {
+    if (dispatch) {
+      dispatch({ type: "OPEN_CREDITS" });
+    }
+  }, [dispatch]);
 
   return (
     <>
       {/* Footer Left */}
       <footer
-        className="grid bg-background_Light dark:bg-background_Dark transition-all duration-500"
+        className="grid bg-background_Light dark:bg-background_Dark transition-all duration-500 z-10"
         style={{
           gridColumnStart: FOOTER_LEFT_OFFSET_X + 1,
           gridColumnEnd: FOOTER_LEFT_OFFSET_X + 1 + FOOTER_LEFT_WIDTH,
@@ -44,9 +54,12 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
         >
           VM
         </a>
-        <div className="row-span-1 flex justify-center items-center text-[24px]">
+        <button
+          onClick={handleOpenCredits}
+          className="row-span-1 flex justify-center items-center text-[24px]"
+        >
           ©
-        </div>
+        </button>
       </footer>
     </>
   );
