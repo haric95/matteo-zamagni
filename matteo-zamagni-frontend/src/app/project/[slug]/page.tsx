@@ -114,10 +114,10 @@ export default function Project({ params }: { params: { slug: string } }) {
   }, [gridDim]);
 
   const titleCellPos = useMemo(() => {
-    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 2;
+    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
     const height = 4;
     return {
-      x: 1,
+      x: 2,
       y: gridDim.y / 2 - height / 2,
       width,
       height,
@@ -125,10 +125,10 @@ export default function Project({ params }: { params: { slug: string } }) {
   }, [gridDim, textCenterCellPos]);
 
   const tagsCellPos = useMemo(() => {
-    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
+    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 6;
     const height = 4;
     return {
-      x: textCenterCellPos.x + textCenterCellPos.width + 2,
+      x: textCenterCellPos.x + textCenterCellPos.width + 3,
       y: gridDim.y / 2 - height / 2,
       width,
       height,
