@@ -25,7 +25,12 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { HomepageItemType, Pos2D } from "@/types/global";
+import {
+  HomepageData,
+  HomepageItem,
+  HomepageItemType,
+  Pos2D,
+} from "@/types/global";
 import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
@@ -35,20 +40,6 @@ import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
-
-type HomepageItem = {
-  position: { x: number; y: number };
-  type: HomepageItemType;
-  title: string;
-  year: string;
-  image: StrapiImageResponse;
-  slug: string;
-  tags: string;
-};
-
-type HomepageData = {
-  items: HomepageItem[];
-};
 
 const QUADRANT_PADDING = { x: 2, y: 2 };
 

@@ -10,7 +10,7 @@ import {
   getCirclePoints,
   lightPixels,
 } from "@/helpers/gridHelpers";
-import { useGridLineAnimation } from "@/hooks/useGridAnimation";
+import { parseTagsString } from "@/helpers/parseTagsString";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
@@ -19,14 +19,13 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
+import { Dim2D, Grid, HomepageData, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
-const SIDE_CELL_WIDTH_PROPORTION = 0.2;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
 
@@ -37,6 +36,7 @@ enum ProjectMode {
 }
 
 type ProjectPageData = {
+  title: string;
   slug: string;
   text?: string;
   images: {
@@ -55,6 +55,12 @@ export default function Project({ params }: { params: { slug: string } }) {
     populate: "deep",
   });
   const projectItem = projectData?.data[0];
+  const homepageData = useStrapi<HomepageData, false>("/homepage", {
+    populate: "deep",
+  });
+  const homepageItem = homepageData?.data.attributes.items.find(
+    (homepageItem) => homepageItem.slug === params.slug
+  );
 
   usePrefetchImages(
     projectItem?.attributes.images.map(
@@ -108,15 +114,26 @@ export default function Project({ params }: { params: { slug: string } }) {
   }, [gridDim]);
 
   const titleCellPos = useMemo(() => {
-    const width = Math.floor(gridDim.x * 0.5 * SIDE_CELL_WIDTH_PROPORTION) * 2;
-    // const x = Math.floor();
-
+    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 2;
+    const height = 4;
     return {
-      x: 0,
-      y: 0,
+      x: 1,
+      y: gridDim.y / 2 - height / 2,
       width,
+      height,
     };
-  }, [gridDim]);
+  }, [gridDim, textCenterCellPos]);
+
+  const tagsCellPos = useMemo(() => {
+    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
+    const height = 4;
+    return {
+      x: textCenterCellPos.x + textCenterCellPos.width + 2,
+      y: gridDim.y / 2 - height / 2,
+      width,
+      height,
+    };
+  }, [gridDim, textCenterCellPos]);
 
   const handleChangeTextElement = useCallback((div: HTMLDivElement | null) => {
     if (HTMLDivElement) {
@@ -239,10 +256,16 @@ export default function Project({ params }: { params: { slug: string } }) {
         {projectMode === ProjectMode.TEXT && (
           <>
             <GridChild
-              className="bg-yellow-500"
+              className="flex justify-center items-center bg-black"
               {...titleCellPos}
-              height={gridDim.y}
-            ></GridChild>
+              isGrid={false}
+            >
+              <div className="w-full text-center w-full flex justify-center">
+                <h2 className="w-fit text-lg p-4">
+                  {projectItem?.attributes.title}
+                </h2>
+              </div>
+            </GridChild>
             <GridChild className="" {...textCenterCellPos} isGrid={false}>
               <motion.div
                 ref={handleChangeTextElement}
@@ -256,6 +279,22 @@ export default function Project({ params }: { params: { slug: string } }) {
               >
                 <Markdown>{projectItem?.attributes.text}</Markdown>
               </motion.div>
+            </GridChild>
+            <GridChild
+              isGrid={false}
+              className="flex justify-center items-center bg-black"
+              {...tagsCellPos}
+            >
+              <div className="w-full text-center p-8 w-full flex justify-center">
+                <div className="w-fit text-lg p-4">
+                  {homepageItem &&
+                    parseTagsString(homepageItem?.tags).map((tag) => (
+                      <h2 key={tag} className="w-fit bg-black text-lg">
+                        {tag}
+                      </h2>
+                    ))}
+                </div>
+              </div>
             </GridChild>
           </>
         )}
