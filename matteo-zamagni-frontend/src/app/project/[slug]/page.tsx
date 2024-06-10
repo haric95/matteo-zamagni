@@ -73,9 +73,7 @@ export default function Project({ params }: { params: { slug: string } }) {
   };
   const dispatch = useGlobalContextDispatch();
 
-  const [projectMode, setProjectMode] = useState<ProjectMode | null>(
-    ProjectMode.TEXT
-  );
+  const [projectMode, setProjectMode] = useState<ProjectMode | null>(null);
   const [ledIsSet, setLedIsSet] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
