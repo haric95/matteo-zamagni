@@ -26,6 +26,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
+const SIDE_CELL_WIDTH_PROPORTION = 0.2;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
 const CENTER_CELL_OFFSET_PROPORTION = 0.05;
 
@@ -103,6 +104,17 @@ export default function Project({ params }: { params: { slug: string } }) {
       y: 1 + gridDim.y / 2 + yCenterOffest - height / 2,
       width,
       height,
+    };
+  }, [gridDim]);
+
+  const titleCellPos = useMemo(() => {
+    const width = Math.floor(gridDim.x * 0.5 * SIDE_CELL_WIDTH_PROPORTION) * 2;
+    // const x = Math.floor();
+
+    return {
+      x: 0,
+      y: 0,
+      width,
     };
   }, [gridDim]);
 
@@ -225,20 +237,27 @@ export default function Project({ params }: { params: { slug: string } }) {
       {/* Text View */}
       <AnimatePresence>
         {projectMode === ProjectMode.TEXT && (
-          <GridChild className="" {...textCenterCellPos} isGrid={false}>
-            <motion.div
-              ref={handleChangeTextElement}
-              initial={{ opacity: 0 }}
-              exit={{ opacity: 0, transition: { delay: 0 } }}
-              animate={{ opacity: 1 }}
-              transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
-              key={projectMode}
-              style={{ whiteSpace: "break-spaces" }}
-              className="w-full h-full overflow-auto bg-black no-scrollbar"
-            >
-              <Markdown>{projectItem?.attributes.text}</Markdown>
-            </motion.div>
-          </GridChild>
+          <>
+            <GridChild
+              className="bg-yellow-500"
+              {...titleCellPos}
+              height={gridDim.y}
+            ></GridChild>
+            <GridChild className="" {...textCenterCellPos} isGrid={false}>
+              <motion.div
+                ref={handleChangeTextElement}
+                initial={{ opacity: 0 }}
+                exit={{ opacity: 0, transition: { delay: 0 } }}
+                animate={{ opacity: 1 }}
+                transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
+                key={projectMode}
+                style={{ whiteSpace: "break-spaces" }}
+                className="w-full h-full overflow-auto bg-black no-scrollbar"
+              >
+                <Markdown>{projectItem?.attributes.text}</Markdown>
+              </motion.div>
+            </GridChild>
+          </>
         )}
       </AnimatePresence>
       {/* Image View */}

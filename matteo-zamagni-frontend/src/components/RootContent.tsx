@@ -24,7 +24,6 @@ export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
   useUpdateScreenDim();
   useSetDarkThemeClass();
 
-  const { creditsIsOpen } = useGlobalContext();
   const dispatch = useGlobalContextDispatch();
 
   const handleCloseCredits = useCallback(() => {
@@ -41,9 +40,7 @@ export const RootContent: React.FC<PropsWithChildren> = ({ children }) => {
             <Header />
             <PageAnimatePresence>
               {children}
-              {creditsIsOpen && (
-                <CreditsViewer handleClose={handleCloseCredits} />
-              )}
+              <CreditsViewer handleClose={handleCloseCredits} />
             </PageAnimatePresence>
             <FooterLeft />
           </WaitForGridLoad>
