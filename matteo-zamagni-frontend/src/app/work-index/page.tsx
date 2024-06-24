@@ -67,9 +67,10 @@ export default function Index() {
     populate: "deep",
   });
 
-  const { gridDim } = useGlobalContext() as {
+  const { gridDim, cellSize } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
+    cellSize: Dim2D;
   };
 
   const dispatch = useGlobalContextDispatch();
@@ -103,14 +104,15 @@ export default function Index() {
 
   const splitIndexItems = useMemo(() => {
     if (indexData && centerContainerVals) {
-      const leftIndexItems = indexData.data.attributes.items.slice(
-        0,
-        centerContainerVals.height
-      );
-      const rightIndexItems = indexData.data.attributes.items.slice(
-        centerContainerVals.height,
-        centerContainerVals.height * 2
-      );
+      const leftIndexItems: IndexItem[] = [];
+      const rightIndexItems: IndexItem[] = [];
+      indexData.data.attributes.items.forEach((item, index) => {
+        if (index % 2 === 0) {
+          leftIndexItems.push(item);
+        } else {
+          rightIndexItems.push(item);
+        }
+      });
       return { leftIndexItems, rightIndexItems };
     }
     return null;
@@ -139,181 +141,169 @@ export default function Index() {
           <GridChild
             x={0}
             y={0}
-            width={centerContainerVals.width / 2}
-            innerGridWidth={1}
+            width={centerContainerVals.width}
             height={centerContainerVals.height}
+            isGrid={false}
+            className="overflow-y-scroll flex"
           >
-            {splitIndexItems.leftIndexItems.map((item, index) => {
-              return (
-                <GridChild
-                  key={item.title}
-                  x={0}
-                  y={index}
-                  height={1}
-                  width={1}
-                  className="w-full h-full"
-                  isGrid={false}
-                >
-                  <Link
-                    href={`/project/${item.slug}`}
-                    className="w-fit h-full flex items-center justify-center hover-glow-light"
+            <div className="w-1/2 h-full flex flex-col">
+              {[...splitIndexItems.leftIndexItems].map((item, index) => {
+                return (
+                  <div
+                    key={item.title}
+                    style={{ height: cellSize.y }}
+                    className="w-full"
                   >
-                    <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                      <>
-                        {homepageItemArray.map((type) => {
-                          if (item.type === type) {
-                            const Icon = HomepageItemTypeIconMap[type];
-                            return (
-                              <Icon
-                                key={`${item.title}-type`}
-                                strokeWidth={8}
-                                className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                  selectedType === type
-                                    ? "stroke-highlight"
-                                    : "stroke-white"
-                                }`}
-                              />
-                            );
-                          }
-                        })}
-                      </>
-                      {item.tags
-                        .split(",")
-                        .map((item) => item.trim())
-                        .map((tag, index) => {
-                          if (
-                            WorkIndexTypeIcon[
-                              tag as keyof typeof WorkIndexTypeIcon
-                            ]
-                          ) {
-                            const Icon =
-                              WorkIndexTypeIcon[
-                                tag as keyof typeof WorkIndexTypeIcon
-                              ];
-                            return (
-                              index < 2 && (
+                    <Link
+                      href={`/project/${item.slug}`}
+                      className="w-fit h-full flex items-center justify-center hover-glow-light"
+                    >
+                      <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                        <>
+                          {homepageItemArray.map((type) => {
+                            if (item.type === type) {
+                              const Icon = HomepageItemTypeIconMap[type];
+                              return (
                                 <Icon
-                                  key={tag}
+                                  key={`${item.title}-type`}
                                   strokeWidth={8}
                                   className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                    selectedType === tag
+                                    selectedType === type
                                       ? "stroke-highlight"
                                       : "stroke-white"
                                   }`}
                                 />
-                              )
-                            );
-                          }
-                        })}
-                    </div>
-                    <div className="w-full">
-                      <p
-                        className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                          selectedType &&
-                          [...parseTagsString(item.tags), item.type].includes(
-                            selectedType
-                          )
-                            ? "text-white"
-                            : "text-black"
-                        }`}
-                      >
-                        {item.title.toUpperCase()}
-                      </p>
-                    </div>
-                  </Link>
-                </GridChild>
-              );
-            })}
-          </GridChild>
-          <GridChild
-            x={centerContainerVals.width / 2}
-            y={0}
-            width={centerContainerVals.width / 2}
-            innerGridWidth={1}
-            height={centerContainerVals.height}
-          >
-            {splitIndexItems.rightIndexItems.map((item, index) => {
-              return (
-                <GridChild
-                  key={item.title}
-                  x={0}
-                  y={index}
-                  height={1}
-                  width={1}
-                  className="w-full h-full"
-                  isGrid={false}
-                >
-                  <Link
-                    href={`/project/${item.slug}`}
-                    className="w-fit h-full flex items-center justify-center hover-glow-light"
-                  >
-                    <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                      <>
-                        {homepageItemArray.map((type) => {
-                          if (item.type === type) {
-                            const Icon = HomepageItemTypeIconMap[type];
-                            return (
-                              <Icon
-                                key={`${item.title}-type`}
-                                strokeWidth={8}
-                                className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                  selectedType === type
-                                    ? "stroke-highlight"
-                                    : "stroke-white"
-                                }`}
-                              />
-                            );
-                          }
-                        })}
-                      </>
-                      {item.tags
-                        .split(",")
-                        .map((item) => item.trim())
-                        .map((tag, index) => {
-                          if (
-                            WorkIndexTypeIcon[
-                              tag as keyof typeof WorkIndexTypeIcon
-                            ]
-                          ) {
-                            const Icon =
+                              );
+                            }
+                          })}
+                        </>
+                        {item.tags
+                          .split(",")
+                          .map((item) => item.trim())
+                          .map((tag, index) => {
+                            if (
                               WorkIndexTypeIcon[
                                 tag as keyof typeof WorkIndexTypeIcon
-                              ];
-                            return (
-                              index < 2 && (
+                              ]
+                            ) {
+                              const Icon =
+                                WorkIndexTypeIcon[
+                                  tag as keyof typeof WorkIndexTypeIcon
+                                ];
+                              return (
+                                index < 2 && (
+                                  <Icon
+                                    key={tag}
+                                    strokeWidth={8}
+                                    className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                      selectedType === tag
+                                        ? "stroke-highlight"
+                                        : "stroke-white"
+                                    }`}
+                                  />
+                                )
+                              );
+                            }
+                          })}
+                      </div>
+                      <div className="w-full">
+                        <p
+                          className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                            selectedType &&
+                            [...parseTagsString(item.tags), item.type].includes(
+                              selectedType
+                            )
+                              ? "text-white"
+                              : "text-black"
+                          }`}
+                        >
+                          {item.title.toUpperCase()}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="w-1/2 h-full flex flex-col flex-wrap">
+              {[...splitIndexItems.rightIndexItems].map((item, index) => {
+                return (
+                  <div
+                    key={item.title}
+                    style={{ height: cellSize.y }}
+                    className="w-[50%]"
+                  >
+                    <Link
+                      href={`/project/${item.slug}`}
+                      className="w-fit h-full flex items-center justify-center hover-glow-light"
+                    >
+                      <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                        <>
+                          {homepageItemArray.map((type) => {
+                            if (item.type === type) {
+                              const Icon = HomepageItemTypeIconMap[type];
+                              return (
                                 <Icon
-                                  key={tag}
+                                  key={`${item.title}-type`}
                                   strokeWidth={8}
                                   className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                    selectedType === tag
+                                    selectedType === type
                                       ? "stroke-highlight"
                                       : "stroke-white"
                                   }`}
                                 />
-                              )
-                            );
-                          }
-                        })}
-                    </div>
-                    <div className="w-full">
-                      <p
-                        className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                          selectedType &&
-                          [
-                            ...parseTagsString(item.tags),
-                            ...homepageItemArray,
-                          ].includes(selectedType)
-                            ? "text-white"
-                            : "text-black"
-                        }`}
-                      >
-                        {item.title.toUpperCase()}
-                      </p>
-                    </div>
-                  </Link>
-                </GridChild>
-              );
-            })}
+                              );
+                            }
+                          })}
+                        </>
+                        {item.tags
+                          .split(",")
+                          .map((item) => item.trim())
+                          .map((tag, index) => {
+                            if (
+                              WorkIndexTypeIcon[
+                                tag as keyof typeof WorkIndexTypeIcon
+                              ]
+                            ) {
+                              const Icon =
+                                WorkIndexTypeIcon[
+                                  tag as keyof typeof WorkIndexTypeIcon
+                                ];
+                              return (
+                                index < 2 && (
+                                  <Icon
+                                    key={tag}
+                                    strokeWidth={8}
+                                    className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                      selectedType === tag
+                                        ? "stroke-highlight"
+                                        : "stroke-white"
+                                    }`}
+                                  />
+                                )
+                              );
+                            }
+                          })}
+                      </div>
+                      <div className="w-full">
+                        <p
+                          className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                            selectedType &&
+                            [...parseTagsString(item.tags), item.type].includes(
+                              selectedType
+                            )
+                              ? "text-white"
+                              : "text-black"
+                          }`}
+                        >
+                          {item.title.toUpperCase()}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
           </GridChild>
         </MotionGridChild>
       )}
