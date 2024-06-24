@@ -1,14 +1,15 @@
 //@ts-nocheck
 // TSIGNORED due to out of date typings in keen-slider library
 
-import React, { useState } from "react";
-import { useKeenSlider } from "keen-slider/react";
 import { Cross } from "@/components/Icons";
-import "keen-slider/keen-slider.min.css";
-import "./HeaderDateScroller.css";
+import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { useGlobalContextDispatch } from "@/state/GlobalStore";
 import { AnimatePresence, motion } from "framer-motion";
-import { DEFAULT_ANIMATE_MODE } from "@/const";
+import "keen-slider/keen-slider.min.css";
+import { useKeenSlider } from "keen-slider/react";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
+import "./HeaderDateScroller.css";
 
 const YEARS = [
   "0000",
@@ -31,6 +32,7 @@ const CLONED_YEARS = new Array(MULTIPLIER).fill(YEARS).flat();
 // TODO: Resolve scroll issue that means visible overflow when reaching end of scroller wheel
 export const HeaderDateScroller = (props) => {
   const dispatch = useGlobalContextDispatch();
+  const pathname = usePathname();
   const perspective = "center";
   const wheelSize = CLONED_YEARS.length / MULTIPLIER;
   const slides = CLONED_YEARS.length;
@@ -104,7 +106,11 @@ export const HeaderDateScroller = (props) => {
   };
 
   return (
-    <div className="w-full h-full relative">
+    <div
+      className={`w-full h-full relative ${
+        pathname === "/" ? "" : "opacity-0 pointer-events-none"
+      } transition-all duration-500 delay-500	`}
+    >
       <div
         className={
           "absolute bg-background_Light dark:bg-background_Dark transition-all duration-500 font-decoration cursor-pointer wheel keen-slider wheel--perspective-" +
