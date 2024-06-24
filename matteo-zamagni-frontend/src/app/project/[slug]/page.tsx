@@ -4,6 +4,7 @@ import { GridChild } from "@/components/GridChild";
 import { ImageGallery } from "@/components/ImageGallery";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { VideoPlayer } from "@/components/VideoPlayer";
+import { DEFAULT_ANIMATE_MODE } from "@/const";
 import {
   clearGrid,
   drawVerticalLine,
@@ -24,6 +25,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
+import { TypeAnimation } from "react-type-animation";
 
 const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
 const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
@@ -260,11 +262,24 @@ export default function Project({ params }: { params: { slug: string } }) {
               {...titleCellPos}
               isGrid={false}
             >
-              <div className="w-full text-center w-full flex justify-center">
-                <h2 className="w-fit text-lg p-4">
+              <motion.div
+                {...DEFAULT_ANIMATE_MODE}
+                className="w-full text-center w-full flex justify-center"
+              >
+                {projectItem && (
+                  <TypeAnimation
+                    sequence={[projectItem?.attributes.title]}
+                    wrapper="span"
+                    speed={50}
+                    style={{ display: "inline-block" }}
+                    className="text-lg"
+                    cursor={false}
+                  />
+                )}
+                {/* <h2 className="w-fit text-lg p-4">
                   {projectItem?.attributes.title}
-                </h2>
-              </div>
+                </h2> */}
+              </motion.div>
             </GridChild>
             <GridChild className="" {...textCenterCellPos} isGrid={false}>
               <motion.div
@@ -285,16 +300,26 @@ export default function Project({ params }: { params: { slug: string } }) {
               className="flex justify-center items-center bg-black"
               {...tagsCellPos}
             >
-              <div className="w-full text-center p-8 w-full flex justify-center">
+              <motion.div
+                {...DEFAULT_ANIMATE_MODE}
+                className="w-full text-center p-8 w-full flex justify-center"
+              >
                 <div className="w-fit text-lg p-4">
                   {homepageItem &&
                     parseTagsString(homepageItem?.tags).map((tag) => (
-                      <h2 key={tag} className="w-fit bg-black text-lg">
-                        {tag}
-                      </h2>
+                      <div key={tag}>
+                        <TypeAnimation
+                          sequence={[tag]}
+                          wrapper="span"
+                          speed={50}
+                          style={{ display: "inline-block" }}
+                          className="text-lg"
+                          cursor={false}
+                        />
+                      </div>
                     ))}
                 </div>
-              </div>
+              </motion.div>
             </GridChild>
           </>
         )}
