@@ -144,7 +144,7 @@ export default function Index() {
             width={centerContainerVals.width}
             height={centerContainerVals.height}
             isGrid={false}
-            className="overflow-y-scroll flex"
+            className="overflow-y-scroll flex no-scrollbar"
           >
             <div className="w-1/2 h-full flex flex-col">
               {[...splitIndexItems.leftIndexItems].map((item, index) => {
