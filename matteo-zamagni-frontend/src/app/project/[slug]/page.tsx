@@ -253,34 +253,60 @@ export default function Project({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      {/* Text View */}
-      <AnimatePresence>
-        {projectMode === ProjectMode.TEXT && (
-          <>
-            <GridChild
-              className="flex justify-center items-center bg-black"
-              {...titleCellPos}
-              isGrid={false}
-            >
-              <motion.div
-                {...DEFAULT_ANIMATE_MODE}
-                className="w-full text-center w-full flex justify-center"
-              >
-                {projectItem && (
+      <GridChild
+        className="flex justify-center items-center bg-black"
+        {...titleCellPos}
+        isGrid={false}
+      >
+        <motion.div
+          {...DEFAULT_ANIMATE_MODE}
+          className="w-full text-center w-full flex justify-center"
+        >
+          {projectItem && (
+            <TypeAnimation
+              sequence={[projectItem?.attributes.title]}
+              wrapper="span"
+              speed={50}
+              style={{ display: "inline-block" }}
+              className="text-lg"
+              cursor={false}
+            />
+          )}
+          {/* <h2 className="w-fit text-lg p-4">
+                  {projectItem?.attributes.title}
+                </h2> */}
+        </motion.div>
+      </GridChild>
+      <GridChild
+        isGrid={false}
+        className="flex justify-center items-center bg-black"
+        {...tagsCellPos}
+      >
+        <motion.div
+          {...DEFAULT_ANIMATE_MODE}
+          className="w-full text-center p-8 w-full flex justify-center"
+        >
+          <div className="w-fit text-lg p-4">
+            {homepageItem &&
+              parseTagsString(homepageItem?.tags).map((tag) => (
+                <div key={tag}>
                   <TypeAnimation
-                    sequence={[projectItem?.attributes.title]}
+                    sequence={[tag]}
                     wrapper="span"
                     speed={50}
                     style={{ display: "inline-block" }}
                     className="text-lg"
                     cursor={false}
                   />
-                )}
-                {/* <h2 className="w-fit text-lg p-4">
-                  {projectItem?.attributes.title}
-                </h2> */}
-              </motion.div>
-            </GridChild>
+                </div>
+              ))}
+          </div>
+        </motion.div>
+      </GridChild>
+      {/* Text View */}
+      <AnimatePresence>
+        {projectMode === ProjectMode.TEXT && (
+          <>
             <GridChild className="" {...textCenterCellPos} isGrid={false}>
               <motion.div
                 ref={handleChangeTextElement}
@@ -293,32 +319,6 @@ export default function Project({ params }: { params: { slug: string } }) {
                 className="w-full h-full overflow-auto bg-black no-scrollbar"
               >
                 <Markdown>{projectItem?.attributes.text}</Markdown>
-              </motion.div>
-            </GridChild>
-            <GridChild
-              isGrid={false}
-              className="flex justify-center items-center bg-black"
-              {...tagsCellPos}
-            >
-              <motion.div
-                {...DEFAULT_ANIMATE_MODE}
-                className="w-full text-center p-8 w-full flex justify-center"
-              >
-                <div className="w-fit text-lg p-4">
-                  {homepageItem &&
-                    parseTagsString(homepageItem?.tags).map((tag) => (
-                      <div key={tag}>
-                        <TypeAnimation
-                          sequence={[tag]}
-                          wrapper="span"
-                          speed={50}
-                          style={{ display: "inline-block" }}
-                          className="text-lg"
-                          cursor={false}
-                        />
-                      </div>
-                    ))}
-                </div>
               </motion.div>
             </GridChild>
           </>
