@@ -75,7 +75,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           style={{
             // @ts-ignore
             "--swiper-pagination-color": "#FEF781",
-            "--swiper-pagination-bullet-inactive-color": "#999999",
+            "--swiper-pagination-bullet-inactive-color": "#ffffff",
             "--swiper-pagination-bullet-inactive-opacity": "1",
           }}
         >
