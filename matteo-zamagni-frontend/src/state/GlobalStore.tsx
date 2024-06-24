@@ -1,7 +1,7 @@
 "use client";
 
 import { clearGrid } from "@/helpers/gridHelpers";
-import { Dim2D, Grid } from "@/types/global";
+import { Dim2D, Grid, Pos2D } from "@/types/global";
 import {
   Dispatch,
   PropsWithChildren,
@@ -20,6 +20,7 @@ type GlobalState = {
   hasLoaded: boolean;
   isThemeTransitioning: boolean;
   creditsIsOpen: boolean;
+  cellSize: Dim2D | null;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -32,6 +33,7 @@ const initialGlobalState: GlobalState = {
   hasLoaded: false,
   isThemeTransitioning: false,
   creditsIsOpen: false,
+  cellSize: null,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -76,7 +78,8 @@ type GlobalAction =
   | { type: "END_THEME_TRANSITION" }
   | { type: "OPEN_CREDITS" }
   | { type: "CLOSE_CREDITS" }
-  | { type: "SET_LOADED" };
+  | { type: "SET_LOADED" }
+  | { type: "SET_CELL_SIZE"; dim: Pos2D };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
@@ -125,6 +128,9 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
     }
     case "CLOSE_CREDITS": {
       return { ...globalState, creditsIsOpen: false };
+    }
+    case "SET_CELL_SIZE": {
+      return { ...globalState, cellSize: action.dim };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));
