@@ -255,6 +255,8 @@ export default function Project({ params }: { params: { slug: string } }) {
     <>
       <MotionGridChild
         {...DEFAULT_ANIMATE_MODE}
+        transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
+        exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
         className="flex justify-center items-center bg-black"
         {...titleCellPos}
         isGrid={false}
@@ -277,6 +279,8 @@ export default function Project({ params }: { params: { slug: string } }) {
       </MotionGridChild>
       <MotionGridChild
         {...DEFAULT_ANIMATE_MODE}
+        transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
+        exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
         isGrid={false}
         className="flex justify-center items-center bg-black"
         {...tagsCellPos}
@@ -287,9 +291,9 @@ export default function Project({ params }: { params: { slug: string } }) {
               parseTagsString(homepageItem?.tags).map((tag) => (
                 <div key={tag}>
                   <TypeAnimation
-                    sequence={[tag]}
+                    sequence={[500, tag]}
                     wrapper="span"
-                    speed={50}
+                    speed={1}
                     style={{ display: "inline-block" }}
                     className="text-lg"
                     cursor={false}
