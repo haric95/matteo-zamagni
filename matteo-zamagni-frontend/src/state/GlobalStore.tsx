@@ -21,6 +21,7 @@ type GlobalState = {
   isThemeTransitioning: boolean;
   creditsIsOpen: boolean;
   cellSize: Dim2D | null;
+  mobileFooterMenuOpen: boolean;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -34,6 +35,7 @@ const initialGlobalState: GlobalState = {
   isThemeTransitioning: false,
   creditsIsOpen: false,
   cellSize: null,
+  mobileFooterMenuOpen: false,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -79,7 +81,8 @@ type GlobalAction =
   | { type: "OPEN_CREDITS" }
   | { type: "CLOSE_CREDITS" }
   | { type: "SET_LOADED" }
-  | { type: "SET_CELL_SIZE"; dim: Pos2D };
+  | { type: "SET_CELL_SIZE"; dim: Pos2D }
+  | { type: "SET_MOBILE_FOOTER_MENU"; isOpen: boolean };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
@@ -131,6 +134,9 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
     }
     case "SET_CELL_SIZE": {
       return { ...globalState, cellSize: action.dim };
+    }
+    case "SET_MOBILE_FOOTER_MENU": {
+      return { ...globalState, mobileFooterMenuOpen: action.isOpen };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));
