@@ -148,8 +148,7 @@ export default function Home() {
               className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar"
             >
               <Markdown>
-                {aboutPageData &&
-                  `${aboutMode}\n\n${aboutPageData.data.attributes[aboutMode]}`}
+                {aboutPageData && aboutPageData.data.attributes[aboutMode]}
               </Markdown>
             </div>
           </MotionGridChild>
@@ -162,7 +161,7 @@ export default function Home() {
         mobileTitleComponent={
           <div className="flex items-center">
             <TfiLayoutMenuV color="white" className="mr-1" />
-            <p>navigation</p>
+            <p>navigation - {aboutMode.toLocaleLowerCase()}</p>
           </div>
         }
       >
