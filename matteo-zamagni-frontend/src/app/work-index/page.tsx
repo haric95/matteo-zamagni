@@ -9,7 +9,13 @@ import {
   Star,
 } from "@/components/Icons";
 import { MotionGridChild } from "@/components/MotionGridChild";
-import { DEFAULT_ANIMATE_MODE } from "@/const";
+import {
+  DEFAULT_ANIMATE_MODE,
+  HomepageItemTypeIconMap,
+  homepageItemArray,
+} from "@/const";
+import { parseTagsString } from "@/helpers/parseTagsString";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
@@ -19,12 +25,10 @@ import {
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, HomepageItemType } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { HomepageItemTypeIconMap, homepageItemArray } from "@/const";
-import Link from "next/link";
-import { parseTagsString } from "@/helpers/parseTagsString";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { TfiLayoutMenuV } from "react-icons/tfi";
 
 enum WorkIndexType {
   INSTALLATION = "Installation",
@@ -81,7 +85,7 @@ export default function Index() {
     : CONTENT_GRID_PADDING_X;
   const paddingY = isMobile
     ? CONTENT_GRID_PADDING_Y_MOBILE
-    : CONTENT_GRID_PADDING_Y_MOBILE;
+    : CONTENT_GRID_PADDING_Y;
 
   const dispatch = useGlobalContextDispatch();
   const [selectedType, setSelectedType] = useState<
@@ -104,11 +108,15 @@ export default function Index() {
         y: HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + paddingY,
         width: gridDim.x - paddingX * 2,
         height:
-          gridDim.y - HEADER_OFFSET_Y - TOTAL_HEADER_HEIGHT - paddingY * 2,
+          gridDim.y -
+          HEADER_OFFSET_Y -
+          TOTAL_HEADER_HEIGHT -
+          paddingY * 2 -
+          (isMobile ? 5 : 0),
       };
     }
     return null;
-  }, [gridDim, paddingX, paddingY]);
+  }, [gridDim, paddingX, paddingY, isMobile]);
 
   const splitIndexItems = useMemo(() => {
     if (indexData && centerContainerVals) {
@@ -176,7 +184,7 @@ export default function Index() {
                     >
                       <Link
                         href={`/project/${item.slug}`}
-                        className="w-fit h-full flex items-center justify-center hover-glow-light"
+                        className="w-full h-full flex items-center justify-between hover-glow-light"
                       >
                         <div className="flex w-24 h-full justify-start items-center bg-background_Light">
                           <>
@@ -226,7 +234,7 @@ export default function Index() {
                               }
                             })}
                         </div>
-                        <div className="w-full">
+                        <div className="w-fit">
                           <p
                             className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
                               selectedType &&
@@ -457,7 +465,10 @@ export default function Index() {
               })()}
             </button>
           ) : (
-            <p>legend</p>
+            <div className="flex items-center">
+              <TfiLayoutMenuV color="white" className="mr-1" />
+              <p>legend</p>
+            </div>
           )
         }
       >
