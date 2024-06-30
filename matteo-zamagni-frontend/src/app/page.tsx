@@ -2,11 +2,6 @@
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild, getAbsGridCoords } from "@/components/GridChild";
 import { HEADER_OFFSET_Y, TOTAL_HEADER_HEIGHT } from "@/components/Header";
-import {
-  Plus,
-  SelectableIconComponent,
-  TriangleDown,
-} from "@/components/Icons";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import {
   DEFAULT_ANIMATE_MODE,
@@ -16,23 +11,18 @@ import {
 import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
 import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
-import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
+import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import {
-  HomepageData,
-  HomepageItem,
-  HomepageItemType,
-  Pos2D,
-} from "@/types/global";
+import { HomepageData, HomepageItem, Pos2D } from "@/types/global";
 import { AnimatePresence } from "framer-motion";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -40,6 +30,8 @@ import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
+const CONTENT_GRID_PADDING_X_MOBILE = 2;
+const CONTENT_GRID_PADDING_Y_MOBILE = 2;
 
 const QUADRANT_PADDING = { x: 2, y: 2 };
 
@@ -57,6 +49,7 @@ export default function Home() {
 
   const dispatch = useGlobalContextDispatch();
   const { gridDim, grid, selectedYear } = useGlobalContext();
+  const isMobile = useIsMobile();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
     null
@@ -72,34 +65,49 @@ export default function Home() {
   const centerContainerVals = useMemo(() => {
     if (gridDim) {
       return {
-        x: CONTENT_GRID_PADDING_X,
-        y: HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + CONTENT_GRID_PADDING_Y,
-        width: gridDim.x - CONTENT_GRID_PADDING_X * 2,
+        x: isMobile ? CONTENT_GRID_PADDING_X_MOBILE : CONTENT_GRID_PADDING_X,
+        y:
+          HEADER_OFFSET_Y +
+          TOTAL_HEADER_HEIGHT +
+          (isMobile ? CONTENT_GRID_PADDING_Y_MOBILE : CONTENT_GRID_PADDING_Y),
+        width:
+          gridDim.x -
+          (isMobile ? CONTENT_GRID_PADDING_X_MOBILE : CONTENT_GRID_PADDING_X) *
+            2,
         height:
           gridDim.y -
           HEADER_OFFSET_Y -
           TOTAL_HEADER_HEIGHT -
-          CONTENT_GRID_PADDING_Y * 2,
+          (isMobile ? CONTENT_GRID_PADDING_Y_MOBILE : CONTENT_GRID_PADDING_Y) *
+            2,
       };
     }
     return null;
-  }, [gridDim]);
+  }, [gridDim, isMobile]);
 
   const getImagePos = useCallback(
     (itemPos: HomepageItem["position"]) => {
       // TODO: Make this dynamic
       if (centerContainerVals) {
-        const width = centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
-        const height = centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
+        const width = isMobile
+          ? centerContainerVals.width
+          : centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
+        const height = isMobile
+          ? Math.floor(width * 0.76)
+          : centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
         return {
-          x:
-            itemPos.x < 0.5
-              ? centerContainerVals.width / 2
-              : centerContainerVals.width / 2 - QUADRANT_PADDING.x - width,
-          y:
-            itemPos.y < 0.5
+          x: isMobile
+            ? 0
+            : itemPos.x < 0.5
+            ? centerContainerVals.width / 2
+            : centerContainerVals.width / 2 - QUADRANT_PADDING.x - width,
+          y: isMobile
+            ? itemPos.y < 0.5
               ? centerContainerVals.height / 2
-              : centerContainerVals.height / 2 - QUADRANT_PADDING.y - height,
+              : 0
+            : itemPos.y < 0.5
+            ? centerContainerVals.height / 2
+            : centerContainerVals.height / 2 - QUADRANT_PADDING.y - height,
           width,
           height,
         };
