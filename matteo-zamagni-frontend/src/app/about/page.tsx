@@ -4,6 +4,7 @@ import { GridChild } from "@/components/GridChild";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { useStrapi } from "@/hooks/useStrapi";
@@ -17,9 +18,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 
-const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
-const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
-const CENTER_CELL_OFFSET_PROPORTION = 0.05;
+const CENTER_CELL_PADDING_X = 16;
+const CENTER_CELL_PADDING_Y = 6;
+const CENTER_CELL_Y_OFFSET = 2;
+const CENTER_CELL_PADDING_X_MOBILE = 2;
+const CENTER_CELL_PADDING_Y_MOBILE = 6;
+const CENTER_CELL_Y_OFFSET_MOBILE = 0;
 
 enum AboutMode {
   BIO = "Bio",
@@ -49,6 +53,7 @@ export default function Home() {
     gridDim: Dim2D;
     grid: Grid;
   };
+  const isMobile = useIsMobile();
   const dispatch = useGlobalContextDispatch();
 
   const [aboutMode, setAboutMode] = useState<AboutMode>(AboutMode.BIO);
@@ -57,20 +62,26 @@ export default function Home() {
 
   const { shouldMount } = useTheme({ isDark: false });
   const centerCellPos = useMemo<PosAndDim2D>(() => {
-    const width =
-      Math.floor(gridDim.x * 0.5 * CENTER_CELL_WIDTH_PROPOPRTION) * 2;
-    const height =
-      Math.floor(gridDim.y * 0.5 * CENTER_CELL_HEIGHT_PROPORTION) * 2;
+    const width = isMobile
+      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2
+      : gridDim.x - CENTER_CELL_PADDING_X * 2;
+    const height = isMobile
+      ? gridDim.y - CENTER_CELL_PADDING_Y_MOBILE * 2
+      : gridDim.y - CENTER_CELL_PADDING_Y * 2;
 
-    const yCenterOffest = Math.floor(gridDim.y * CENTER_CELL_OFFSET_PROPORTION);
+    const yOffset = isMobile
+      ? CENTER_CELL_Y_OFFSET_MOBILE
+      : CENTER_CELL_Y_OFFSET;
 
     return {
-      x: 1 + gridDim.x / 2 - width / 2,
-      y: 1 + 1 + gridDim.y / 2 + yCenterOffest - height / 2,
+      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE : CENTER_CELL_PADDING_X,
+      y:
+        (isMobile ? CENTER_CELL_PADDING_Y_MOBILE : CENTER_CELL_PADDING_Y) +
+        yOffset,
       width,
       height,
     };
-  }, [gridDim]);
+  }, [gridDim, isMobile]);
 
   const handleScrollDivChange = useCallback((div: HTMLDivElement | null) => {
     if (div) {
