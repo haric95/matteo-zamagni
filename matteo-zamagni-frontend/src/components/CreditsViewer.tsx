@@ -25,7 +25,7 @@ export const CreditsViewer: React.FC<CreditsViewerProps> = ({
             className="w-full h-full absolute bg-black opacity-80"
             onClick={handleClose}
           />
-          <div className="w-[33%] h-fit flex justify-center items-center z-10 relative border-white border-2">
+          <div className="w-[80%] md:w-[33%] h-fit flex justify-center items-center z-10 relative border-white border-2">
             <button
               className="absolute top-[8px] right-[8px] w-fit h-fit flex justify-center icon-hover-glow transition-all duration-500"
               onClick={() => handleClose()}
