@@ -135,28 +135,35 @@ export default function Home() {
   const selectedItemDescriptionPos = useMemo(() => {
     if (selectedItem && centerContainerVals && gridDim) {
       // TODO: Make this dynamic
-      const width = 9;
-      const height = 3;
+      const width = isMobile ? centerContainerVals.width / 2 : 9;
+      const height = isMobile ? 3 : 3;
       const absPos = getAbsGridCoords(
         { x: centerContainerVals.width, y: centerContainerVals.height },
         selectedItem.position
       );
       return {
         x: selectedItem.position.x < 0.5 ? absPos.x + 1 : absPos.x - width - 2,
-        y:
-          selectedItem.position.y < 0.5
-            ? absPos.y - height < 0
-              ? absPos.y - height / 2 < 0
-                ? absPos.y
-                : absPos.y - height / 2
-              : absPos.y - height
-            : absPos.y,
+        y: isMobile
+          ? selectedItem.position.y > 0.5
+            ? absPos.y > height
+              ? absPos.y - height
+              : absPos.y + 1
+            : absPos.y < centerContainerVals.height - height
+            ? absPos.y + 1
+            : absPos.y - height - 1
+          : selectedItem.position.y < 0.5
+          ? absPos.y - height < 0
+            ? absPos.y - height / 2 < 0
+              ? absPos.y
+              : absPos.y - height / 2
+            : absPos.y - height
+          : absPos.y,
         width,
         height,
       };
     }
     return null;
-  }, [centerContainerVals, selectedItem, gridDim]);
+  }, [centerContainerVals, selectedItem, gridDim, isMobile]);
 
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
