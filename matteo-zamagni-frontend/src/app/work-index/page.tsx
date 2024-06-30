@@ -165,94 +165,85 @@ export default function Index() {
             {isMobile ? (
               // Mobile
               <div className="w-full h-full flex flex-col">
-                {[
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                  ...indexData!.data.attributes.items,
-                ].map((item, index) => {
-                  return (
-                    <div
-                      key={item.title}
-                      style={{ height: cellSize.y }}
-                      className="w-full"
-                    >
-                      <Link
-                        href={`/project/${item.slug}`}
-                        className="w-full h-full flex items-center justify-between hover-glow-light"
+                {indexData &&
+                  [...indexData.data.attributes.items].map((item, index) => {
+                    return (
+                      <div
+                        key={item.title}
+                        style={{ height: cellSize.y }}
+                        className="w-full"
                       >
-                        <div className="flex w-24 h-full justify-start items-center bg-background_Light">
-                          <>
-                            {homepageItemArray.map((type) => {
-                              if (item.type === type) {
-                                const Icon = HomepageItemTypeIconMap[type];
-                                return (
-                                  <Icon
-                                    key={`${item.title}-type`}
-                                    strokeWidth={8}
-                                    className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                      selectedType === type
-                                        ? "stroke-highlight"
-                                        : "stroke-white"
-                                    }`}
-                                  />
-                                );
-                              }
-                            })}
-                          </>
-                          {item.tags
-                            .split(",")
-                            .map((item) => item.trim())
-                            .map((tag, index) => {
-                              if (
-                                WorkIndexTypeIcon[
-                                  tag as keyof typeof WorkIndexTypeIcon
-                                ]
-                              ) {
-                                const Icon =
-                                  WorkIndexTypeIcon[
-                                    tag as keyof typeof WorkIndexTypeIcon
-                                  ];
-                                return (
-                                  index < 2 && (
+                        <Link
+                          href={`/project/${item.slug}`}
+                          className="w-full h-full flex items-center justify-between hover-glow-light"
+                        >
+                          <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                            <>
+                              {homepageItemArray.map((type) => {
+                                if (item.type === type) {
+                                  const Icon = HomepageItemTypeIconMap[type];
+                                  return (
                                     <Icon
-                                      key={tag}
+                                      key={`${item.title}-type`}
                                       strokeWidth={8}
                                       className={`w-4 h-4 mr-1 transition-all duration-500 ${
-                                        selectedType === tag
+                                        selectedType === type
                                           ? "stroke-highlight"
                                           : "stroke-white"
                                       }`}
                                     />
-                                  )
-                                );
-                              }
-                            })}
-                        </div>
-                        <div className="w-fit">
-                          <p
-                            className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
-                              selectedType &&
-                              [
-                                ...parseTagsString(item.tags),
-                                item.type,
-                              ].includes(selectedType)
-                                ? "text-white"
-                                : "text-black"
-                            }`}
-                          >
-                            {item.title.toUpperCase()}
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  );
-                })}
+                                  );
+                                }
+                              })}
+                            </>
+                            {item.tags
+                              .split(",")
+                              .map((item) => item.trim())
+                              .map((tag, index) => {
+                                if (
+                                  WorkIndexTypeIcon[
+                                    tag as keyof typeof WorkIndexTypeIcon
+                                  ]
+                                ) {
+                                  const Icon =
+                                    WorkIndexTypeIcon[
+                                      tag as keyof typeof WorkIndexTypeIcon
+                                    ];
+                                  return (
+                                    index < 2 && (
+                                      <Icon
+                                        key={tag}
+                                        strokeWidth={8}
+                                        className={`w-4 h-4 mr-1 transition-all duration-500 ${
+                                          selectedType === tag
+                                            ? "stroke-highlight"
+                                            : "stroke-white"
+                                        }`}
+                                      />
+                                    )
+                                  );
+                                }
+                              })}
+                          </div>
+                          <div className="w-fit">
+                            <p
+                              className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                                selectedType &&
+                                [
+                                  ...parseTagsString(item.tags),
+                                  item.type,
+                                ].includes(selectedType)
+                                  ? "text-white"
+                                  : "text-black"
+                              }`}
+                            >
+                              {item.title.toUpperCase()}
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
               </div>
             ) : (
               // Desktop
