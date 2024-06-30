@@ -21,11 +21,18 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { HomepageData, HomepageItem, Pos2D } from "@/types/global";
-import { AnimatePresence } from "framer-motion";
+import {
+  HomepageData,
+  HomepageItem,
+  HomepageItemType,
+  Pos2D,
+} from "@/types/global";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { MdClose } from "react-icons/md";
+import { TfiLayoutMenuV } from "react-icons/tfi";
 import { TypeAnimation } from "react-type-animation";
 
 const CONTENT_GRID_PADDING_X = 6;
@@ -54,6 +61,8 @@ export default function Home() {
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
     null
   );
+  const [selectedFilterType, setSelectedFilterType] =
+    useState<HomepageItemType | null>(null);
 
   const { startRectAnimation, clearRect: clearRectAnimation } =
     useGridRectAnimation();
@@ -113,7 +122,7 @@ export default function Home() {
         };
       }
     },
-    [centerContainerVals]
+    [centerContainerVals, isMobile]
   );
 
   const selectedItem = useMemo(() => {
@@ -385,6 +394,32 @@ export default function Home() {
         footerRightHeight={4}
         footerRightWidth={6}
         isMounted={shouldMount}
+        mobileTitleComponent={
+          selectedFilterType ? (
+            <button className="text-s flex justify-end items-center">
+              {(() => {
+                const Component =
+                  HomepageItemTypeIconMap[
+                    selectedFilterType as keyof typeof HomepageItemTypeIconMap
+                  ];
+                return (
+                  <>
+                    <Component
+                      className={`mr-2 w-4 h-4 transition-color duration-500 stroke-highlight`}
+                      strokeWidth={8}
+                    ></Component>
+                    <p>{selectedFilterType}</p>
+                  </>
+                );
+              })()}
+            </button>
+          ) : (
+            <div className="flex items-center">
+              <TfiLayoutMenuV color="white" className="mr-1" />
+              <p>legend</p>
+            </div>
+          )
+        }
       >
         <GridChild
           x={0}
@@ -398,16 +433,35 @@ export default function Home() {
             y={0}
             width={6}
             height={1}
-            innerGridWidth={1}
-            className="border-b-[1px] border-white"
+            isGrid={false}
+            className="border-b-[1px] border-white flex justify-between items-center"
           >
             <p className="translate-y-[-4px]">legend</p>
+            <AnimatePresence>
+              {selectedFilterType !== null && (
+                <motion.button
+                  {...DEFAULT_ANIMATE_MODE}
+                  className="icon-hover-glow transition-all duration-50 translate-y-[-4px]"
+                  onClick={() => {
+                    setSelectedFilterType(null);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
+                  }}
+                >
+                  <MdClose color={"white"} />
+                </motion.button>
+              )}
+            </AnimatePresence>
           </GridChild>
           <GridChild
             x={0}
             y={1}
             width={6}
-            height={4 - 1}
+            height={3}
             innerGridHeight={1}
             innerGridWidth={1}
           >
@@ -415,14 +469,36 @@ export default function Home() {
               {homepageItemArray.map((type) => {
                 const Icon = HomepageItemTypeIconMap[type];
                 return (
-                  <div key={type} className="w-full h-4 flex">
+                  <button
+                    key={type}
+                    className="w-full h-4 flex icon-hover-glow transition-all duration-500"
+                    onClick={() => {
+                      if (selectedFilterType === type) {
+                        setSelectedFilterType(null);
+                      } else {
+                        setSelectedFilterType(type);
+                        if (dispatch) {
+                          dispatch({
+                            type: "SET_MOBILE_FOOTER_MENU",
+                            isOpen: false,
+                          });
+                        }
+                      }
+                    }}
+                  >
                     <Icon
-                      className="w-4 mr-4 translate-y-[2px]"
+                      className={`w-4 mr-2 translate-y-[2px]`}
                       stroke="white"
                       selected={false}
                     />
-                    <p>{type}</p>
-                  </div>
+                    <p
+                      className={`transition-all duration-500 ${
+                        type === selectedFilterType ? "translate-x-1" : ""
+                      }`}
+                    >
+                      {type}
+                    </p>
+                  </button>
                 );
               })}
             </div>
