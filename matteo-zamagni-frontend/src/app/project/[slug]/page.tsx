@@ -12,6 +12,7 @@ import {
   lightPixels,
 } from "@/helpers/gridHelpers";
 import { parseTagsString } from "@/helpers/parseTagsString";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
@@ -27,9 +28,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 import { TypeAnimation } from "react-type-animation";
 
-const CENTER_CELL_WIDTH_PROPOPRTION = 0.4;
-const CENTER_CELL_HEIGHT_PROPORTION = 0.5;
-const CENTER_CELL_OFFSET_PROPORTION = 0.05;
+const CENTER_CELL_PADDING_X = 16;
+const CENTER_CELL_PADDING_Y = 6;
+const CENTER_CELL_Y_OFFSET = 2;
+const CENTER_CELL_PADDING_X_MOBILE = 2;
+const CENTER_CELL_PADDING_Y_MOBILE = 8;
+const CENTER_CELL_Y_OFFSET_MOBILE = 2;
 
 enum ProjectMode {
   TEXT = "text",
@@ -63,6 +67,7 @@ export default function Project({ params }: { params: { slug: string } }) {
   const homepageItem = homepageData?.data.attributes.items.find(
     (homepageItem) => homepageItem.slug === params.slug
   );
+  const isMobile = useIsMobile();
 
   usePrefetchImages(
     projectItem?.attributes.images.map(
@@ -99,43 +104,57 @@ export default function Project({ params }: { params: { slug: string } }) {
     }
   }, [projectItem]);
 
-  const textCenterCellPos = useMemo(() => {
-    const width =
-      Math.floor(gridDim.x * 0.5 * CENTER_CELL_WIDTH_PROPOPRTION) * 2;
-    const height =
-      Math.floor(gridDim.y * 0.5 * CENTER_CELL_HEIGHT_PROPORTION) * 2;
+  const textCenterCellPos = useMemo<PosAndDim2D>(() => {
+    const width = isMobile
+      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2
+      : gridDim.x - CENTER_CELL_PADDING_X * 2;
+    const height = isMobile
+      ? gridDim.y - CENTER_CELL_PADDING_Y_MOBILE * 2
+      : gridDim.y - CENTER_CELL_PADDING_Y * 2;
 
-    const yCenterOffest = Math.floor(gridDim.y * CENTER_CELL_OFFSET_PROPORTION);
+    const yOffset = isMobile
+      ? CENTER_CELL_Y_OFFSET_MOBILE
+      : CENTER_CELL_Y_OFFSET;
 
     return {
-      x: 1 + gridDim.x / 2 - width / 2,
-      y: 1 + gridDim.y / 2 + yCenterOffest - height / 2,
+      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE : CENTER_CELL_PADDING_X,
+      y:
+        (isMobile ? CENTER_CELL_PADDING_Y_MOBILE : CENTER_CELL_PADDING_Y) +
+        yOffset,
       width,
       height,
     };
-  }, [gridDim]);
+  }, [gridDim, isMobile]);
 
   const titleCellPos = useMemo(() => {
-    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
-    const height = 4;
+    const width = isMobile
+      ? textCenterCellPos.width
+      : Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
+    const height = isMobile ? 2 : 4;
     return {
-      x: 2,
-      y: gridDim.y / 2 - height / 2,
+      x: isMobile ? textCenterCellPos.x - 1 : 2,
+      y: isMobile ? 5 : gridDim.y / 2 - height / 2,
       width,
       height,
     };
-  }, [gridDim, textCenterCellPos]);
+  }, [gridDim, textCenterCellPos, isMobile]);
 
   const tagsCellPos = useMemo(() => {
-    const width = Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 6;
-    const height = 4;
+    const width = isMobile
+      ? textCenterCellPos.width
+      : Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 6;
+    const height = isMobile ? 2 : 4;
     return {
-      x: textCenterCellPos.x + textCenterCellPos.width + 3,
-      y: gridDim.y / 2 - height / 2,
+      x: isMobile
+        ? textCenterCellPos.x - 1
+        : textCenterCellPos.x + textCenterCellPos.width + 3,
+      y: isMobile
+        ? titleCellPos.y + titleCellPos.height
+        : gridDim.y / 2 - height / 2,
       width,
       height,
     };
-  }, [gridDim, textCenterCellPos]);
+  }, [gridDim, textCenterCellPos, isMobile, titleCellPos]);
 
   const handleChangeTextElement = useCallback((div: HTMLDivElement | null) => {
     if (HTMLDivElement) {
@@ -257,11 +276,11 @@ export default function Project({ params }: { params: { slug: string } }) {
         {...DEFAULT_ANIMATE_MODE}
         transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
         exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
-        className="flex justify-center items-center bg-black"
+        className="flex justify-start md:justify-center items-center bg-black"
         {...titleCellPos}
         isGrid={false}
       >
-        <div className="w-full text-center w-full flex justify-center">
+        <div className="w-full text-left md:text-center w-full flex md:justify-center">
           {projectItem && (
             <TypeAnimation
               sequence={[projectItem?.attributes.title]}
@@ -285,20 +304,35 @@ export default function Project({ params }: { params: { slug: string } }) {
         className="flex justify-center items-center bg-black"
         {...tagsCellPos}
       >
-        <div className="w-full text-center p-8 w-full flex justify-center">
-          <div className="w-fit text-lg p-4">
+        <div
+          className={`w-full md:text-center md:p-8 w-full flex justify-start md:justify-center`}
+        >
+          <div className="w-fit text-s md:text-lg md:p-4 flex md:block">
             {homepageItem &&
-              parseTagsString(homepageItem?.tags).map((tag) => (
-                <div key={tag}>
+              (isMobile ? (
+                <div>
                   <TypeAnimation
-                    sequence={[500, tag]}
+                    sequence={[parseTagsString(homepageItem.tags).join(", ")]}
                     wrapper="span"
                     speed={1}
                     style={{ display: "inline-block" }}
-                    className="text-lg"
+                    className="text-s"
                     cursor={false}
                   />
                 </div>
+              ) : (
+                parseTagsString(homepageItem?.tags).map((tag) => (
+                  <div key={tag}>
+                    <TypeAnimation
+                      sequence={[500, tag]}
+                      wrapper="span"
+                      speed={1}
+                      style={{ display: "inline-block" }}
+                      className="text-lg"
+                      cursor={false}
+                    />
+                  </div>
+                ))
               ))}
           </div>
         </div>
