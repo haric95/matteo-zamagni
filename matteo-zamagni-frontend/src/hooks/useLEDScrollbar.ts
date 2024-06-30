@@ -61,14 +61,12 @@ export const useLEDScrollbar = (
 
   useEffect(() => {
     if (element) {
-      console.log("attatching");
       element.addEventListener("scroll", scrollHandler);
       scrollHandler();
     }
 
     return () => {
       if (element) {
-        console.log("removing");
         element.removeEventListener("scroll", scrollHandler);
       }
     };
