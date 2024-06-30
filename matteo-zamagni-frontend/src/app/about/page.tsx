@@ -16,6 +16,7 @@ import {
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { TfiLayoutMenuV } from "react-icons/tfi";
 import Markdown from "react-markdown";
 
 const CENTER_CELL_PADDING_X = 16;
@@ -147,7 +148,8 @@ export default function Home() {
               className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar"
             >
               <Markdown>
-                {aboutPageData && aboutPageData.data.attributes[aboutMode]}
+                {aboutPageData &&
+                  `${aboutMode}\n\n${aboutPageData.data.attributes[aboutMode]}`}
               </Markdown>
             </div>
           </MotionGridChild>
@@ -157,6 +159,12 @@ export default function Home() {
         footerRightHeight={8}
         footerRightWidth={6}
         isMounted={shouldMount}
+        mobileTitleComponent={
+          <div className="flex items-center">
+            <TfiLayoutMenuV color="white" className="mr-1" />
+            <p>navigation</p>
+          </div>
+        }
       >
         <div
           className="grid col-span-full row-span-full  "
@@ -165,8 +173,10 @@ export default function Home() {
             gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
           }}
         >
-          <div className="col-span-full row-span-1 flex items-start border-black border-b-[1px] text-black">
-            <p className="text-[12px]">navigation</p>
+          <div
+            className={`col-span-full row-span-1 flex items-start border-white md:border-black border-b-[1px] text-black`}
+          >
+            <p className="text-[12px] md:text-black text-white">navigation</p>
           </div>
           <div
             className={`col-span-full flex items-start`}
@@ -179,66 +189,108 @@ export default function Home() {
               <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.BIO ? "text-white" : "text-black"
+                    aboutMode === AboutMode.BIO
+                      ? "text-white translate-x-1"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.BIO);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   bio
                 </button>
                 <button
-                  className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.AWARDS ? "text-white" : "text-black"
+                  className={`text-[12px] block transition-all duration-500 ${
+                    aboutMode === AboutMode.AWARDS
+                      ? "text-white translate-x-1"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.AWARDS);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   awards
                 </button>
                 <button
-                  className={`text-[12px] block transition-color duration-500 ${
+                  className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.RESIDENCIES
-                      ? "text-white"
-                      : "text-black"
+                      ? "text-white translate-x-1"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.RESIDENCIES);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   residencies
                 </button>
                 <button
-                  className={`text-[12px] block transition-color duration-500 ${
+                  className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.PERFORMANCES
-                      ? "text-white"
-                      : "text-black"
+                      ? "text-white translate-x-1"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.PERFORMANCES);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   performances
                 </button>
                 <button
-                  className={`text-[12px] block transition-color duration-500 ${
+                  className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.SCREENINGS
-                      ? "text-white"
-                      : "text-black"
+                      ? "text-white translate-x-1"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.SCREENINGS);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   screenings
                 </button>
                 <button
-                  className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.TALKS ? "text-white" : "text-black"
+                  className={`text-[12px] block transition-all duration-500 ${
+                    aboutMode === AboutMode.TALKS
+                      ? "text-white"
+                      : "text-white md:text-black"
                   }`}
                   onClick={() => {
                     setAboutMode(AboutMode.TALKS);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   talks
