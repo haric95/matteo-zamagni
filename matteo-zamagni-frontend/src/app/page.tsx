@@ -342,7 +342,7 @@ export default function Home() {
                   <Link href={`/project/${selectedItem.slug}`}>
                     <Image
                       src={selectedItem.image.data.attributes.url}
-                      className="object-cover w-full h-full"
+                      className="object-cover w-full h-full slide-in"
                       alt=""
                       width={selectedItemImagePos.width * TARGET_CELL_SIZE}
                       height={selectedItemImagePos.height * TARGET_CELL_SIZE}
