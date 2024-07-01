@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 type ImageGalleryProps = {
   images: { imageURL: string; alt: string }[];
@@ -23,6 +24,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
   const [swiper, setSwiper] = useState<SwiperCore | null>(null);
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
+  const isMobile = useIsMobile();
 
   const handleClick = (dir: "left" | "right") => {
     if (swiper) {
@@ -46,7 +48,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         className="w-full h-full absolute bg-black opacity-90"
         onClick={handleClose}
       />
-      <div className="w-3/4 h-3/4 flex justify-center items-center z-10 relative">
+      <div className="w-full h-1/2 md:w-3/4 md:h-3/4 flex justify-center items-center z-10 relative">
         <button
           className="absolute top-0 right-0 w-8 h-8 flex justify-center icon-hover-glow hover:scale-105 transition-all duration-500"
           onClick={() => handleClose()}
@@ -86,7 +88,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   src={image.imageURL}
                   alt={image.alt}
                   layout="fill"
-                  objectFit="cover"
+                  objectFit={isMobile ? "contain" : "cover"}
                 />
               </SwiperSlide>
             );
