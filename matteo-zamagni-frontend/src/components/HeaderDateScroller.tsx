@@ -33,7 +33,6 @@ export const HeaderDateScroller = (props) => {
   const [sliderRef, slider] = useKeenSlider({
     perspective: "center",
     vertical: false,
-    initial: 11,
 
     loop: true,
     dragSpeed: 1,
