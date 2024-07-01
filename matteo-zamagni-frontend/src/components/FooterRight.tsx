@@ -68,6 +68,11 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
                   ? "opacity-90"
                   : "opacity-0 pointer-events-none"
               }`}
+              onClick={() => {
+                if (dispatch) {
+                  dispatch({ type: "SET_MOBILE_FOOTER_MENU", isOpen: false });
+                }
+              }}
             >
               {mobileFooterMenuOpen && (
                 <GridChild
@@ -75,6 +80,9 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
                   y={gridDim.y - 1 - footerRightHeight}
                   width={footerRightWidth}
                   height={footerRightHeight}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   {children}
                 </GridChild>
@@ -83,8 +91,8 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
             <MotionGridChild
               {...DEFAULT_ANIMATE_MODE}
               height={1}
-              width={8}
-              x={gridDim.x - 9}
+              width={15}
+              x={gridDim.x - 16}
               y={gridDim.y - 2}
               isGrid={false}
               className=""

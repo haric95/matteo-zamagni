@@ -25,6 +25,7 @@ import { Dim2D, Grid, HomepageData, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { TfiLayoutMenuV } from "react-icons/tfi";
 import Markdown from "react-markdown";
 import { TypeAnimation } from "react-type-animation";
 
@@ -444,7 +445,16 @@ export default function Project({ params }: { params: { slug: string } }) {
         ) : null}
       </AnimatePresence>
 
-      <FooterRight footerRightHeight={5} footerRightWidth={6}>
+      <FooterRight
+        footerRightHeight={5}
+        footerRightWidth={6}
+        mobileTitleComponent={
+          <div className="flex items-center">
+            <TfiLayoutMenuV color="white" className="mr-1" />
+            <p>navigation - {projectMode}</p>
+          </div>
+        }
+      >
         <div
           className="grid col-span-full row-span-full translate-y-[8px]"
           style={{
@@ -467,11 +477,17 @@ export default function Project({ params }: { params: { slug: string } }) {
                 <button
                   className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.TEXT
-                      ? "text-white"
+                      ? "text-white translate-x-1"
                       : "text-textInactive"
                   }`}
                   onClick={() => {
                     handleChangeProjectMode(ProjectMode.TEXT);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   text
@@ -479,11 +495,17 @@ export default function Project({ params }: { params: { slug: string } }) {
                 <button
                   className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.IMAGES
-                      ? "text-white"
+                      ? "text-white translate-x-1"
                       : "text-textInactive"
                   }`}
                   onClick={() => {
                     handleChangeProjectMode(ProjectMode.IMAGES);
+                    if (dispatch) {
+                      dispatch({
+                        type: "SET_MOBILE_FOOTER_MENU",
+                        isOpen: false,
+                      });
+                    }
                   }}
                 >
                   images
@@ -497,6 +519,12 @@ export default function Project({ params }: { params: { slug: string } }) {
                     }`}
                     onClick={() => {
                       handleChangeProjectMode(ProjectMode.VIDEO);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
                     }}
                   >
                     video
