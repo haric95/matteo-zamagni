@@ -22,6 +22,7 @@ type GlobalState = {
   creditsIsOpen: boolean;
   cellSize: Dim2D | null;
   mobileFooterMenuOpen: boolean;
+  scrollerAvailableYears: string[] | null;
 };
 type GlobalDispatch = Dispatch<GlobalAction> | null;
 
@@ -36,6 +37,7 @@ const initialGlobalState: GlobalState = {
   creditsIsOpen: false,
   cellSize: null,
   mobileFooterMenuOpen: false,
+  scrollerAvailableYears: null,
 };
 const initialGlobalDispatchState: GlobalDispatch = null;
 
@@ -82,7 +84,8 @@ type GlobalAction =
   | { type: "CLOSE_CREDITS" }
   | { type: "SET_LOADED" }
   | { type: "SET_CELL_SIZE"; dim: Pos2D }
-  | { type: "SET_MOBILE_FOOTER_MENU"; isOpen: boolean };
+  | { type: "SET_MOBILE_FOOTER_MENU"; isOpen: boolean }
+  | { type: "SET_SCROLLER_AVAILABLE_YEARS"; years: string[] };
 
 const globalReducer: Reducer<GlobalState, GlobalAction> = (
   globalState,
@@ -137,6 +140,9 @@ const globalReducer: Reducer<GlobalState, GlobalAction> = (
     }
     case "SET_MOBILE_FOOTER_MENU": {
       return { ...globalState, mobileFooterMenuOpen: action.isOpen };
+    }
+    case "SET_SCROLLER_AVAILABLE_YEARS": {
+      return { ...globalState, scrollerAvailableYears: action.years };
     }
     default: {
       throw Error("Unknown action: " + JSON.stringify(action));

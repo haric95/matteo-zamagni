@@ -55,7 +55,8 @@ export default function Home() {
   );
 
   const dispatch = useGlobalContextDispatch();
-  const { gridDim, grid, selectedYear } = useGlobalContext();
+  const { gridDim, grid, selectedYear, scrollerAvailableYears } =
+    useGlobalContext();
   const isMobile = useIsMobile();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
@@ -68,6 +69,21 @@ export default function Home() {
     useGridRectAnimation();
   const { startAnimation, cancelAnimation: cancelDiagonalAnimation } =
     useGridLineAnimation();
+
+  useEffect(() => {
+    if (homepageData && !scrollerAvailableYears) {
+      const years = new Set(["0000"]);
+      homepageData.data.attributes.items.forEach((item) => {
+        years.add(String(item.year));
+      });
+      const sortedYears = Array.from(years).sort(
+        (a, b) => Number(a) - Number(b)
+      );
+      if (dispatch) {
+        dispatch({ type: "SET_SCROLLER_AVAILABLE_YEARS", years: sortedYears });
+      }
+    }
+  }, [scrollerAvailableYears, homepageData, dispatch]);
 
   const { shouldMount } = useTheme({ isDark: true });
 
