@@ -189,7 +189,7 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-color duration-500 ${
                     aboutMode === AboutMode.BIO
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {
@@ -207,7 +207,7 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.AWARDS
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {
@@ -225,7 +225,7 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.RESIDENCIES
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {
@@ -243,7 +243,7 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.PERFORMANCES
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {
@@ -261,7 +261,7 @@ export default function Home() {
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.SCREENINGS
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {

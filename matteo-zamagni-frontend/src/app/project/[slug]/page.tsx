@@ -477,7 +477,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                 <button
                   className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.TEXT
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-textInactive"
                   }`}
                   onClick={() => {
@@ -495,7 +495,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                 <button
                   className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                     projectMode === ProjectMode.IMAGES
-                      ? "text-white translate-x-1"
+                      ? "text-white translate-x-2"
                       : "text-textInactive"
                   }`}
                   onClick={() => {

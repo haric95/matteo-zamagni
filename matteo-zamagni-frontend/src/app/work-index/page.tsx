@@ -316,7 +316,7 @@ export default function Index() {
                                   ...parseTagsString(item.tags),
                                   item.type,
                                 ].includes(selectedType)
-                                  ? "translate-x-1"
+                                  ? "translate-x-2"
                                   : ""
                               } text-elipsis overflow-hidden w-fit bg-background_Light ${
                                 selectedType &&
@@ -404,7 +404,7 @@ export default function Index() {
                                   ...parseTagsString(item.tags),
                                   item.type,
                                 ].includes(selectedType)
-                                  ? "translate-x-1"
+                                  ? "translate-x-2"
                                   : ""
                               } text-elipsis overflow-hidden w-fit bg-background_Light ${
                                 selectedType &&
@@ -520,7 +520,7 @@ export default function Index() {
                       <p
                         className={`translate-y-[-1px] transition-color duration-500 ${
                           selectedType === indexType
-                            ? "text-white md:text-white translate-x-1"
+                            ? "text-white md:text-white translate-x-2"
                             : "text-white md:text-black"
                         }`}
                       >
@@ -551,7 +551,7 @@ export default function Index() {
                       <p
                         className={`translate-y-[-1px] transition-color duration-500 ${
                           selectedType === indexType
-                            ? "text-white md:text-white translate-x-1"
+                            ? "text-white md:text-white translate-x-2"
                             : "text-white md:text-black"
                         }`}
                       >

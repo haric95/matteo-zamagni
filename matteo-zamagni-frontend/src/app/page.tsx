@@ -495,7 +495,7 @@ export default function Home() {
                     />
                     <p
                       className={`transition-all duration-500 ${
-                        type === selectedFilterType ? "translate-x-1" : ""
+                        type === selectedFilterType ? "translate-x-2" : ""
                       }`}
                     >
                       {type}
