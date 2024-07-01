@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import "./HeaderDateScroller.css";
 
-const MULTIPLIER = 3;
+const MULTIPLIER = 5;
 
 // TODO: Resolve scroll issue that means visible overflow when reaching end of scroller wheel
 export const HeaderDateScroller = (props) => {
@@ -25,7 +25,7 @@ export const HeaderDateScroller = (props) => {
     : [];
   const pathname = usePathname();
   const perspective = "center";
-  const wheelSize = CLONED_YEARS.length / MULTIPLIER;
+  const wheelSize = CLONED_YEARS.length / (MULTIPLIER / 3);
   const slides = CLONED_YEARS.length;
   const slidesPerView = 1;
   const [sliderState, setSliderState] = useState(null);
@@ -33,7 +33,6 @@ export const HeaderDateScroller = (props) => {
   const [sliderRef, slider] = useKeenSlider({
     perspective: "center",
     vertical: false,
-
     loop: true,
     dragSpeed: 1,
     move: (s) => {
@@ -43,6 +42,9 @@ export const HeaderDateScroller = (props) => {
     mode: "free-snap",
     slides,
     slidesPerView,
+    initial: scrollerAvailableYears
+      ? scrollerAvailableYears.length * 2
+      : undefined,
     afterChange: (s) => {
       // TODO: Try and implement some kind of automatic returning to the center of the wheel
       // so that the user is less likely to see the edges.
