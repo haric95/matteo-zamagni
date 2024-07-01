@@ -329,9 +329,10 @@ export default function Home() {
                             : "stroke-landingIconInactive"
                           : "stroke-white"
                       } ${
-                      (selectedYear === null || item.year === selectedYear) &&
                       (selectedFilterType === null ||
-                        selectedFilterType === item.type)
+                        selectedFilterType === item.type) &&
+                      (selectedYear === null ||
+                        String(selectedYear) === String(item.year))
                         ? selectedYear !== null
                           ? "transition-all scale-110"
                           : ""
