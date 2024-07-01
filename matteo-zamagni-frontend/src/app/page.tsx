@@ -118,7 +118,7 @@ export default function Home() {
           ? centerContainerVals.width
           : centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
         const height = isMobile
-          ? Math.floor(width * 0.76)
+          ? Math.floor(width * 0.5625)
           : centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
         return {
           x: isMobile
