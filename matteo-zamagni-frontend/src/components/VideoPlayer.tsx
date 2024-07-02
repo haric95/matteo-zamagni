@@ -1,7 +1,7 @@
 import { useIsMobile } from "@/hooks/useIsMobile";
 import React from "react";
 import { MdClose } from "react-icons/md";
-import ReactPlayer from "react-player/vimeo";
+import ReactPlayer from "react-player";
 
 type VideoPlayerProps = {
   url: string;
