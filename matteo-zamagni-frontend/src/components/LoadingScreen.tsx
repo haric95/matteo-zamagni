@@ -31,7 +31,7 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
         }`}
       >
         {!videoEnded && (
-          <div className="w-[480px] h-[480px] relative">
+          <div className="w-[240px] h-[240px] relative">
             <video
               className="absolute w-full h-full"
               src={"/loading-anim.mp4"}
