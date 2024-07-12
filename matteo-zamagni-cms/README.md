@@ -1,3 +1,13 @@
+# Deploy instructions
+
+To deploy, run the command
+
+```
+git subtree push --prefix matteo-zamagni-cms heroku HEAD:main
+```
+
+We need to use git subtree as we have a monorepo for the front-end and backend, and we only want to push the cms subtree up to Heroku.
+
 # 🚀 Getting started with Strapi
 
 Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/developer-docs/latest/developer-resources/cli/CLI.html) (CLI) which lets you scaffold and manage your project in seconds.
