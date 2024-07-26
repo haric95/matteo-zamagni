@@ -257,6 +257,13 @@ export default function Home() {
     ]
   );
 
+  const handleClickOffIcon = useCallback(() => {
+    console.log("here");
+    clearRectAnimation();
+    cancelDiagonalAnimation();
+    setSelectedItemTitle(null);
+  }, [clearRectAnimation, cancelDiagonalAnimation]);
+
   useEffect(() => {
     if (dispatch) {
       dispatch({ type: "CLEAR_GRID" });
@@ -327,7 +334,7 @@ export default function Home() {
                         selectedItemTitle
                           ? item.title === selectedItemTitle
                             ? "stroke-highlight"
-                            : "stroke-landingIconInactive"
+                            : "stroke-landingIcon"
                           : "stroke-white"
                       } ${
                       (selectedFilterType === null ||
@@ -337,7 +344,7 @@ export default function Home() {
                         ? selectedYear !== null
                           ? "transition-all scale-110"
                           : ""
-                        : "!stroke-landingIconInactive blur-[0.6px]"
+                        : "!stroke-landingIconInactive blur-[1px]"
                     }
                     `}
                   />
@@ -345,29 +352,31 @@ export default function Home() {
               </GridChild>
             );
           })}
-          {/* Selected Item Image */}
+          {/* Selected Item Image & Click Mask*/}
           <AnimatePresence>
             {selectedItem && selectedItemImagePos && (
-              <MotionGridChild
-                {...DEFAULT_ANIMATE_MODE}
-                {...selectedItemImagePos}
-                isGrid={false}
-                className="relative"
-              >
-                <button
-                  className={`w-full h-full image-hover-glow hover:scale-[101%] duration-500 transition-all duration-500`}
+              <>
+                <MotionGridChild
+                  {...DEFAULT_ANIMATE_MODE}
+                  {...selectedItemImagePos}
+                  isGrid={false}
+                  className="relative"
                 >
-                  <Link href={`/project/${selectedItem.slug}`}>
-                    <Image
-                      src={selectedItem.image.data.attributes.url}
-                      className="object-cover w-full h-full slide-in"
-                      alt=""
-                      width={selectedItemImagePos.width * TARGET_CELL_SIZE}
-                      height={selectedItemImagePos.height * TARGET_CELL_SIZE}
-                    />
-                  </Link>
-                </button>
-              </MotionGridChild>
+                  <button
+                    className={`w-full h-full image-hover-glow hover:scale-[101%] duration-500 transition-all duration-500`}
+                  >
+                    <Link href={`/project/${selectedItem.slug}`}>
+                      <Image
+                        src={selectedItem.image.data.attributes.url}
+                        className="object-cover w-full h-full slide-in"
+                        alt=""
+                        width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                        height={selectedItemImagePos.height * TARGET_CELL_SIZE}
+                      />
+                    </Link>
+                  </button>
+                </MotionGridChild>
+              </>
             )}
           </AnimatePresence>
           {selectedItem &&
@@ -409,6 +418,18 @@ export default function Home() {
               </>
             )}
         </MotionGridChild>
+      )}
+      {gridDim && selectedItemTitle && (
+        <GridChild
+          width={gridDim.x}
+          height={gridDim.y}
+          x={0}
+          y={0}
+          className="testinggg"
+          onClick={() => {
+            handleClickOffIcon();
+          }}
+        />
       )}
       <FooterRight
         footerRightHeight={4}
