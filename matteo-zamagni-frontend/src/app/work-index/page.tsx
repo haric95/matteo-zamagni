@@ -308,7 +308,7 @@ export default function Index() {
                                 }
                               })}
                           </div>
-                          <div className="w-full">
+                          <div className="flex-1">
                             <p
                               className={`transition-all duration-500 ${
                                 selectedType &&
@@ -396,7 +396,7 @@ export default function Index() {
                                 }
                               })}
                           </div>
-                          <div className="w-full">
+                          <div className="flex-1">
                             <p
                               className={`transition-all duration-500 ${
                                 selectedType &&
