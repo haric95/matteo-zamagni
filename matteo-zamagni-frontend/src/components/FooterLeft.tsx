@@ -48,7 +48,7 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
           href="https://www.instagram.com/matteo.zamagni/"
           target="_blank"
           rel="noreferrer"
-          className="row-span-1 flex justify-center items-center"
+          className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500"
         >
           IG
         </a>
@@ -56,13 +56,13 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
           href="https://vimeo.com/matteozamagni"
           target="_blank"
           rel="noreferrer"
-          className="row-span-1 flex justify-center items-center"
+          className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500"
         >
           VM
         </a>
         <button
           onClick={handleOpenCredits}
-          className="row-span-1 flex justify-center items-center text-[24px]"
+          className="row-span-1 flex justify-center items-center text-[24px] icon-hover-glow transition-all duration-500"
         >
           ©
         </button>
