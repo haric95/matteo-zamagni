@@ -25,7 +25,7 @@ export const HeaderDateScroller = (props) => {
     : [];
   const pathname = usePathname();
   const perspective = "center";
-  const wheelSize = CLONED_YEARS.length / (MULTIPLIER / 3);
+  const wheelSize = CLONED_YEARS.length / (MULTIPLIER / 1);
   const slides = CLONED_YEARS.length;
   const slidesPerView = 1;
   const [sliderState, setSliderState] = useState(null);
