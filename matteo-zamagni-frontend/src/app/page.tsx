@@ -55,7 +55,7 @@ export default function Home() {
   );
 
   const dispatch = useGlobalContextDispatch();
-  const { gridDim, grid, selectedYear, scrollerAvailableYears } =
+  const { gridDim, grid, selectedYear, scrollerAvailableYears, cellSize } =
     useGlobalContext();
   const isMobile = useIsMobile();
 
@@ -332,7 +332,9 @@ export default function Home() {
                   <Icon
                     strokeWidth={4}
                     selected={selectedItemTitle === item.title}
-                    className={`icon-hover-glow hover:scale-125 transition-all duration-500
+                    width={cellSize?.x}
+                    height={cellSize?.y}
+                    className={`absolute icon-hover-glow hover:scale-125 transition-all duration-500
                       ${
                         selectedItemTitle
                           ? item.title === selectedItemTitle
