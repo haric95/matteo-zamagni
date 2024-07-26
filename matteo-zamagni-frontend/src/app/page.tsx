@@ -266,7 +266,7 @@ export default function Home() {
   useEffect(() => {
     if (
       selectedYear &&
-      selectedYear !== selectedItem?.year &&
+      Number(selectedYear) !== Number(selectedItem?.year) &&
       cancelDiagonalAnimation &&
       clearRectAnimation
     ) {
@@ -313,7 +313,8 @@ export default function Home() {
                     handleIconClick(item);
                   }}
                   className={`relative w-full h-full flex items-center justify-center overflow-visible ${
-                    selectedYear === null || item.year === selectedYear
+                    selectedYear === null ||
+                    Number(item.year) === Number(selectedYear)
                       ? ""
                       : "pointer-events-none"
                   }`}
