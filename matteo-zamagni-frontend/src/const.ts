@@ -1,8 +1,4 @@
-import {
-  Plus,
-  SelectableIconComponent,
-  TriangleDown,
-} from "./components/Icons";
+import { Plus, SelectableIconComponent, Rhombus } from "./components/Icons";
 import { HomepageItemType } from "./types/global";
 
 export const DEFAULT_ANIMATE_MODE = {
@@ -22,5 +18,5 @@ export const HomepageItemTypeIconMap: Record<
   SelectableIconComponent
 > = {
   [HomepageItemType.EXHIBITION]: Plus,
-  [HomepageItemType.PROJECT]: TriangleDown,
+  [HomepageItemType.PROJECT]: Rhombus,
 };

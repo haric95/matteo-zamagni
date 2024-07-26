@@ -337,7 +337,7 @@ export default function Home() {
                         ? selectedYear !== null
                           ? "transition-all scale-110"
                           : ""
-                        : "!stroke-landingIconInactive blur-[1px]"
+                        : "!stroke-landingIconInactive blur-[0.6px]"
                     }
                     `}
                   />

@@ -30,7 +30,7 @@ const config: Config = {
         ledInactive_Dark: "#333333",
         ledActive_Dark: "#ABABAB",
         ledInactive_Light: "#C5C4C4",
-        landingIconInactive: "#545353",
+        landingIconInactive: "#656464",
         ledActive_Light: "#000000",
         highlight: "#FEF781",
         fadedWhite: "#cccccc",
@@ -53,6 +53,23 @@ const config: Config = {
           "downTriangle_LeftLine_Reverse 0.5s ease-in-out forwards",
         downTriangle_RightLine_Reverse:
           "downTriangle_RightLine_Reverse 0.5s ease-in-out forwards",
+
+        rhombus_TopRight_Forwards:
+          "rhombus_TopRight_Forwards 0.5s ease-in-out forwards",
+        rhombus_BottomRight_Forwards:
+          "rhombus_BottomRight_Forwards 0.5s ease-in-out forwards",
+        rhombus_BottomLeft_Forwards:
+          "rhombus_BottomLeft_Forwards 0.5s ease-in-out forwards",
+        rhombus_TopLeft_Forwards:
+          "rhombus_TopLeft_Forwards 0.5s ease-in-out forwards",
+        rhombus_TopRight_Reverse:
+          "rhombus_TopRight_Reverse 0.5s ease-in-out forwards",
+        rhombus_BottomRight_Reverse:
+          "rhombus_BottomRight_Reverse 0.5s ease-in-out forwards",
+        rhombus_BottomLeft_Reverse:
+          "rhombus_BottomLeft_Reverse 0.5s ease-in-out forwards",
+        rhombus_TopLeft_Reverse:
+          "rhombus_TopLeft_Reverse 0.5s ease-in-out forwards",
         arrowGesture: "arrowGesture 5s ease-in-out 2000ms infinite",
         // wiggle: "wiggle 1s ease-in-out infinite",
         pingOnce: "ping 0.5s cubic-bezier(0, 0, 0.2, 1) none",
@@ -87,6 +104,39 @@ const config: Config = {
         downTriangle_RightLine_Reverse: {
           "0%": { transform: "translate(28px, -15px) rotate(-75deg)" },
           "100%": { transform: "rotate(0deg)" },
+        },
+        //
+        rhombus_TopRight_Forwards: {
+          "0%": { transform: "none" },
+          "100%": { transform: "translate(-22.5px, 22.5px)" },
+        },
+        rhombus_BottomRight_Forwards: {
+          "0%": { transform: "none" },
+          "100%": { transform: "translate(-22.5px, -22.5px)" },
+        },
+        rhombus_BottomLeft_Forwards: {
+          "0%": { transform: "none" },
+          "100%": { transform: "translate(22.5px, -22.5px)" },
+        },
+        rhombus_TopLeft_Forwards: {
+          "0%": { transform: "none" },
+          "100%": { transform: "translate(22.5px, 22.5px)" },
+        },
+        rhombus_TopRight_Reverse: {
+          "0%": { transform: "translate(-22.5px, 22.5px)" },
+          "100%": { transform: "none" },
+        },
+        rhombus_BottomRight_Reverse: {
+          "0%": { transform: "translate(-22.5px, -22.5px)" },
+          "100%": { transform: "none" },
+        },
+        rhombus_BottomLeft_Reverse: {
+          "0%": { transform: "translate(22.5px, -22.5px)" },
+          "100%": { transform: "none" },
+        },
+        rhombus_TopLeft_Reverse: {
+          "0%": { transform: "translate(22.5px, 22.5px)" },
+          "100%": { transform: "none" },
         },
         arrowGesture: {
           "0%": { transform: "translateX(0px)" },
