@@ -334,7 +334,7 @@ export default function Home() {
                         selectedItemTitle
                           ? item.title === selectedItemTitle
                             ? "stroke-highlight"
-                            : "stroke-landingIcon"
+                            : "stroke-landingIconInactive blur-[1px]"
                           : "stroke-white"
                       } ${
                       (selectedFilterType === null ||
