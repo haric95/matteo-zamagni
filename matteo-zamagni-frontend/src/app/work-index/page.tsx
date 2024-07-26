@@ -74,11 +74,13 @@ export default function Index() {
     populate: "deep",
   });
 
-  const { gridDim, cellSize } = useGlobalContext() as {
+  const { gridDim, cellSize, selectedYear } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
     cellSize: Dim2D;
+    selectedYear: string;
   };
+
   const isMobile = useIsMobile();
   const paddingX = isMobile
     ? CONTENT_GRID_PADDING_X_MOBILE
@@ -175,7 +177,12 @@ export default function Index() {
                       >
                         <Link
                           href={`/project/${item.slug}`}
-                          className="w-full h-full flex items-center justify-between hover-glow-light"
+                          className={`w-full h-full flex items-center justify-between hover-glow-light transition-all duration-500 ${
+                            selectedYear === null ||
+                            Number(selectedYear) === Number(item.year)
+                              ? ""
+                              : "blur-[2px] opacity-25"
+                          }`}
                         >
                           <div className="flex w-24 h-full justify-start items-center bg-background_Light">
                             <>
@@ -258,7 +265,12 @@ export default function Index() {
                       >
                         <Link
                           href={`/project/${item.slug}`}
-                          className="w-fit h-full flex items-center justify-center hover-glow-light"
+                          className={`w-fit h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
+                            selectedYear === null ||
+                            Number(selectedYear) === Number(item.year)
+                              ? ""
+                              : "blur-[2px] opacity-25"
+                          }`}
                         >
                           <div className="flex w-24 h-full justify-start items-center bg-background_Light">
                             <>
@@ -346,7 +358,12 @@ export default function Index() {
                       >
                         <Link
                           href={`/project/${item.slug}`}
-                          className="w-fit h-full flex items-center justify-center hover-glow-light"
+                          className={`w-fit h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
+                            selectedYear === null ||
+                            Number(selectedYear) === Number(item.year)
+                              ? ""
+                              : "blur-[2px] opacity-25"
+                          }`}
                         >
                           <div className="flex w-24 h-full justify-start items-center bg-background_Light">
                             <>
