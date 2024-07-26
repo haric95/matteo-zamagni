@@ -342,7 +342,7 @@ export default function Index() {
                       <div
                         key={item.title}
                         style={{ height: cellSize.y }}
-                        className="w-[50%]"
+                        className="w-full"
                       >
                         <Link
                           href={`/project/${item.slug}`}
