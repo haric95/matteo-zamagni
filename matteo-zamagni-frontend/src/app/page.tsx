@@ -324,6 +324,10 @@ export default function Home() {
                     Number(item.year) === Number(selectedYear)
                       ? ""
                       : "pointer-events-none"
+                  } ${
+                    selectedItemTitle && selectedItemTitle !== item.title
+                      ? "pointer-events-none"
+                      : ""
                   }`}
                 >
                   <Icon
@@ -334,7 +338,7 @@ export default function Home() {
                         selectedItemTitle
                           ? item.title === selectedItemTitle
                             ? "stroke-highlight"
-                            : "stroke-landingIconInactive blur-[1px]"
+                            : "stroke-landingIconInactive blur-[2px]"
                           : "stroke-white"
                       } ${
                       (selectedFilterType === null ||
