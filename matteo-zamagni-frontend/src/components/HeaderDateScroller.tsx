@@ -16,6 +16,8 @@ import "./HeaderDateScroller.css";
 
 const MULTIPLIER = 5;
 
+const VISIBLE_ON_PATHS = ["/", "/work-index"];
+
 // TODO: Resolve scroll issue that means visible overflow when reaching end of scroller wheel
 export const HeaderDateScroller = (props) => {
   const dispatch = useGlobalContextDispatch();
@@ -105,7 +107,9 @@ export const HeaderDateScroller = (props) => {
     scrollerAvailableYears && (
       <div
         className={`w-full h-full relative ${
-          pathname === "/" ? "" : "opacity-0 pointer-events-none"
+          VISIBLE_ON_PATHS.includes(pathname)
+            ? ""
+            : "opacity-0 pointer-events-none"
         } transition-all duration-500 delay-500	`}
       >
         <div
