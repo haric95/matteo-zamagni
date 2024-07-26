@@ -24,6 +24,7 @@ export const Plus: SelectableIconComponent = ({
     >
       <line {...{ x1: "50", y1: "10", x2: "50", y2: "90" }} />
       <line {...{ x1: "10", y1: "50", x2: "90", y2: "50" }} />
+      <rect width="8" height="8" x={46} y={46} fill={"white"} />
     </svg>
   );
 };
@@ -93,6 +94,7 @@ export const Rhombus: SelectableIconComponent = ({
         }`}
         {...{ x1: "5", y1: "50", x2: "50", y2: "5" }}
       />
+      <rect width="5" height="5" x={47.5} y={47.5} fill={"white"} />
     </svg>
   );
 };
