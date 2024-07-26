@@ -258,7 +258,6 @@ export default function Home() {
   );
 
   const handleClickOffIcon = useCallback(() => {
-    console.log("here");
     clearRectAnimation();
     cancelDiagonalAnimation();
     setSelectedItemTitle(null);
