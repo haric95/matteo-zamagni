@@ -1,12 +1,14 @@
 import { useLoadInitial } from "@/hooks/useLoadInitial";
 import { useGlobalContext } from "@/state/GlobalStore";
 import { PropsWithChildren, useEffect, useState } from "react";
+import { Loader } from "./Loader";
 
 export const LoadingScreen = ({ children }: PropsWithChildren) => {
   useLoadInitial();
   const { hasLoaded } = useGlobalContext();
   const [videoEnded, setVideoEnded] = useState(false);
   const [loadingScreenVisible, setLoadingScreenVisible] = useState(true);
+  const [timeoutState, setTimeoutState] = useState<number | null>(null);
 
   const handleVideoEnded = () => {
     setVideoEnded(true);
@@ -17,6 +19,17 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
       setLoadingScreenVisible(false);
     }
   }, [hasLoaded, videoEnded]);
+
+  // Handle case where video doesn't autoplay, by creating 5s timeout
+  useEffect(() => {
+    if (!videoEnded && !timeoutState) {
+      const timeout = window.setTimeout(() => {
+        setVideoEnded(true);
+        setTimeoutState(null);
+      }, 5000);
+      setTimeoutState(timeout);
+    }
+  }, [timeoutState, videoEnded]);
 
   return (
     <>
@@ -32,6 +45,7 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
       >
         {!videoEnded && (
           <div className="w-[240px] h-[240px] relative">
+            <Loader />
             <video
               className="absolute w-full h-full"
               src={"/loading-anim.mp4"}
@@ -39,7 +53,7 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
               muted
               onEnded={handleVideoEnded}
             />
-            <div className="absolute w-full h-full vignette" />
+            {/* <div className="absolute w-full h-full vignette" /> */}
           </div>
         )}
       </div>
