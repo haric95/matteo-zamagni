@@ -147,7 +147,7 @@ export default function Home() {
               ref={handleScrollDivChange}
               className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar"
             >
-              <Markdown>
+              <Markdown className={"markdown"}>
                 {aboutPageData && aboutPageData.data.attributes[aboutMode]}
               </Markdown>
             </div>

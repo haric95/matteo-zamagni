@@ -128,3 +128,7 @@ body {
 .pixel-flicker {
   animation: flicker 0.5s linear infinite;
 }
+
+.markdown a {
+  text-decoration: underline;
+}

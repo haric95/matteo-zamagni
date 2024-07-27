@@ -353,7 +353,9 @@ export default function Project({ params }: { params: { slug: string } }) {
                 style={{ whiteSpace: "break-spaces" }}
                 className="w-full h-full overflow-auto bg-black no-scrollbar"
               >
-                <Markdown>{projectItem?.attributes.text}</Markdown>
+                <Markdown className={"markdown"}>
+                  {projectItem?.attributes.text}
+                </Markdown>
               </motion.div>
             </GridChild>
           </>
