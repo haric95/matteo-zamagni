@@ -199,10 +199,6 @@ export default function Home() {
 
   useOnNavigate(handleNavigate);
 
-  console.log(shouldMount);
-
-  console.log(aboutPageData);
-
   return (
     <>
       <AnimatePresence>
@@ -218,7 +214,8 @@ export default function Home() {
               <a
                 className="w-full h-full flex justify-center items-center underline"
                 href={
-                  aboutPageData?.data.attributes.CV?.data.attributes.url || ""
+                  aboutPageData?.data?.attributes?.CV?.data?.attributes?.url ||
+                  ""
                 }
                 download={"Matteo Zamagni CV"}
               >
