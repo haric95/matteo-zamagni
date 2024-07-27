@@ -1,4 +1,5 @@
 "use client";
+import { AboutViewer } from "@/components/AboutViewer";
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
 import { MotionGridChild } from "@/components/MotionGridChild";
@@ -18,6 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const CENTER_CELL_PADDING_X = 16;
 const CENTER_CELL_PADDING_Y = 6;
@@ -35,13 +37,48 @@ enum AboutMode {
   TALKS = "Talks",
 }
 
+export enum StrapiAboutComponentType {
+  Title = "about.about-title",
+  Year = "about.about-year",
+  Item = "about.about-item",
+  Text = "about.about-text",
+}
+
+type StrapiTitleComponent = {
+  __component: StrapiAboutComponentType.Title;
+  Title: string;
+};
+
+type StrapiYearComponent = {
+  __component: StrapiAboutComponentType.Year;
+  Year: string;
+};
+
+type StrapiItemComponent = {
+  __component: StrapiAboutComponentType.Item;
+  Label: string;
+  Name: string;
+  Details: string;
+};
+
+type StrapiTextComponent = {
+  __component: StrapiAboutComponentType.Text;
+  Text: string;
+};
+
+export type StrapiAboutComponent =
+  | StrapiTitleComponent
+  | StrapiYearComponent
+  | StrapiItemComponent
+  | StrapiTextComponent;
+
 type AboutPageData = {
-  [AboutMode.BIO]: string;
-  [AboutMode.AWARDS]: string;
-  [AboutMode.RESIDENCIES]: string;
-  [AboutMode.PERFORMANCES]: string;
-  [AboutMode.SCREENINGS]: string;
-  [AboutMode.TALKS]: string;
+  [AboutMode.BIO]: StrapiAboutComponent[];
+  [AboutMode.AWARDS]: StrapiAboutComponent[];
+  [AboutMode.RESIDENCIES]: StrapiAboutComponent[];
+  [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
+  [AboutMode.SCREENINGS]: StrapiAboutComponent[];
+  [AboutMode.TALKS]: StrapiAboutComponent[];
 };
 
 // TODO: Add on mount delay to wait until bg color change has happened
@@ -145,11 +182,11 @@ export default function Home() {
           >
             <div
               ref={handleScrollDivChange}
-              className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar"
+              className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar px-2 py-4"
             >
-              <Markdown className={"markdown"}>
-                {aboutPageData && aboutPageData.data.attributes[aboutMode]}
-              </Markdown>
+              <AboutViewer
+                content={aboutPageData?.data.attributes[aboutMode] || null}
+              />
             </div>
           </MotionGridChild>
         )}
