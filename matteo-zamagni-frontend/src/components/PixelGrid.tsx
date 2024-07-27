@@ -52,7 +52,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
         updateCellSize();
       }
     }, 100);
-  }, [cellRef]);
+  }, [cellRef, updateCellSize]);
 
   useEffect(() => {
     window.addEventListener("resize", updateCellSize);
