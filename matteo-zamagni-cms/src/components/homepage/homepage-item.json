@@ -40,7 +40,8 @@
     "position": {
       "type": "component",
       "repeatable": false,
-      "component": "vec.pos2-d"
+      "component": "vec.pos2-d",
+      "required": true
     }
   }
 }
