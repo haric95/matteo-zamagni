@@ -79,9 +79,9 @@ type AboutPageData = {
   [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
   [AboutMode.SCREENINGS]: StrapiAboutComponent[];
   [AboutMode.TALKS]: StrapiAboutComponent[];
-  CV: StrapiImageResponse;
-  DigitalSales: { label: string; url: string }[];
-  RepresentedBy: { label: string; url: string }[];
+  CV: StrapiImageResponse | null;
+  DigitalSales: { label: string; url: string }[] | null;
+  RepresentedBy: { label: string; url: string }[] | null;
 };
 
 // TODO: Add on mount delay to wait until bg color change has happened
@@ -199,6 +199,10 @@ export default function Home() {
 
   useOnNavigate(handleNavigate);
 
+  console.log(shouldMount);
+
+  console.log(aboutPageData);
+
   return (
     <>
       <AnimatePresence>
@@ -214,7 +218,7 @@ export default function Home() {
               <a
                 className="w-full h-full flex justify-center items-center underline"
                 href={
-                  aboutPageData?.data.attributes.CV.data.attributes.url || ""
+                  aboutPageData?.data.attributes.CV?.data.attributes.url || ""
                 }
                 download={"Matteo Zamagni CV"}
               >
@@ -235,7 +239,7 @@ export default function Home() {
           >
             <div>
               <p>represented by:</p>
-              {aboutPageData?.data.attributes.RepresentedBy.map((by) => (
+              {aboutPageData?.data?.attributes?.RepresentedBy?.map((by) => (
                 <Link
                   key={by.label}
                   href={by.url}
@@ -248,7 +252,7 @@ export default function Home() {
             </div>
             <div>
               <p>digital sales:</p>
-              {aboutPageData?.data.attributes.DigitalSales.map((by) => (
+              {aboutPageData?.data?.attributes?.DigitalSales?.map((by) => (
                 <Link
                   key={by.label}
                   href={by.url}
@@ -276,7 +280,7 @@ export default function Home() {
               className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar px-2 py-4"
             >
               <AboutViewer
-                content={aboutPageData?.data.attributes[aboutMode] || null}
+                content={aboutPageData?.data?.attributes[aboutMode] || null}
               />
             </div>
           </MotionGridChild>
