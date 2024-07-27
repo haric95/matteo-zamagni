@@ -90,7 +90,6 @@ export default function Home() {
   const aboutPageData = useStrapi<AboutPageData, false>("/about", {
     populate: "deep",
   });
-  console.log(aboutPageData);
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
@@ -126,12 +125,16 @@ export default function Home() {
   }, [gridDim, isMobile]);
 
   const CVCellPos = useMemo<PosAndDim2D>(() => {
-    const width = isMobile ? 8 : 8;
-    const height = isMobile ? 2 : 2;
+    const width = isMobile ? 6 : 8;
+    const height = isMobile ? 1 : 2;
 
     return {
-      x: centerCellPos.x + centerCellPos.width + 3,
-      y: centerCellPos.y + 2,
+      x: isMobile
+        ? centerCellPos.x + centerCellPos.width - width + 1
+        : centerCellPos.x + centerCellPos.width + 3,
+      y: isMobile
+        ? centerCellPos.y + centerCellPos.height + 1
+        : centerCellPos.y + 2,
       width,
       height,
     };
@@ -222,7 +225,7 @@ export default function Home() {
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {shouldMount && (
+        {shouldMount && !isMobile && (
           <MotionGridChild
             isGrid={false}
             {...infoCellPos}
