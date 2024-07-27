@@ -16,6 +16,7 @@ import {
 } from "@/state/GlobalStore";
 import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 import Markdown from "react-markdown";
@@ -86,6 +87,7 @@ export default function Home() {
   const aboutPageData = useStrapi<AboutPageData, false>("/about", {
     populate: "deep",
   });
+  console.log(aboutPageData);
   const { gridDim, grid } = useGlobalContext() as {
     gridDim: Dim2D;
     grid: Grid;
@@ -119,6 +121,18 @@ export default function Home() {
       height,
     };
   }, [gridDim, isMobile]);
+
+  const CVCellPos = useMemo<PosAndDim2D>(() => {
+    const width = isMobile ? 8 : 8;
+    const height = isMobile ? 2 : 2;
+
+    return {
+      x: gridDim.x - width - 2,
+      y: centerCellPos.y + 2,
+      width,
+      height,
+    };
+  }, [gridDim, isMobile, centerCellPos]);
 
   const handleScrollDivChange = useCallback((div: HTMLDivElement | null) => {
     if (div) {
@@ -170,13 +184,30 @@ export default function Home() {
   return (
     <>
       <AnimatePresence>
+        {shouldMount && (
+          <MotionGridChild
+            isGrid={false}
+            {...CVCellPos}
+            {...DEFAULT_ANIMATE_MODE}
+            className="bg-background_Light"
+            key={aboutMode}
+          >
+            <Link
+              className="w-full h-full flex justify-center items-center underline"
+              href={""}
+            >
+              Download CV
+            </Link>
+          </MotionGridChild>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
         {shouldMount && centerCellPos && (
           <MotionGridChild
             isGrid={false}
             {...centerCellPos}
             {...DEFAULT_ANIMATE_MODE}
             className="bg-background_Light"
-            {...centerCellPos}
             key={aboutMode}
           >
             <div
