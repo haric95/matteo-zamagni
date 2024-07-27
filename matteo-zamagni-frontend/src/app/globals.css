@@ -92,3 +92,21 @@ body {
 .slide-in {
   animation: slide-in 1s ease-in-out forwards;
 }
+
+@keyframes flicker {
+  0% { opacity: 100% }
+  10% { opacity: 100% }
+  18% { opacity: 70%; text-shadow: #ffffff44; }
+  19% { opacity: 100% }
+  50% { opacity: 100% }
+  51% { opacity: 60% }
+  53% { opacity: 100% }
+  80% { opacity: 100% }
+  82% { opacity: 70% }
+  84% { opacity: 100% }
+  100% { opacity: 100% }
+}
+
+.flicker {
+  animation: flicker 0.5s linear infinite;
+}

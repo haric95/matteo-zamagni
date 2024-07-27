@@ -352,6 +352,12 @@ export default function Home() {
                         : "!stroke-landingIconInactive blur-[1px]"
                     }
                     `}
+                    style={{
+                      animation: `flicker ${
+                        Math.random() * 20 + 5
+                      }s linear infinite`,
+                      animationDelay: `${Math.random() * 2}s`,
+                    }}
                   />
                 </button>
               </GridChild>
