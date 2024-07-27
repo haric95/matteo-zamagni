@@ -19,7 +19,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 const CENTER_CELL_PADDING_X = 16;
 const CENTER_CELL_PADDING_Y = 6;
