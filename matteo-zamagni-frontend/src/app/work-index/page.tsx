@@ -272,7 +272,7 @@ export default function Index() {
                               : "blur-[2px] opacity-25"
                           }`}
                         >
-                          <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                          <div className="flex w-24 pr-8 h-full justify-end items-center bg-background_Light">
                             <>
                               {homepageItemArray.map((type) => {
                                 if (item.type === type) {
@@ -365,7 +365,7 @@ export default function Index() {
                               : "blur-[2px] opacity-25"
                           }`}
                         >
-                          <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                          <div className="flex w-24 pr-8 h-full justify-end items-center bg-background_Light">
                             <>
                               {homepageItemArray.map((type) => {
                                 if (item.type === type) {
