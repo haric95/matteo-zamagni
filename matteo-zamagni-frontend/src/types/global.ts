@@ -30,3 +30,59 @@ export type HomepageItem = {
 export type HomepageData = {
   items: HomepageItem[];
 };
+
+export enum AboutMode {
+  BIO = "Bio",
+  AWARDS = "Awards",
+  RESIDENCIES = "Residencies",
+  PERFORMANCES = "Performances",
+  SCREENINGS = "Screenings",
+  TALKS = "Talks",
+}
+
+export enum StrapiAboutComponentType {
+  Title = "about.about-title",
+  Year = "about.about-year",
+  Item = "about.about-item",
+  Text = "about.about-text",
+}
+
+type StrapiTitleComponent = {
+  __component: StrapiAboutComponentType.Title;
+  Title: string;
+};
+
+type StrapiYearComponent = {
+  __component: StrapiAboutComponentType.Year;
+  Year: string;
+};
+
+type StrapiItemComponent = {
+  __component: StrapiAboutComponentType.Item;
+  Label: string;
+  Name: string;
+  Details: string;
+};
+
+type StrapiTextComponent = {
+  __component: StrapiAboutComponentType.Text;
+  Text: string;
+};
+
+export type StrapiAboutComponent =
+  | StrapiTitleComponent
+  | StrapiYearComponent
+  | StrapiItemComponent
+  | StrapiTextComponent;
+
+export type AboutPageData = {
+  [AboutMode.BIO]: StrapiAboutComponent[];
+  [AboutMode.AWARDS]: StrapiAboutComponent[];
+  [AboutMode.RESIDENCIES]: StrapiAboutComponent[];
+  [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
+  [AboutMode.SCREENINGS]: StrapiAboutComponent[];
+  [AboutMode.TALKS]: StrapiAboutComponent[];
+  CV: StrapiImageResponse | null;
+  DigitalSales: { label: string; url: string }[] | null;
+  RepresentedBy: { label: string; url: string }[] | null;
+};

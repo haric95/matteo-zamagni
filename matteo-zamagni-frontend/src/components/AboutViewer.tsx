@@ -1,7 +1,4 @@
-import {
-  StrapiAboutComponent,
-  StrapiAboutComponentType,
-} from "@/app/about/page";
+import { StrapiAboutComponent, StrapiAboutComponentType } from "@/types/global";
 import React from "react";
 import Markdown from "react-markdown";
 

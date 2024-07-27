@@ -1,25 +1,29 @@
 "use client";
 import { AboutViewer } from "@/components/AboutViewer";
 import { FooterRight } from "@/components/FooterRight";
-import { GridChild } from "@/components/GridChild";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
-import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
+import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid, PosAndDim2D } from "@/types/global";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AboutMode,
+  AboutPageData,
+  Dim2D,
+  Grid,
+  PosAndDim2D,
+} from "@/types/global";
+import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TfiLayoutMenuV } from "react-icons/tfi";
-import Markdown from "react-markdown";
 
 const CENTER_CELL_PADDING_X = 16;
 const CENTER_CELL_PADDING_Y = 6;
@@ -27,62 +31,6 @@ const CENTER_CELL_Y_OFFSET = 2;
 const CENTER_CELL_PADDING_X_MOBILE = 2;
 const CENTER_CELL_PADDING_Y_MOBILE = 6;
 const CENTER_CELL_Y_OFFSET_MOBILE = 0;
-
-enum AboutMode {
-  BIO = "Bio",
-  AWARDS = "Awards",
-  RESIDENCIES = "Residencies",
-  PERFORMANCES = "Performances",
-  SCREENINGS = "Screenings",
-  TALKS = "Talks",
-}
-
-export enum StrapiAboutComponentType {
-  Title = "about.about-title",
-  Year = "about.about-year",
-  Item = "about.about-item",
-  Text = "about.about-text",
-}
-
-type StrapiTitleComponent = {
-  __component: StrapiAboutComponentType.Title;
-  Title: string;
-};
-
-type StrapiYearComponent = {
-  __component: StrapiAboutComponentType.Year;
-  Year: string;
-};
-
-type StrapiItemComponent = {
-  __component: StrapiAboutComponentType.Item;
-  Label: string;
-  Name: string;
-  Details: string;
-};
-
-type StrapiTextComponent = {
-  __component: StrapiAboutComponentType.Text;
-  Text: string;
-};
-
-export type StrapiAboutComponent =
-  | StrapiTitleComponent
-  | StrapiYearComponent
-  | StrapiItemComponent
-  | StrapiTextComponent;
-
-type AboutPageData = {
-  [AboutMode.BIO]: StrapiAboutComponent[];
-  [AboutMode.AWARDS]: StrapiAboutComponent[];
-  [AboutMode.RESIDENCIES]: StrapiAboutComponent[];
-  [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
-  [AboutMode.SCREENINGS]: StrapiAboutComponent[];
-  [AboutMode.TALKS]: StrapiAboutComponent[];
-  CV: StrapiImageResponse | null;
-  DigitalSales: { label: string; url: string }[] | null;
-  RepresentedBy: { label: string; url: string }[] | null;
-};
 
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
