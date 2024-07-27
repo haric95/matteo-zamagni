@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_about_about_years",
+  "info": {
+    "displayName": "About Year"
+  },
+  "options": {},
+  "attributes": {
+    "Year": {
+      "type": "string"
+    }
+  }
+}

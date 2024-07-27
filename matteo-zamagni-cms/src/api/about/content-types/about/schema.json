@@ -12,33 +12,70 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Bio": {
-      "type": "richtext"
-    },
-    "Awards": {
-      "type": "richtext"
-    },
-    "Residencies": {
-      "type": "richtext"
-    },
-    "Performances": {
-      "type": "richtext"
-    },
-    "Screenings": {
-      "type": "richtext"
-    },
-    "Talks": {
-      "type": "richtext"
-    },
     "CV": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "Awards": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-title",
+        "about.about-year",
+        "about.about-item",
+        "about.about-text"
+      ]
+    },
+    "Bio": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-item",
+        "about.about-text",
+        "about.about-title",
+        "about.about-year"
+      ]
+    },
+    "Residencies": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-year",
+        "about.about-title",
+        "about.about-text",
+        "about.about-item"
+      ]
+    },
+    "Performances": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-year",
+        "about.about-title",
+        "about.about-text",
+        "about.about-item"
+      ]
+    },
+    "Screenings": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-year",
+        "about.about-title",
+        "about.about-text",
+        "about.about-item"
+      ]
+    },
+    "Talks": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-year",
+        "about.about-title",
+        "about.about-text",
+        "about.about-item"
+      ]
     }
   }
 }

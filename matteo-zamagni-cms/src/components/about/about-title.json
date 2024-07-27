@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_about_about_titles",
+  "info": {
+    "displayName": "AboutTitle"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_about_about_texts",
+  "info": {
+    "displayName": "AboutText",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Text": {
+      "type": "richtext"
+    }
+  }
+}
