@@ -5,6 +5,7 @@ import {
 } from "@/state/GlobalStore";
 import { Dim2D } from "@/types/global";
 import React, { PropsWithChildren, useCallback, useId } from "react";
+import { MdOutlineMail } from "react-icons/md";
 
 const FOOTER_LEFT_HEIGHT = 3;
 const FOOTER_LEFT_WIDTH = 1;
@@ -53,12 +54,12 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
           IG
         </a>
         <a
-          href="https://vimeo.com/matteozamagni"
+          href="mailto:matewfeel@gmail.com"
           target="_blank"
           rel="noreferrer"
           className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500"
         >
-          VM
+          <MdOutlineMail />
         </a>
         <button
           onClick={handleOpenCredits}
