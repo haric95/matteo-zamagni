@@ -12,20 +12,17 @@ type AboutViewerProps = {
 export const AboutViewer: React.FC<AboutViewerProps> = ({ content }) => {
   return content
     ? content.map((item) => {
-        if (item.__component === StrapiAboutComponentType.Text) {
-          console.log("here");
-        }
         switch (item.__component) {
           case StrapiAboutComponentType.Title:
             return (
-              <h1 className="text-right text-xl mb-4">
+              <h1 className="text-xl mb-4">
                 <b>{item.Title}</b>
               </h1>
             );
           case StrapiAboutComponentType.Year:
             return (
               <div className="flex justify-end">
-                <p className="text-right w-2/3 border-b-[1px] border-black py-2">
+                <p className="text-lg text-right w-2/3 border-b-[1px] border-black py-2">
                   {item.Year}
                 </p>
               </div>
@@ -52,7 +49,6 @@ export const AboutViewer: React.FC<AboutViewerProps> = ({ content }) => {
                 <Markdown>{item.Text}</Markdown>
               </div>
             );
-            break;
           default:
             return null;
         }
