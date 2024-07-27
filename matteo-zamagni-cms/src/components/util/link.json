@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_util_links",
+  "info": {
+    "displayName": "Link"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    }
+  }
+}

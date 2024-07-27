@@ -76,6 +76,16 @@
         "about.about-text",
         "about.about-item"
       ]
+    },
+    "RepresentedBy": {
+      "type": "component",
+      "repeatable": true,
+      "component": "util.link"
+    },
+    "DigitalSales": {
+      "type": "component",
+      "repeatable": true,
+      "component": "util.link"
     }
   }
 }
