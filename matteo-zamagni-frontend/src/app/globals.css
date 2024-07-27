@@ -96,7 +96,7 @@ body {
 @keyframes flicker {
   0% { opacity: 100% }
   10% { opacity: 100% }
-  18% { opacity: 70%; text-shadow: #ffffff44; }
+  18% { opacity: 70% }
   19% { opacity: 100% }
   50% { opacity: 100% }
   51% { opacity: 60% }
@@ -108,5 +108,23 @@ body {
 }
 
 .flicker {
+  animation: flicker 0.5s linear infinite;
+}
+
+@keyframes pixelFlicker {
+  0% { filter: contrast(1) }
+  10% { filter: contrast(1) }
+  18% { filter: contrast(1) }
+  19% { filter: contrast(0) }
+  50% { filter: contrast(1)}
+  51% { filter: contrast(0) }
+  53% { filter: contrast(1) }
+  80% { filter: contrast(1) }
+  82% { filter: contrast(0) }
+  84% { filter: contrast(1) }
+  100% { filter: contrast(1) }
+}
+
+.pixel-flicker {
   animation: flicker 0.5s linear infinite;
 }
