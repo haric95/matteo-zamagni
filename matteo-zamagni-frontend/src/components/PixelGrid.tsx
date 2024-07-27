@@ -63,7 +63,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   }, [updateCellSize]);
 
   return (
-    <main className="fixed relative w-screen h-screen">
+    <main className="fixed relative w-screen h-[calc(100dvh)]">
       <div
         className="absolute w-full h-full bg-background_Light dark:bg-background_Dark transition-[background-color] duration-500"
         onTransitionEnd={handleThemeTransitionEnd}

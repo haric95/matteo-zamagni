@@ -14,7 +14,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 }) => {
   const isMobile = useIsMobile();
   return (
-    <div className="w-screen h-screen fixed left-0 top-0 z-10 flex justify-center items-center">
+    <div className="w-screen h-[calc(100dvh)] fixed left-0 top-0 z-10 flex justify-center items-center">
       <div
         className="w-full h-full absolute bg-black opacity-80"
         onClick={handleClose}

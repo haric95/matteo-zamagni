@@ -22,7 +22,7 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
     <>
       {children}
       <div
-        className={`fixed top-0 left-0 w-screen h-screen loading-screen z-[1000] flex items-center justify-center  transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-screen h-[calc(100dvh)] loading-screen z-[1000] flex items-center justify-center  transition-all duration-500 ${
           !videoEnded
             ? "bg-background_Dark"
             : "dark:bg-background_Dark bg-background_Light"
