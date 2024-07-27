@@ -8,7 +8,7 @@ import { drawVerticalLine } from "@/helpers/gridHelpers";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLEDScrollbar } from "@/hooks/useLEDScrollbar";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
-import { useStrapi } from "@/hooks/useStrapi";
+import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
@@ -79,6 +79,9 @@ type AboutPageData = {
   [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
   [AboutMode.SCREENINGS]: StrapiAboutComponent[];
   [AboutMode.TALKS]: StrapiAboutComponent[];
+  CV: StrapiImageResponse;
+  DigitalSales: { label: string; url: string }[];
+  RepresentedBy: { label: string; url: string }[];
 };
 
 // TODO: Add on mount delay to wait until bg color change has happened
@@ -127,12 +130,24 @@ export default function Home() {
     const height = isMobile ? 2 : 2;
 
     return {
-      x: gridDim.x - width - 2,
+      x: centerCellPos.x + centerCellPos.width + 3,
       y: centerCellPos.y + 2,
       width,
       height,
     };
-  }, [gridDim, isMobile, centerCellPos]);
+  }, [isMobile, centerCellPos]);
+
+  const infoCellPos = useMemo<PosAndDim2D>(() => {
+    const width = isMobile ? 8 : 10;
+    const height = isMobile ? 2 : 12;
+
+    return {
+      x: centerCellPos.x - width - 3,
+      y: centerCellPos.y + centerCellPos.height / 2 - height / 2,
+      width,
+      height,
+    };
+  }, [isMobile, centerCellPos]);
 
   const handleScrollDivChange = useCallback((div: HTMLDivElement | null) => {
     if (div) {
@@ -185,19 +200,62 @@ export default function Home() {
     <>
       <AnimatePresence>
         {shouldMount && (
+          <>
+            <MotionGridChild
+              isGrid={false}
+              {...CVCellPos}
+              {...DEFAULT_ANIMATE_MODE}
+              className="bg-background_Light"
+              key={aboutMode}
+            >
+              <a
+                className="w-full h-full flex justify-center items-center underline"
+                href={
+                  aboutPageData?.data.attributes.CV.data.attributes.url || ""
+                }
+                download={"Matteo Zamagni CV"}
+              >
+                Download CV
+              </a>
+            </MotionGridChild>
+          </>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {shouldMount && (
           <MotionGridChild
             isGrid={false}
-            {...CVCellPos}
+            {...infoCellPos}
             {...DEFAULT_ANIMATE_MODE}
-            className="bg-background_Light"
+            className="bg-background_Light flex flex-col justify-around p-2"
             key={aboutMode}
           >
-            <Link
-              className="w-full h-full flex justify-center items-center underline"
-              href={""}
-            >
-              Download CV
-            </Link>
+            <div>
+              <p>represented by:</p>
+              {aboutPageData?.data.attributes.RepresentedBy.map((by) => (
+                <Link
+                  key={by.label}
+                  href={by.url}
+                  className="block underline"
+                  target="_blank"
+                >
+                  {by.label}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <p>digital sales:</p>
+              {aboutPageData?.data.attributes.DigitalSales.map((by) => (
+                <Link
+                  key={by.label}
+                  href={by.url}
+                  className="block underline"
+                  target="_blank"
+                >
+                  {by.label}
+                </Link>
+              ))}
+            </div>
           </MotionGridChild>
         )}
       </AnimatePresence>
