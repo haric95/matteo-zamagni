@@ -34,6 +34,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 import { TypeAnimation } from "react-type-animation";
+import { set } from "lodash";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
@@ -47,9 +48,30 @@ export default function Home() {
     "populate[items][populate][0]": "position",
     "populate[items][populate][1]": "image",
   });
+  const isMobile = useIsMobile();
+
+  const parsedHomepageData = useMemo(() => {
+    if (homepageData) {
+      if (isMobile) {
+        const homepageDataUpdatedItems =
+          homepageData?.data.attributes.items.map((item) => ({
+            ...item,
+            position: { x: item.position.y, y: item.position.x },
+          }));
+        const object = set(
+          homepageData,
+          ["data", "attributes", "items"],
+          homepageDataUpdatedItems
+        );
+        return object;
+      }
+      return homepageData;
+    }
+    return null;
+  }, [homepageData, isMobile]);
 
   usePrefetchImages(
-    homepageData?.data.attributes.items.map(
+    parsedHomepageData?.data.attributes.items.map(
       (item) => item.image.data.attributes.url
     ) || null
   );
@@ -57,7 +79,6 @@ export default function Home() {
   const dispatch = useGlobalContextDispatch();
   const { gridDim, grid, selectedYear, scrollerAvailableYears, cellSize } =
     useGlobalContext();
-  const isMobile = useIsMobile();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
     null
@@ -71,9 +92,9 @@ export default function Home() {
     useGridLineAnimation();
 
   useEffect(() => {
-    if (homepageData && !scrollerAvailableYears) {
+    if (parsedHomepageData && !scrollerAvailableYears) {
       const years = new Set(["0000"]);
-      homepageData.data.attributes.items.forEach((item) => {
+      parsedHomepageData.data.attributes.items.forEach((item) => {
         years.add(String(item.year));
       });
       const sortedYears = Array.from(years).sort(
@@ -83,7 +104,7 @@ export default function Home() {
         dispatch({ type: "SET_SCROLLER_AVAILABLE_YEARS", years: sortedYears });
       }
     }
-  }, [scrollerAvailableYears, homepageData, dispatch]);
+  }, [scrollerAvailableYears, parsedHomepageData, dispatch]);
 
   const { shouldMount } = useTheme({ isDark: true });
 
@@ -143,11 +164,11 @@ export default function Home() {
 
   const selectedItem = useMemo(() => {
     return (
-      homepageData?.data.attributes.items.find(
+      parsedHomepageData?.data.attributes.items.find(
         (item) => item.title === selectedItemTitle
       ) || null
     );
-  }, [homepageData, selectedItemTitle]);
+  }, [parsedHomepageData, selectedItemTitle]);
 
   const selectedItemImagePos = useMemo(() => {
     if (selectedItem) {
@@ -300,7 +321,7 @@ export default function Home() {
           {...centerContainerVals}
           className=""
         >
-          {homepageData?.data.attributes.items.map((item) => {
+          {parsedHomepageData?.data.attributes.items.map((item) => {
             const Icon = HomepageItemTypeIconMap[item.type];
             return (
               <GridChild
