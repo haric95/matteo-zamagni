@@ -88,8 +88,6 @@ export default function Home() {
 
   const { startRectAnimation, clearRect: clearRectAnimation } =
     useGridRectAnimation();
-  const { startAnimation, cancelAnimation: cancelDiagonalAnimation } =
-    useGridLineAnimation();
 
   useEffect(() => {
     if (parsedHomepageData && !scrollerAvailableYears) {
@@ -221,7 +219,6 @@ export default function Home() {
     (item: HomepageItem) => {
       if (dispatch && grid) {
         clearRectAnimation();
-        cancelDiagonalAnimation();
         if (selectedItemTitle === item.title) {
           setSelectedItemTitle(null);
         } else {
@@ -263,8 +260,6 @@ export default function Home() {
                 outerGridPointCoords, // point of icon click
                 outerGridImagePos // rect info
               );
-              const path = tronPath(outerGridPointCoords, nearestImageCorner);
-              startAnimation(path, 1000);
             }
           }
         }
@@ -279,16 +274,13 @@ export default function Home() {
       getImagePos,
       centerContainerVals,
       gridDim,
-      startAnimation,
-      cancelDiagonalAnimation,
     ]
   );
 
   const handleClickOffIcon = useCallback(() => {
     clearRectAnimation();
-    cancelDiagonalAnimation();
     setSelectedItemTitle(null);
-  }, [clearRectAnimation, cancelDiagonalAnimation]);
+  }, [clearRectAnimation]);
 
   useEffect(() => {
     if (dispatch) {
@@ -300,22 +292,19 @@ export default function Home() {
     if (
       selectedYear &&
       Number(selectedYear) !== Number(selectedItem?.year) &&
-      cancelDiagonalAnimation &&
       clearRectAnimation
     ) {
       clearRectAnimation();
-      cancelDiagonalAnimation();
       setSelectedItemTitle(null);
     }
-  }, [selectedItem, selectedYear, clearRectAnimation, cancelDiagonalAnimation]);
+  }, [selectedItem, selectedYear, clearRectAnimation]);
 
   const handleNavigate = useCallback(() => {
     if (dispatch) {
       dispatch({ type: "CLEAR_GRID" });
     }
-    cancelDiagonalAnimation();
     clearRectAnimation();
-  }, [dispatch, cancelDiagonalAnimation, clearRectAnimation]);
+  }, [dispatch, clearRectAnimation]);
 
   useOnNavigate(handleNavigate);
 
