@@ -28,7 +28,7 @@ import { TfiLayoutMenuV } from "react-icons/tfi";
 const CENTER_CELL_PADDING_X = 16;
 const CENTER_CELL_PADDING_Y = 6;
 const CENTER_CELL_Y_OFFSET = 2;
-const CENTER_CELL_PADDING_X_MOBILE = 2;
+const CENTER_CELL_PADDING_X_MOBILE = 1;
 const CENTER_CELL_PADDING_Y_MOBILE = 6;
 const CENTER_CELL_Y_OFFSET_MOBILE = 0;
 

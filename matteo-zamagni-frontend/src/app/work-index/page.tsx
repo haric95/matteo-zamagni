@@ -35,7 +35,7 @@ import { TfiLayoutMenuV } from "react-icons/tfi";
 
 const CONTENT_GRID_PADDING_X = 8;
 const CONTENT_GRID_PADDING_Y = 2;
-const CONTENT_GRID_PADDING_X_MOBILE = 2;
+const CONTENT_GRID_PADDING_X_MOBILE = 0;
 const CONTENT_GRID_PADDING_Y_MOBILE = 1;
 
 // TODO: Find a way to prevent content being hidden on smaller screen sizes
