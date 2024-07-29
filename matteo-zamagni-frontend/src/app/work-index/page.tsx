@@ -17,51 +17,27 @@ import {
 import { parseTagsString } from "@/helpers/parseTagsString";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
-import { useStrapi } from "@/hooks/useStrapi";
+import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid, HomepageItemType } from "@/types/global";
+import {
+  Dim2D,
+  Grid,
+  HomepageItemType,
+  IndexItem,
+  IndexPageData,
+  WORK_INDEX_TYPE_ARRAY,
+  WorkIndexType,
+  WorkIndexTypeIcon,
+} from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { TfiLayoutMenuV } from "react-icons/tfi";
-
-enum WorkIndexType {
-  INSTALLATION = "Installation",
-  PERFORMANCE = "Performance",
-  FILM = "Film",
-  PRINT = "Print",
-}
-
-const WORK_INDEX_TYPE_ARRAY = [
-  WorkIndexType.INSTALLATION,
-  WorkIndexType.PERFORMANCE,
-  WorkIndexType.FILM,
-  WorkIndexType.PRINT,
-];
-
-const WorkIndexTypeIcon = {
-  [WorkIndexType.INSTALLATION]: HorizontalLines,
-  [WorkIndexType.PERFORMANCE]: Circle,
-  [WorkIndexType.FILM]: Star,
-  [WorkIndexType.PRINT]: BackChevrons,
-};
-
-type IndexItem = {
-  type: HomepageItemType;
-  title: string;
-  year: string;
-  slug: string;
-  tags: string;
-};
-
-type IndexPageData = {
-  items: IndexItem[];
-};
 
 const CONTENT_GRID_PADDING_X = 8;
 const CONTENT_GRID_PADDING_Y = 2;

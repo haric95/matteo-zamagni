@@ -1,3 +1,9 @@
+import {
+  HorizontalLines,
+  Circle,
+  Star,
+  BackChevrons,
+} from "@/components/Icons";
 import { StrapiImageResponse } from "@/hooks/useStrapi";
 
 export type Dim2D = { x: number; y: number };
@@ -85,4 +91,38 @@ export type AboutPageData = {
   CV: StrapiImageResponse | null;
   DigitalSales: { label: string; url: string }[] | null;
   RepresentedBy: { label: string; url: string }[] | null;
+};
+
+export enum WorkIndexType {
+  INSTALLATION = "Installation",
+  PERFORMANCE = "Performance",
+  FILM = "Film",
+  PRINT = "Print",
+}
+
+export const WORK_INDEX_TYPE_ARRAY = [
+  WorkIndexType.INSTALLATION,
+  WorkIndexType.PERFORMANCE,
+  WorkIndexType.FILM,
+  WorkIndexType.PRINT,
+];
+
+export const WorkIndexTypeIcon = {
+  [WorkIndexType.INSTALLATION]: HorizontalLines,
+  [WorkIndexType.PERFORMANCE]: Circle,
+  [WorkIndexType.FILM]: Star,
+  [WorkIndexType.PRINT]: BackChevrons,
+};
+
+export type IndexItem = {
+  type: HomepageItemType;
+  title: string;
+  year: string;
+  slug: string;
+  tags: string;
+};
+
+export type IndexPageData = {
+  items: IndexItem[];
+  PixelBackgroundAnimation: StrapiImageResponse;
 };

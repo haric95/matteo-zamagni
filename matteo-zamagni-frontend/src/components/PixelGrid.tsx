@@ -1,10 +1,12 @@
 "use client";
 import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
-import { useSetDarkThemeClass } from "@/hooks/useSetDarkThemeClass";
+import { useStrapi } from "@/hooks/useStrapi";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
+import { IndexPageData } from "@/types/global";
+import Image from "next/image";
 import React, {
   PropsWithChildren,
   useCallback,
@@ -21,6 +23,9 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   const { gridDim, grid } = useGlobalContext();
   const dispatch = useGlobalContextDispatch();
   const [cell, setCell] = useState<HTMLDivElement | null>(null);
+  const aboutPageData = useStrapi<IndexPageData, false>("/homepage", {
+    populate: "deep",
+  });
 
   const handleThemeTransitionEnd = useCallback(() => {
     if (dispatch) {
@@ -76,15 +81,25 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
         }}
       />
-      <div className="absolute">
-        <img
-          src="/noise2.gif"
-          className="bg-red-500 opacity-30"
-          style={{
-            width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
-            height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
-          }}
-        />
+      <div
+        className="absolute"
+        style={{
+          width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+          height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
+        }}
+      >
+        {aboutPageData && (
+          <Image
+            src={
+              aboutPageData.data.attributes.PixelBackgroundAnimation.data
+                .attributes.url
+            }
+            className="bg-red-500 opacity-50"
+            alt="background animation"
+            objectFit="cover"
+            layout="fill"
+          />
+        )}
       </div>
       <div
         className={`absolute grid pointer-events-none`}
@@ -99,7 +114,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           className={`flex justify-center items-center transition-all border-background_Light dark:border-background_Dark`}
           key={`0-0`}
           style={{
-            borderWidth: "9.5px",
+            borderWidth: "9.25px",
             transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
           }}
           ref={cellRef}
