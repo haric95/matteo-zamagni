@@ -69,6 +69,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     (homepageItem) => homepageItem.slug === params.slug
   );
   const isMobile = useIsMobile();
+  const { shouldMount } = useTheme({ isDark: true });
 
   usePrefetchImages(
     projectItem?.attributes.images.map(
@@ -447,80 +448,44 @@ export default function Project({ params }: { params: { slug: string } }) {
         ) : null}
       </AnimatePresence>
 
-      <FooterRight
-        footerRightHeight={5}
-        footerRightWidth={6}
-        mobileTitleComponent={
-          <div className="flex items-center">
-            <TfiLayoutMenuV color="white" className="mr-1" />
-            <p>navigation - {projectMode}</p>
-          </div>
-        }
-      >
-        <div
-          className="grid col-span-full row-span-full translate-y-[8px]"
-          style={{
-            gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
-            gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
-          }}
+      {shouldMount && (
+        <FooterRight
+          footerRightHeight={5}
+          footerRightWidth={6}
+          mobileTitleComponent={
+            <div className="flex items-center">
+              <TfiLayoutMenuV color="white" className="mr-1" />
+              <p>navigation - {projectMode}</p>
+            </div>
+          }
         >
-          <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
-            <p className="text-[12px] translate-y-[-12px]">navigation</p>
-          </div>
           <div
-            className={`col-span-full flex items-start`}
+            className="grid col-span-full row-span-full translate-y-[8px]"
             style={{
-              gridRowStart: 2,
-              gridRowEnd: 100,
+              gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
+              gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
             }}
           >
-            <div className="w-full h-full flex flex-col justify-center items-start">
-              <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
-                <button
-                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
-                    projectMode === ProjectMode.TEXT
-                      ? "text-white translate-x-2"
-                      : "text-textInactive"
-                  }`}
-                  onClick={() => {
-                    handleChangeProjectMode(ProjectMode.TEXT);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  text
-                </button>
-                <button
-                  className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
-                    projectMode === ProjectMode.IMAGES
-                      ? "text-white translate-x-2"
-                      : "text-textInactive"
-                  }`}
-                  onClick={() => {
-                    handleChangeProjectMode(ProjectMode.IMAGES);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  images
-                </button>
-                {projectItem?.attributes.videoURL ? (
+            <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
+              <p className="text-[12px] translate-y-[-12px]">navigation</p>
+            </div>
+            <div
+              className={`col-span-full flex items-start`}
+              style={{
+                gridRowStart: 2,
+                gridRowEnd: 100,
+              }}
+            >
+              <div className="w-full h-full flex flex-col justify-center items-start">
+                <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
                   <button
                     className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
-                      projectMode === ProjectMode.VIDEO
-                        ? "text-white"
+                      projectMode === ProjectMode.TEXT
+                        ? "text-white translate-x-2"
                         : "text-textInactive"
                     }`}
                     onClick={() => {
-                      handleChangeProjectMode(ProjectMode.VIDEO);
+                      handleChangeProjectMode(ProjectMode.TEXT);
                       if (dispatch) {
                         dispatch({
                           type: "SET_MOBILE_FOOTER_MENU",
@@ -529,16 +494,54 @@ export default function Project({ params }: { params: { slug: string } }) {
                       }
                     }}
                   >
-                    video
+                    text
                   </button>
-                ) : (
-                  <div className="h-[18px]" />
-                )}
+                  <button
+                    className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
+                      projectMode === ProjectMode.IMAGES
+                        ? "text-white translate-x-2"
+                        : "text-textInactive"
+                    }`}
+                    onClick={() => {
+                      handleChangeProjectMode(ProjectMode.IMAGES);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
+                    }}
+                  >
+                    images
+                  </button>
+                  {projectItem?.attributes.videoURL ? (
+                    <button
+                      className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
+                        projectMode === ProjectMode.VIDEO
+                          ? "text-white"
+                          : "text-textInactive"
+                      }`}
+                      onClick={() => {
+                        handleChangeProjectMode(ProjectMode.VIDEO);
+                        if (dispatch) {
+                          dispatch({
+                            type: "SET_MOBILE_FOOTER_MENU",
+                            isOpen: false,
+                          });
+                        }
+                      }}
+                    >
+                      video
+                    </button>
+                  ) : (
+                    <div className="h-[18px]" />
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </FooterRight>
+        </FooterRight>
+      )}
     </>
   );
 }
