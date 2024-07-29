@@ -141,22 +141,28 @@ export default function Home() {
         const height = isMobile
           ? Math.floor(width * 0.5625)
           : centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
-        return {
-          x: isMobile
-            ? 0
-            : itemPos.x < 0.5
-            ? centerContainerVals.width / 2
-            : centerContainerVals.width / 2 - QUADRANT_PADDING.x - width,
-          y: isMobile
-            ? itemPos.y < 0.5
-              ? centerContainerVals.height / 2
-              : 0
-            : itemPos.y < 0.5
-            ? centerContainerVals.height / 2
-            : centerContainerVals.height / 2 - QUADRANT_PADDING.y - height,
-          width,
-          height,
-        };
+        if (centerContainerVals) {
+          const absItemPos = getAbsGridCoords(
+            { x: centerContainerVals.width, y: centerContainerVals.height },
+            itemPos
+          );
+          return {
+            x: isMobile
+              ? 0
+              : itemPos.x < 0.5
+              ? absItemPos.x + 2
+              : absItemPos.x - width - 2,
+            y: isMobile
+              ? itemPos.y < 0.5
+                ? centerContainerVals.height / 2
+                : 0
+              : itemPos.y < 0.5
+              ? absItemPos.y + 2
+              : absItemPos.y - height - 2,
+            width,
+            height,
+          };
+        }
       }
     },
     [centerContainerVals, isMobile]
