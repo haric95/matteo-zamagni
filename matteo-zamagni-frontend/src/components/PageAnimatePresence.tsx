@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import FrozenRoute from "./FrozenRoute";
 import { PropsWithChildren } from "react";
 import { useGlobalContext } from "@/state/GlobalStore";
+import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 
 const PageAnimatePresence: React.FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -18,10 +19,12 @@ const PageAnimatePresence: React.FC<PropsWithChildren> = ({ children }) => {
        * During this re-evaluation, the `<FrozenRoute />` Component also gets updated with the new route components.
        */}
       <motion.div
-        className={`w-full h-full absolute grid`}
+        className={`absolute grid`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
+          width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+          height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
         }}
         key={pathname}
       >

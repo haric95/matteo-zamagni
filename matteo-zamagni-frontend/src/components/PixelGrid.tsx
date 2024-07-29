@@ -1,4 +1,5 @@
 "use client";
+import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 import { useSetDarkThemeClass } from "@/hooks/useSetDarkThemeClass";
 import {
   useGlobalContext,
@@ -63,16 +64,18 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   }, [updateCellSize]);
 
   return (
-    <main className="fixed relative w-screen h-[calc(100dvh)]">
+    <main className="fixed relative w-screen h-[calc(100dvh)] flex justify-center items-center">
       <div
         className="absolute w-full h-full bg-background_Light dark:bg-background_Dark transition-[background-color] duration-500"
         onTransitionEnd={handleThemeTransitionEnd}
       />
       <div
-        className={`w-full h-full absolute grid pointer-events-none`}
+        className={`absolute grid pointer-events-none`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
+          width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+          height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
         }}
       >
         <div className="flex justify-center items-center" ref={cellRef}>
@@ -118,10 +121,12 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           })}
       </div>
       <div
-        className={`w-full h-full absolute grid`}
+        className={`absolute grid`}
         style={{
           gridTemplateColumns: `repeat(${gridDim?.x}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDim?.y}, minmax(0, 1fr))`,
+          width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+          height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
         }}
       >
         {children}
