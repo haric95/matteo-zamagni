@@ -499,7 +499,7 @@ export default function Home() {
           y={0}
           width={6}
           height={4}
-          className="w-full h-full text-[12px]"
+          className="w-full h-full text-[12px] color-white"
         >
           <GridChild
             x={0}
