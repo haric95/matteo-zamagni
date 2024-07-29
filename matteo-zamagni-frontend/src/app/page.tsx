@@ -418,7 +418,7 @@ export default function Home() {
                 <GridChild
                   {...selectedItemDescriptionPos}
                   isGrid={false}
-                  className="relative"
+                  className="relative text-white"
                 >
                   <div
                     className={`w-full h-full text-left bg-black transition-all duration-500 hover:scale-[102%]`}
@@ -499,7 +499,7 @@ export default function Home() {
           y={0}
           width={6}
           height={4}
-          className="w-full h-full text-[12px] color-white"
+          className="w-full h-full text-[12px] text-white"
         >
           <GridChild
             x={0}

@@ -277,7 +277,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         {...DEFAULT_ANIMATE_MODE}
         transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
         exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
-        className="flex justify-start md:justify-center items-center bg-black"
+        className="flex justify-start md:justify-center items-center bg-black text-white"
         {...titleCellPos}
         isGrid={false}
       >
