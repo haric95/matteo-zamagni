@@ -132,3 +132,12 @@ body {
 .markdown a {
   text-decoration: underline;
 }
+
+.fade-in {
+  animation: fadeIn 250ms ease-in;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0%}
+  1000% {opacity: 100%}
+}

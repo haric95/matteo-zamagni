@@ -64,11 +64,28 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
   }, [updateCellSize]);
 
   return (
-    <main className="fixed relative w-screen h-[calc(100dvh)] flex justify-center items-center">
+    <main className="fixed relative w-screen h-[calc(100dvh)] flex justify-center items-center bg-white">
       <div
         className="absolute w-full h-full bg-background_Light dark:bg-background_Dark transition-[background-color] duration-500"
         onTransitionEnd={handleThemeTransitionEnd}
       />
+      <div
+        className="absolute bg-ledInactive_Light dark:bg-ledInactive_Dark"
+        style={{
+          width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+          height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
+        }}
+      />
+      <div className="absolute">
+        <img
+          src="/noise2.gif"
+          className="bg-red-500 opacity-30"
+          style={{
+            width: gridDim ? `${gridDim.x * TARGET_CELL_SIZE}px` : "100%",
+            height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
+          }}
+        />
+      </div>
       <div
         className={`absolute grid pointer-events-none`}
         style={{
@@ -78,19 +95,21 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           height: gridDim ? `${gridDim.y * TARGET_CELL_SIZE}px` : "100%",
         }}
       >
-        <div className="flex justify-center items-center" ref={cellRef}>
-          <div
-            className={`transition-all ${
-              grid && grid[0][0]
-                ? "bg-ledActive_Light dark:bg-ledActive_Dark"
-                : "bg-ledInactive_Light dark:bg-ledInactive_Dark"
-            }`}
-            style={{
-              width: GRID_PIXEL_SIZE,
-              height: GRID_PIXEL_SIZE,
-              transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
-            }}
-          ></div>
+        <div
+          className={`flex justify-center items-center transition-all border-background_Light dark:border-background_Dark`}
+          key={`0-0`}
+          style={{
+            borderWidth: "9.5px",
+            transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
+          }}
+          ref={cellRef}
+        >
+          {grid && grid[0][0] && (
+            <div
+              key={`0-0`}
+              className="w-[2px] h-[2px] bg-ledActive_Light dark:bg-ledActive_Dark fade-in"
+            />
+          )}
         </div>
         {grid &&
           grid.map((columns, rowIndex) => {
@@ -100,21 +119,19 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
               }
               return (
                 <div
-                  className="flex justify-center items-center"
+                  className={`flex justify-center items-center transition-all border-background_Light dark:border-background_Dark`}
                   key={`${rowIndex}-${columnIndex}`}
+                  style={{
+                    borderWidth: "9.5px",
+                    transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
+                  }}
                 >
-                  <div
-                    className={`transition-all ${
-                      pixelIsLit
-                        ? "bg-ledActive_Light dark:bg-ledActive_Dark"
-                        : "bg-ledInactive_Light dark:bg-ledInactive_Dark"
-                    }`}
-                    style={{
-                      width: GRID_PIXEL_SIZE,
-                      height: GRID_PIXEL_SIZE,
-                      transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
-                    }}
-                  ></div>
+                  {pixelIsLit && (
+                    <div
+                      key={`${rowIndex}=${columnIndex}`}
+                      className="w-[1.5px] h-[1.5px] bg-ledActive_Light dark:bg-ledActive_Dark fade-in"
+                    />
+                  )}
                 </div>
               );
             });
