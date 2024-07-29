@@ -334,16 +334,7 @@ export default function Home() {
                   onClick={() => {
                     handleIconClick(item);
                   }}
-                  className={`relative w-full h-full flex items-center justify-center overflow-visible ${
-                    selectedYear === null ||
-                    Number(item.year) === Number(selectedYear)
-                      ? ""
-                      : "pointer-events-none"
-                  } ${
-                    selectedItemTitle && selectedItemTitle !== item.title
-                      ? "pointer-events-none"
-                      : ""
-                  }`}
+                  className={`relative w-full h-full flex items-center justify-center overflow-visible`}
                 >
                   <Icon
                     strokeWidth={4}
@@ -555,13 +546,15 @@ export default function Home() {
                     }}
                   >
                     <Icon
-                      className={`w-4 mr-2 translate-y-[2px]`}
+                      className={`w-4 mr-2 translate-y-[2px] ${
+                        type === selectedFilterType ? "glow" : ""
+                      }`}
                       stroke="white"
                       selected={false}
                     />
                     <p
                       className={`transition-all duration-500 ${
-                        type === selectedFilterType ? "translate-x-2" : ""
+                        type === selectedFilterType ? "translate-x-2 glow" : ""
                       }`}
                     >
                       {type}
