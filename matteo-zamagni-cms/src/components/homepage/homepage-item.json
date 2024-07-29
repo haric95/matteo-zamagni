@@ -42,6 +42,9 @@
       "repeatable": false,
       "component": "vec.pos2-d",
       "required": true
+    },
+    "iconScale": {
+      "type": "decimal"
     }
   }
 }

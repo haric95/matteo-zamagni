@@ -18,14 +18,15 @@
       "component": "homepage.homepage-item"
     },
     "PixelBackgroundAnimation": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }
