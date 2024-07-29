@@ -427,11 +427,11 @@ export default function Home() {
                   className="relative text-white"
                 >
                   <div
-                    className={`w-full h-full text-left bg-black transition-all duration-500 hover:scale-[102%] border-white border-[1px] p-2`}
+                    className={`absolute top-0 left-0 w-full h-fit text-left bg-black transition-all duration-500 hover:scale-[102%]`}
                   >
                     <Link
                       href={`/project/${selectedItem.slug}`}
-                      className="flex h-full w-full"
+                      className="flex h-full w-full border-white border-[1px] p-2 h-fit"
                     >
                       <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
                         <TypeAnimation
