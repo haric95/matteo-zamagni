@@ -53,7 +53,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           className="absolute top-0 right-0 w-8 h-8 flex justify-center icon-hover-glow hover:scale-105 transition-all duration-500"
           onClick={() => handleClose()}
         >
-          <MdClose />
+          <MdClose stroke="white" fill="white" />
         </button>
         <button
           className="w-[5%] h-1/2 flex items-center justify-center"
