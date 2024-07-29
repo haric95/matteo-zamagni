@@ -187,7 +187,7 @@ export default function Home() {
   const selectedItemDescriptionPos = useMemo(() => {
     if (selectedItem && centerContainerVals && gridDim) {
       // TODO: Make this dynamic
-      const width = isMobile ? centerContainerVals.width / 2 : 9;
+      const width = isMobile ? centerContainerVals.width / 2 : 12;
       const height = isMobile ? 3 : 3;
       const absPos = getAbsGridCoords(
         { x: centerContainerVals.width, y: centerContainerVals.height },
@@ -427,7 +427,7 @@ export default function Home() {
                   className="relative text-white"
                 >
                   <div
-                    className={`w-full h-full text-left bg-black transition-all duration-500 hover:scale-[102%]`}
+                    className={`w-full h-full text-left bg-black transition-all duration-500 hover:scale-[102%] border-white border-[1px] p-2`}
                   >
                     <Link
                       href={`/project/${selectedItem.slug}`}
