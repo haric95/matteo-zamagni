@@ -2,12 +2,6 @@
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
 import { HEADER_OFFSET_Y, TOTAL_HEADER_HEIGHT } from "@/components/Header";
-import {
-  BackChevrons,
-  Circle,
-  HorizontalLines,
-  Star,
-} from "@/components/Icons";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import {
   DEFAULT_ANIMATE_MODE,
@@ -17,7 +11,7 @@ import {
 import { parseTagsString } from "@/helpers/parseTagsString";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
-import { StrapiImageResponse, useStrapi } from "@/hooks/useStrapi";
+import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useGlobalContext,
