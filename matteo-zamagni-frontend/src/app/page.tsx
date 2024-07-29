@@ -269,7 +269,6 @@ export default function Home() {
       dispatch,
       grid,
       selectedItemTitle,
-      startRectAnimation,
       clearRectAnimation,
       getImagePos,
       centerContainerVals,
@@ -288,16 +287,12 @@ export default function Home() {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    if (
-      selectedYear &&
-      Number(selectedYear) !== Number(selectedItem?.year) &&
-      clearRectAnimation
-    ) {
-      clearRectAnimation();
-      setSelectedItemTitle(null);
-    }
-  }, [selectedItem, selectedYear, clearRectAnimation]);
+  // useEffect(() => {
+  //   if (selectedYear && clearRectAnimation) {
+  //     clearRectAnimation();
+  //     setSelectedItemTitle(null);
+  //   }
+  // }, [selectedItem, selectedYear, clearRectAnimation]);
 
   const handleNavigate = useCallback(() => {
     if (dispatch) {
