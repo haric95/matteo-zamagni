@@ -31,6 +31,7 @@ export type HomepageItem = {
   image: StrapiImageResponse;
   slug: string;
   tags: string;
+  iconScale?: number;
 };
 
 export type HomepageData = {

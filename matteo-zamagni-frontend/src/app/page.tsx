@@ -340,8 +340,16 @@ export default function Home() {
                   <Icon
                     strokeWidth={4}
                     selected={selectedItemTitle === item.title}
-                    width={cellSize?.x}
-                    height={cellSize?.y}
+                    width={
+                      cellSize
+                        ? cellSize?.x * (item.iconScale ? item.iconScale : 1)
+                        : 1
+                    }
+                    height={
+                      cellSize
+                        ? cellSize?.y * (item.iconScale ? item.iconScale : 1)
+                        : 1
+                    }
                     className={`absolute icon-hover-glow hover:scale-125 transition-all duration-500
                       ${
                         selectedItemTitle
@@ -408,11 +416,11 @@ export default function Home() {
                   className="relative text-white"
                 >
                   <div
-                    className={`absolute top-0 left-0 w-full h-fit text-left bg-black transition-all duration-500 hover:scale-[102%]`}
+                    className={`absolute top-0 left-0 w-full text-left bg-black transition-all duration-500 hover:scale-[102%]`}
                   >
                     <Link
                       href={`/project/${selectedItem.slug}`}
-                      className="flex h-full w-full p-2 h-fit"
+                      className="flex h-full w-full p-2"
                     >
                       <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
                         <TypeAnimation
