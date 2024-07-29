@@ -412,7 +412,7 @@ export default function Home() {
                   >
                     <Link
                       href={`/project/${selectedItem.slug}`}
-                      className="flex h-full w-full border-white border-[1px] p-2 h-fit"
+                      className="flex h-full w-full p-2 h-fit"
                     >
                       <div className="group w-[90%] h-full flex flex-col justify-between icon-hover-glow transition-all duration-500">
                         <TypeAnimation
