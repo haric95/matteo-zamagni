@@ -44,16 +44,13 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
         }`}
       >
         {!videoEnded && (
-          <div className="w-[240px] h-[240px] relative">
-            <Loader />
-            <video
-              className="absolute w-full h-full"
-              src={"/loading-anim.mp4"}
-              autoPlay
-              muted
-              onEnded={handleVideoEnded}
+          <div className="w-[360px] h-[360px] relative fade-in">
+            <div
+              className="w-[240x] h-[240px] absolute left-[50%] top-[50%]"
+              style={{ transform: "translate(-50%, -50%)" }}
             />
-            {/* <div className="absolute w-full h-full vignette" /> */}
+            {/* <Loader /> */}
+            <img src="/loader.gif" alt="loader" className="w-full h-full" />
           </div>
         )}
       </div>
