@@ -29,7 +29,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           className="absolute translate-y-[8px] top-0 right-0 w-8 h-8 flex justify-center icon-hover-glow transition-all duration-500"
           onClick={() => handleClose()}
         >
-          <MdClose />
+          <MdClose stroke="white" fill="white" />
         </button>
         <ReactPlayer
           url={url}
