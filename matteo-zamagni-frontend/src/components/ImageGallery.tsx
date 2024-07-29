@@ -60,7 +60,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           onClick={() => handleClick("left")}
         >
           <div className="h-fit w-fit icon-hover-glow hover:scale-110 transition-all duration-500">
-            <MdChevronLeft width={16} height={16} />
+            <MdChevronLeft width={16} height={16} stroke="white" fill="white" />
           </div>
         </button>
         <Swiper
@@ -99,7 +99,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           onClick={() => handleClick("right")}
         >
           <div className="h-fit w-fit icon-hover-glow hover:scale-110 transition-all duration-500">
-            <MdChevronRight width={"32px"} height={"32px"} />
+            <MdChevronRight
+              width={"32px"}
+              height={"32px"}
+              stroke="white"
+              fill="white"
+            />
           </div>
         </button>
       </div>
