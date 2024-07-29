@@ -329,7 +329,13 @@ export default function Home() {
                   onClick={() => {
                     handleIconClick(item);
                   }}
-                  className={`relative w-full h-full flex items-center justify-center overflow-visible`}
+                  className={`relative w-full h-full flex items-center justify-center overflow-visible ${
+                    selectedItemTitle
+                      ? item.title === selectedItemTitle
+                        ? ""
+                        : "pointer-events-none"
+                      : ""
+                  }`}
                 >
                   <Icon
                     strokeWidth={4}
@@ -341,7 +347,7 @@ export default function Home() {
                         selectedItemTitle
                           ? item.title === selectedItemTitle
                             ? "stroke-highlight"
-                            : "stroke-landingIconInactive blur-[2px]"
+                            : "stroke-landingIconInactive blur-[2px] "
                           : "stroke-white"
                       } ${
                       (selectedFilterType === null ||
