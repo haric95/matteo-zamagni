@@ -231,12 +231,12 @@ export default function Home() {
               width: imagePos.width + 1,
               height: imagePos.height + 1,
             };
-            startRectAnimation(
-              ledRect.x,
-              ledRect.y,
-              ledRect.width,
-              ledRect.height
-            );
+            // startRectAnimation(
+            //   ledRect.x,
+            //   ledRect.y,
+            //   ledRect.width,
+            //   ledRect.height
+            // );
             // Here, point coords are proportional (0-1).
             // We need to scale to absolute grid coordinates to be able to run
             // the tronPath algo.
