@@ -154,7 +154,7 @@ export default function Index() {
                               : "blur-[2px] opacity-25"
                           }`}
                         >
-                          <div className="flex w-24 h-full justify-start items-center bg-background_Light">
+                          <div className="flex w-24 h-full justify-start items-center">
                             <>
                               {homepageItemArray.map((type) => {
                                 if (item.type === type) {
@@ -204,7 +204,7 @@ export default function Index() {
                           </div>
                           <div className="w-fit">
                             <p
-                              className={`transition-all duration-500 text-elipsis overflow-hidden w-fit bg-background_Light ${
+                              className={`transition-all duration-500 text-elipsis overflow-hidden w-fit ${
                                 selectedType &&
                                 [
                                   ...parseTagsString(item.tags),
@@ -242,7 +242,7 @@ export default function Index() {
                               : "blur-[2px] opacity-25"
                           }`}
                         >
-                          <div className="flex w-24 pr-8 h-full justify-end items-center bg-background_Light">
+                          <div className="flex w-24 pr-8 h-full justify-end items-center">
                             <>
                               {homepageItemArray.map((type) => {
                                 if (item.type === type) {
@@ -300,7 +300,7 @@ export default function Index() {
                                 ].includes(selectedType)
                                   ? "translate-x-2"
                                   : ""
-                              } text-elipsis overflow-hidden w-fit bg-background_Light ${
+                              } text-elipsis overflow-hidden w-fit ${
                                 selectedType &&
                                 [
                                   ...parseTagsString(item.tags),
@@ -335,7 +335,7 @@ export default function Index() {
                               : "blur-[2px] opacity-25"
                           }`}
                         >
-                          <div className="flex w-24 pr-8 h-full justify-end items-center bg-background_Light">
+                          <div className="flex w-24 pr-8 h-full justify-end items-center">
                             <>
                               {homepageItemArray.map((type) => {
                                 if (item.type === type) {
@@ -393,7 +393,7 @@ export default function Index() {
                                 ].includes(selectedType)
                                   ? "translate-x-2"
                                   : ""
-                              } text-elipsis overflow-hidden w-fit bg-background_Light ${
+                              } text-elipsis overflow-hidden w-fit ${
                                 selectedType &&
                                 [
                                   ...parseTagsString(item.tags),

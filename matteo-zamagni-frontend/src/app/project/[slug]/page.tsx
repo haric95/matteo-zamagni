@@ -352,7 +352,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                 transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
                 key={projectMode}
                 style={{ whiteSpace: "break-spaces" }}
-                className="w-full h-full overflow-auto bg-black no-scrollbar md:p-2"
+                className="w-full h-full overflow-auto no-scrollbar md:p-2"
               >
                 <Markdown className={"markdown"}>
                   {projectItem?.attributes.text}
