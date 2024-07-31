@@ -129,9 +129,45 @@ export default function Home() {
     return null;
   }, [gridDim, isMobile]);
 
+  const selectedItem = useMemo(() => {
+    return (
+      parsedHomepageData?.data.attributes.items.find(
+        (item) => item.title === selectedItemTitle
+      ) || null
+    );
+  }, [parsedHomepageData, selectedItemTitle]);
+
+  const selectedItemDescriptionPos = useMemo(() => {
+    if (selectedItem && centerContainerVals && gridDim) {
+      // TODO: Make this dynamic
+      const width = isMobile ? centerContainerVals.width / 2 : 12;
+      const height = isMobile ? 3 : 3;
+      const absPos = getAbsGridCoords(
+        { x: centerContainerVals.width, y: centerContainerVals.height },
+        selectedItem.position
+      );
+      return {
+        x: selectedItem.position.x < 0.5 ? absPos.x + 1 : absPos.x - width - 2,
+        y: isMobile
+          ? selectedItem.position.y < 0.25
+            ? absPos.y + 1
+            : absPos.y - height - 1
+          : selectedItem.position.y < 0.5
+          ? absPos.y - height < 0
+            ? absPos.y - height / 2 < 0
+              ? absPos.y
+              : absPos.y - height / 2
+            : absPos.y - height
+          : absPos.y,
+        width,
+        height,
+      };
+    }
+    return null;
+  }, [centerContainerVals, selectedItem, gridDim, isMobile]);
+
   const getImagePos = useCallback(
     (itemPos: HomepageItem["position"]) => {
-      // TODO: Make this dynamic
       if (centerContainerVals) {
         const width = isMobile
           ? centerContainerVals.width
@@ -151,8 +187,14 @@ export default function Home() {
               ? absItemPos.x + 2
               : absItemPos.x - width - 2,
             y: isMobile
-              ? itemPos.y < 0.5
-                ? centerContainerVals.height / 2
+              ? selectedItemDescriptionPos
+                ? itemPos.y < 0.25
+                  ? selectedItemDescriptionPos.y +
+                    selectedItemDescriptionPos.height +
+                    2
+                  : itemPos.y < 0.75
+                  ? absItemPos.y + 2
+                  : selectedItemDescriptionPos.y - height - 2
                 : 0
               : itemPos.y < 0.5
               ? absItemPos.y + 2
@@ -163,16 +205,8 @@ export default function Home() {
         }
       }
     },
-    [centerContainerVals, isMobile]
+    [centerContainerVals, isMobile, selectedItemDescriptionPos]
   );
-
-  const selectedItem = useMemo(() => {
-    return (
-      parsedHomepageData?.data.attributes.items.find(
-        (item) => item.title === selectedItemTitle
-      ) || null
-    );
-  }, [parsedHomepageData, selectedItemTitle]);
 
   const selectedItemImagePos = useMemo(() => {
     if (selectedItem) {
@@ -181,39 +215,6 @@ export default function Home() {
     }
     return null;
   }, [selectedItem, getImagePos]);
-
-  const selectedItemDescriptionPos = useMemo(() => {
-    if (selectedItem && centerContainerVals && gridDim) {
-      // TODO: Make this dynamic
-      const width = isMobile ? centerContainerVals.width / 2 : 12;
-      const height = isMobile ? 3 : 3;
-      const absPos = getAbsGridCoords(
-        { x: centerContainerVals.width, y: centerContainerVals.height },
-        selectedItem.position
-      );
-      return {
-        x: selectedItem.position.x < 0.5 ? absPos.x + 1 : absPos.x - width - 2,
-        y: isMobile
-          ? selectedItem.position.y > 0.5
-            ? absPos.y > height
-              ? absPos.y - height
-              : absPos.y + 1
-            : absPos.y < centerContainerVals.height - height
-            ? absPos.y + 1
-            : absPos.y - height - 1
-          : selectedItem.position.y < 0.5
-          ? absPos.y - height < 0
-            ? absPos.y - height / 2 < 0
-              ? absPos.y
-              : absPos.y - height / 2
-            : absPos.y - height
-          : absPos.y,
-        width,
-        height,
-      };
-    }
-    return null;
-  }, [centerContainerVals, selectedItem, gridDim, isMobile]);
 
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
