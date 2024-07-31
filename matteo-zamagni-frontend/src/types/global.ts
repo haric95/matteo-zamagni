@@ -41,9 +41,7 @@ export type HomepageData = {
 export enum AboutMode {
   BIO = "Bio",
   AWARDS = "Awards",
-  RESIDENCIES = "Residencies",
-  PERFORMANCES = "Performances",
-  SCREENINGS = "Screenings",
+  EXHIBITIONS = "Exhibitions",
   TALKS = "Talks",
 }
 
@@ -85,9 +83,7 @@ export type StrapiAboutComponent =
 export type AboutPageData = {
   [AboutMode.BIO]: StrapiAboutComponent[];
   [AboutMode.AWARDS]: StrapiAboutComponent[];
-  [AboutMode.RESIDENCIES]: StrapiAboutComponent[];
-  [AboutMode.PERFORMANCES]: StrapiAboutComponent[];
-  [AboutMode.SCREENINGS]: StrapiAboutComponent[];
+  [AboutMode.EXHIBITIONS]: StrapiAboutComponent[];
   [AboutMode.TALKS]: StrapiAboutComponent[];
   CV: StrapiImageResponse | null;
   DigitalSales: { label: string; url: string }[] | null;

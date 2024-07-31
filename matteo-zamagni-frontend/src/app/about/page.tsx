@@ -232,12 +232,12 @@ export default function Home() {
         )}
       </AnimatePresence>
       <FooterRight
-        footerRightHeight={8}
+        footerRightHeight={6}
         footerRightWidth={6}
         isMounted={shouldMount}
         mobileTitleComponent={
           <div className="flex items-center">
-            <TfiLayoutMenuV color="white" className="mr-1" />
+            <TfiLayoutMenuV color="white" className="mr-1 pb-2" />
             <p>navigation - {aboutMode.toLocaleLowerCase()}</p>
           </div>
         }
@@ -246,7 +246,7 @@ export default function Home() {
           className="grid col-span-full row-span-full  "
           style={{
             gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
-            gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${6}, minmax(0, 1fr))`,
           }}
         >
           <div
@@ -301,12 +301,12 @@ export default function Home() {
                 </button>
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.RESIDENCIES
+                    aboutMode === AboutMode.EXHIBITIONS
                       ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {
-                    setAboutMode(AboutMode.RESIDENCIES);
+                    setAboutMode(AboutMode.EXHIBITIONS);
                     if (dispatch) {
                       dispatch({
                         type: "SET_MOBILE_FOOTER_MENU",
@@ -315,48 +315,12 @@ export default function Home() {
                     }
                   }}
                 >
-                  residencies
-                </button>
-                <button
-                  className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.PERFORMANCES
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.PERFORMANCES);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  performances
-                </button>
-                <button
-                  className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.SCREENINGS
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.SCREENINGS);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  screenings
+                  exhibitions
                 </button>
                 <button
                   className={`text-[12px] block transition-all duration-500 ${
                     aboutMode === AboutMode.TALKS
-                      ? "text-white"
+                      ? "text-white translate-x-2"
                       : "text-white md:text-black"
                   }`}
                   onClick={() => {

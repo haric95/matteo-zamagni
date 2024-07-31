@@ -41,25 +41,7 @@
         "about.about-year"
       ]
     },
-    "Residencies": {
-      "type": "dynamiczone",
-      "components": [
-        "about.about-year",
-        "about.about-title",
-        "about.about-text",
-        "about.about-item"
-      ]
-    },
-    "Performances": {
-      "type": "dynamiczone",
-      "components": [
-        "about.about-year",
-        "about.about-title",
-        "about.about-text",
-        "about.about-item"
-      ]
-    },
-    "Screenings": {
+    "Exhibitions": {
       "type": "dynamiczone",
       "components": [
         "about.about-year",
