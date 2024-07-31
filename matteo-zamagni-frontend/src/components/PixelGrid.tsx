@@ -94,7 +94,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
               aboutPageData?.data?.attributes?.PixelBackgroundAnimation?.data
                 ?.attributes?.url
             }
-            className="bg-ledActive_Light dark:bg-ledActive_Dark opacity-30 dark:opacity-40 transition-opacity duration-1000"
+            className="bg-ledActive_Light dark:bg-ledActive_Dark opacity-40 dark:opacity-40 transition-all duration-1000 brightness-75"
             alt="background animation"
             objectFit="cover"
             layout="fill"
