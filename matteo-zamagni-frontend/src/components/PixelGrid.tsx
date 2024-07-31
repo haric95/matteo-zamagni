@@ -114,7 +114,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
           className={`flex justify-center items-center transition-all border-background_Light dark:border-background_Dark`}
           key={`0-0`}
           style={{
-            borderWidth: "9.25px",
+            borderWidth: "9px",
             transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
           }}
           ref={cellRef}
@@ -137,7 +137,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
                   className={`flex justify-center items-center transition-all border-background_Light dark:border-background_Dark`}
                   key={`${rowIndex}-${columnIndex}`}
                   style={{
-                    borderWidth: "9.5px",
+                    borderWidth: "9px",
                     transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
                   }}
                 >
