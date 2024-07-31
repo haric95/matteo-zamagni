@@ -49,7 +49,7 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
           href="https://www.instagram.com/matteo.zamagni/"
           target="_blank"
           rel="noreferrer"
-          className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500"
+          className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500 text-offWhite"
         >
           IG
         </a>
@@ -59,11 +59,11 @@ export const FooterLeft: React.FC<PropsWithChildren> = () => {
           rel="noreferrer"
           className="row-span-1 flex justify-center items-center icon-hover-glow transition-all duration-500"
         >
-          <MdOutlineMail />
+          <MdOutlineMail className="stroke-offWhite fill-offWhite" />
         </a>
         <button
           onClick={handleOpenCredits}
-          className="row-span-1 flex justify-center items-center text-[24px] icon-hover-glow transition-all duration-500"
+          className="row-span-1 flex justify-center items-center text-[24px] icon-hover-glow transition-all duration-500 text-offWhite"
         >
           ©
         </button>

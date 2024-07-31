@@ -294,11 +294,11 @@ export default function Project({ params }: { params: { slug: string } }) {
         {...DEFAULT_ANIMATE_MODE}
         transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
         exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
-        className="flex justify-start md:justify-center items-center bg-black text-white text-sm md:text-md"
+        className="flex justify-start md:justify-center items-center bg-black text-sm md:text-md"
         {...titleCellPos}
         isGrid={false}
       >
-        <div className="w-full text-left md:text-center w-full flex md:justify-center">
+        <div className="w-full text-left md:text-center w-full flex md:justify-center text-offWhite">
           {projectItem && (
             <TypeAnimation
               sequence={[projectItem?.attributes.title]}
@@ -325,7 +325,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         <div
           className={`w-full md:text-center md:p-8 w-full flex justify-start md:justify-center`}
         >
-          <div className="w-fit text-s md:text-lg md:p-4 flex md:block">
+          <div className="w-fit text-s md:text-lg md:p-4 flex md:block text-offWhite">
             {homepageItem &&
               (isMobile ? (
                 <div>
@@ -481,8 +481,8 @@ export default function Project({ params }: { params: { slug: string } }) {
           footerRightHeight={5}
           footerRightWidth={6}
           mobileTitleComponent={
-            <div className="flex items-center">
-              <TfiLayoutMenuV color="white" className="mr-1" />
+            <div className="flex items-center text-offWhite">
+              <TfiLayoutMenuV color="#b0b0b0" className="mr-1" />
               <p>navigation - {projectMode}</p>
             </div>
           }
@@ -494,8 +494,10 @@ export default function Project({ params }: { params: { slug: string } }) {
               gridTemplateRows: `repeat(${8}, minmax(0, 1fr))`,
             }}
           >
-            <div className="col-span-full row-span-1 flex items-start border-white border-b-[1px]">
-              <p className="text-[12px] translate-y-[-12px]">navigation</p>
+            <div className="col-span-full row-span-1 flex items-start border-offWhite border-b-[1px]">
+              <p className="text-[12px] translate-y-[-12px] text-offWhite">
+                navigation
+              </p>
             </div>
             <div
               className={`col-span-full flex items-start`}
@@ -509,7 +511,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                   <button
                     className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                       projectMode === ProjectMode.TEXT
-                        ? "text-white translate-x-2"
+                        ? "text-offWhite translate-x-2"
                         : "text-textInactive"
                     }`}
                     onClick={() => {
@@ -527,7 +529,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                   <button
                     className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                       projectMode === ProjectMode.IMAGES
-                        ? "text-white translate-x-2"
+                        ? "text-offWhite translate-x-2"
                         : "text-textInactive"
                     }`}
                     onClick={() => {
@@ -546,7 +548,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                     <button
                       className={`icon-hover-glow duration-500 transition-all text-[12px] block ${
                         projectMode === ProjectMode.VIDEO
-                          ? "text-white"
+                          ? "text-offWhite"
                           : "text-textInactive"
                       }`}
                       onClick={() => {

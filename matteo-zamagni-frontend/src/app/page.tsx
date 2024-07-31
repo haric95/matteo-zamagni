@@ -414,7 +414,7 @@ export default function Home() {
                 <GridChild
                   {...selectedItemDescriptionPos}
                   isGrid={false}
-                  className="relative text-white"
+                  className="relative text-offWhite"
                 >
                   <div
                     className={`absolute top-0 left-0 w-full text-left bg-black transition-all duration-500 hover:scale-[102%]`}
@@ -436,7 +436,7 @@ export default function Home() {
                         </div>
                       </div>
                       <div className="w-[10%] h-full flex">
-                        <div className="flex text-white items-center justify-center w-full h-full animate-arrowGesture animation-delay-500">
+                        <div className="flex text-offWhite items-center justify-center w-full h-full animate-arrowGesture animation-delay-500">
                           <p className="text-xs">{">"}</p>
                         </div>
                       </div>
@@ -495,7 +495,7 @@ export default function Home() {
           y={0}
           width={6}
           height={4}
-          className="w-full h-full text-[12px] text-white"
+          className="w-full h-full text-[12px] text-offWhite"
         >
           <GridChild
             x={0}
@@ -503,7 +503,7 @@ export default function Home() {
             width={6}
             height={1}
             isGrid={false}
-            className="border-b-[1px] border-white flex justify-between items-center"
+            className="border-b-[1px] border-offWhite flex justify-between items-center"
           >
             <p className="translate-y-[-4px]">legend</p>
             <AnimatePresence>

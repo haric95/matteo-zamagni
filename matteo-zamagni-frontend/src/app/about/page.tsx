@@ -162,7 +162,7 @@ export default function Home() {
           >
             <p className="text-black">curriculum vitae:</p>
             <a
-              className="w-full h-full flex icon-hover-glow transition-all"
+              className="w-full h-full flex icon-hover-glow transition-all text-offWhite"
               href={
                 aboutPageData?.data?.attributes?.CV?.data?.attributes?.url || ""
               }
@@ -188,7 +188,7 @@ export default function Home() {
               <Link
                 key={by.label}
                 href={by.url}
-                className="block icon-hover-glow transition-all"
+                className="block icon-hover-glow transition-all text-offWhite"
                 target="_blank"
               >
                 {by.label}
@@ -201,7 +201,7 @@ export default function Home() {
               <Link
                 key={by.label}
                 href={by.url}
-                className="block icon-hover-glow transition-all"
+                className="block icon-hover-glow transition-all text-offWhite"
                 target="_blank"
               >
                 {by.label}
@@ -318,7 +318,9 @@ export default function Home() {
             <div
               className={`col-span-full row-span-1 flex items-start border-white md:border-black border-b-[1px] text-black`}
             >
-              <p className="text-[12px] md:text-black text-white">navigation</p>
+              <p className="text-[12px] md:text-black text-offWhite">
+                navigation
+              </p>
             </div>
             <div
               className={`col-span-full flex items-start`}
@@ -332,8 +334,8 @@ export default function Home() {
                   <button
                     className={`text-[12px] block transition-color duration-500 ${
                       aboutMode === AboutMode.BIO
-                        ? "text-white translate-x-2"
-                        : "text-white md:text-black"
+                        ? "text-offWhite translate-x-2"
+                        : "text-offWhite md:text-black"
                     }`}
                     onClick={() => {
                       setAboutMode(AboutMode.BIO);
@@ -350,8 +352,8 @@ export default function Home() {
                   <button
                     className={`text-[12px] block transition-all duration-500 ${
                       aboutMode === AboutMode.AWARDS
-                        ? "text-white translate-x-2"
-                        : "text-white md:text-black"
+                        ? "text-offWhite translate-x-2"
+                        : "text-offWhite md:text-black"
                     }`}
                     onClick={() => {
                       setAboutMode(AboutMode.AWARDS);
@@ -368,8 +370,8 @@ export default function Home() {
                   <button
                     className={`text-[12px] block transition-all duration-500 ${
                       aboutMode === AboutMode.EXHIBITIONS
-                        ? "text-white translate-x-2"
-                        : "text-white md:text-black"
+                        ? "text-offWhite translate-x-2"
+                        : "text-offWhite md:text-black"
                     }`}
                     onClick={() => {
                       setAboutMode(AboutMode.EXHIBITIONS);
@@ -386,8 +388,8 @@ export default function Home() {
                   <button
                     className={`text-[12px] block transition-all duration-500 ${
                       aboutMode === AboutMode.TALKS
-                        ? "text-white translate-x-2"
-                        : "text-white md:text-black"
+                        ? "text-offWhite translate-x-2"
+                        : "text-offWhite md:text-black"
                     }`}
                     onClick={() => {
                       setAboutMode(AboutMode.TALKS);

@@ -54,7 +54,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           >
             <Link
               href="/about"
-              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-text_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
+              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-offWhite transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
             >
               about
             </Link>
@@ -93,7 +93,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           >
             <Link
               href="/work-index"
-              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-text_Dark transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
+              className="w-full bg-background_Light dark:bg-background_Dark text-text_Light dark:text-offWhite transition-all duration-500 col-span-full row-span-1 flex justify-center items-center hover-glow hover:scale-105"
             >
               index
             </Link>

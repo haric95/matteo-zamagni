@@ -167,7 +167,7 @@ export default function Index() {
                                       className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                         selectedType === type
                                           ? "stroke-highlight"
-                                          : "stroke-white"
+                                          : "stroke-offWhite"
                                       }`}
                                     />
                                   );
@@ -195,7 +195,7 @@ export default function Index() {
                                         className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                           selectedType === tag
                                             ? "stroke-highlight"
-                                            : "stroke-white"
+                                            : "stroke-offWhite"
                                         }`}
                                       />
                                     )
@@ -211,7 +211,7 @@ export default function Index() {
                                   ...parseTagsString(item.tags),
                                   item.type,
                                 ].includes(selectedType)
-                                  ? "text-white"
+                                  ? "text-offWhite"
                                   : "text-black"
                               }`}
                             >
@@ -255,7 +255,7 @@ export default function Index() {
                                       className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                         selectedType === type
                                           ? "stroke-highlight"
-                                          : "stroke-white"
+                                          : "stroke-offWhite"
                                       }`}
                                     />
                                   );
@@ -283,7 +283,7 @@ export default function Index() {
                                         className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                           selectedType === tag
                                             ? "stroke-highlight"
-                                            : "stroke-white"
+                                            : "stroke-offWhite"
                                         }`}
                                       />
                                     )
@@ -307,7 +307,7 @@ export default function Index() {
                                   ...parseTagsString(item.tags),
                                   item.type,
                                 ].includes(selectedType)
-                                  ? "text-white"
+                                  ? "text-offWhite"
                                   : "text-black"
                               }`}
                             >
@@ -348,7 +348,7 @@ export default function Index() {
                                       className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                         selectedType === type
                                           ? "stroke-highlight"
-                                          : "stroke-white"
+                                          : "stroke-offWhite"
                                       }`}
                                     />
                                   );
@@ -376,7 +376,7 @@ export default function Index() {
                                         className={`w-4 h-4 mr-1 transition-all duration-500 ${
                                           selectedType === tag
                                             ? "stroke-highlight"
-                                            : "stroke-white"
+                                            : "stroke-offWhite"
                                         }`}
                                       />
                                     )
@@ -400,7 +400,7 @@ export default function Index() {
                                   ...parseTagsString(item.tags),
                                   item.type,
                                 ].includes(selectedType)
-                                  ? "text-white"
+                                  ? "text-offWhite"
                                   : "text-black"
                               }`}
                             >
@@ -459,7 +459,7 @@ export default function Index() {
           }}
         >
           <div className="col-span-full row-span-1 flex justify-between items-start border-white md:border-black border-b-[1px]">
-            <p className="text-[12px] md:text-black text-white">legend</p>
+            <p className="text-[12px] md:text-black text-offWhite">legend</p>
             <AnimatePresence>
               {selectedType !== null && (
                 <motion.button
@@ -501,15 +501,15 @@ export default function Index() {
                         className={`mr-2 w-4 h-4 transition-color duration-500 ${
                           selectedType === indexType
                             ? "stroke-highlight"
-                            : "stroke-white"
+                            : "stroke-offWhite"
                         }`}
                         strokeWidth={8}
                       ></Component>
                       <p
                         className={`translate-y-[-1px] transition-color duration-500 ${
                           selectedType === indexType
-                            ? "text-white md:text-white translate-x-2"
-                            : "text-white md:text-black"
+                            ? "text-offWhite md:text-offWhite translate-x-2"
+                            : "text-offWhite md:text-black"
                         }`}
                       >
                         {indexType}
@@ -532,15 +532,15 @@ export default function Index() {
                         className={`mr-2 w-4 h-4 transition-color duration-500 ${
                           selectedType === indexType
                             ? "stroke-highlight"
-                            : "stroke-white"
+                            : "stroke-offWhite"
                         }`}
                         strokeWidth={8}
                       ></Component>
                       <p
                         className={`translate-y-[-1px] transition-color duration-500 ${
                           selectedType === indexType
-                            ? "text-white md:text-white translate-x-2"
-                            : "text-white md:text-black"
+                            ? "text-offWhite md:text-offWhite translate-x-2"
+                            : "text-offWhite md:text-black"
                         }`}
                       >
                         {indexType}
