@@ -20,9 +20,10 @@ import {
   Grid,
   PosAndDim2D,
 } from "@/types/global";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { HiLink } from "react-icons/hi";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 
 const CENTER_CELL_PADDING_X = 16;
@@ -48,6 +49,7 @@ export default function Home() {
   const [aboutMode, setAboutMode] = useState<AboutMode>(AboutMode.BIO);
   const [ledIsSet, setLedIsSet] = useState(false);
   const [scrollDiv, setScrollDiv] = useState<HTMLDivElement | null>(null);
+  const [mobileLinksActive, setMobileLinksActive] = useState(false);
 
   const { shouldMount } = useTheme({ isDark: false });
   const centerCellPos = useMemo<PosAndDim2D>(() => {
@@ -150,7 +152,7 @@ export default function Home() {
   return (
     <>
       <AnimatePresence>
-        {shouldMount && (
+        {shouldMount && !isMobile && (
           <>
             <MotionGridChild
               isGrid={false}
@@ -211,6 +213,33 @@ export default function Home() {
           </MotionGridChild>
         )}
       </AnimatePresence>
+      {/* Links cell on mobile */}
+      <AnimatePresence>
+        {shouldMount && isMobile && (
+          <>
+            <MotionGridChild
+              isGrid={false}
+              {...CVCellPos}
+              {...DEFAULT_ANIMATE_MODE}
+              className="bg-background_Light"
+              key={aboutMode}
+            >
+              <button
+                className="w-full h-full flex justify-end items-center"
+                onClick={() => {
+                  if (dispatch) {
+                    setMobileLinksActive(true);
+                    dispatch({ type: "SET_MOBILE_FOOTER_MENU", isOpen: true });
+                  }
+                }}
+              >
+                <HiLink className="mr-2" />
+                Links
+              </button>
+            </MotionGridChild>
+          </>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {shouldMount && centerCellPos && (
           <MotionGridChild
@@ -241,104 +270,149 @@ export default function Home() {
             <p>navigation - {aboutMode.toLocaleLowerCase()}</p>
           </div>
         }
+        onMobileFooterMenuClose={() => setMobileLinksActive(false)}
       >
-        <div
-          className="grid col-span-full row-span-full  "
-          style={{
-            gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
-            gridTemplateRows: `repeat(${6}, minmax(0, 1fr))`,
-          }}
-        >
-          <div
-            className={`col-span-full row-span-1 flex items-start border-white md:border-black border-b-[1px] text-black`}
-          >
-            <p className="text-[12px] md:text-black text-white">navigation</p>
-          </div>
-          <div
-            className={`col-span-full flex items-start`}
-            style={{
-              gridRowStart: 2,
-              gridRowEnd: 100,
-            }}
-          >
-            <div className="w-full h-full flex flex-col justify-center items-start">
-              <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
-                <button
-                  className={`text-[12px] block transition-color duration-500 ${
-                    aboutMode === AboutMode.BIO
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.BIO);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  bio
-                </button>
-                <button
-                  className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.AWARDS
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.AWARDS);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  awards
-                </button>
-                <button
-                  className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.EXHIBITIONS
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.EXHIBITIONS);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  exhibitions
-                </button>
-                <button
-                  className={`text-[12px] block transition-all duration-500 ${
-                    aboutMode === AboutMode.TALKS
-                      ? "text-white translate-x-2"
-                      : "text-white md:text-black"
-                  }`}
-                  onClick={() => {
-                    setAboutMode(AboutMode.TALKS);
-                    if (dispatch) {
-                      dispatch({
-                        type: "SET_MOBILE_FOOTER_MENU",
-                        isOpen: false,
-                      });
-                    }
-                  }}
-                >
-                  talks
-                </button>
+        {mobileLinksActive ? (
+          <div className="fixed bottom-0 right-0 flex justify-end items-end p-4 text-xs">
+            <div className="flex flex-col w-fit h-fit">
+              <p className="border-b-[1px] border-white pb-1 mb-2">links</p>
+              <a
+                className="mb-8 underline"
+                href={
+                  aboutPageData?.data?.attributes?.CV?.data?.attributes?.url ||
+                  ""
+                }
+                download={"Matteo Zamagni CV"}
+              >
+                Download CV
+              </a>
+              <div className="mb-8">
+                <p>represented by</p>
+                {aboutPageData?.data?.attributes?.RepresentedBy?.map((by) => (
+                  <Link
+                    key={by.label}
+                    href={by.url}
+                    className="block underline"
+                    target="_blank"
+                  >
+                    {by.label}
+                  </Link>
+                ))}
+              </div>
+              <div>
+                <p>digital sales</p>
+                {aboutPageData?.data?.attributes?.DigitalSales?.map((by) => (
+                  <Link
+                    key={by.label}
+                    href={by.url}
+                    className="block underline"
+                    target="_blank"
+                  >
+                    {by.label}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className="grid col-span-full row-span-full  "
+            style={{
+              gridTemplateColumns: `repeat(${6}, minmax(0, 1fr))`,
+              gridTemplateRows: `repeat(${6}, minmax(0, 1fr))`,
+            }}
+          >
+            <div
+              className={`col-span-full row-span-1 flex items-start border-white md:border-black border-b-[1px] text-black`}
+            >
+              <p className="text-[12px] md:text-black text-white">navigation</p>
+            </div>
+            <div
+              className={`col-span-full flex items-start`}
+              style={{
+                gridRowStart: 2,
+                gridRowEnd: 100,
+              }}
+            >
+              <div className="w-full h-full flex flex-col justify-center items-start">
+                <div className="w-1/2 h-full flex flex-col justify-around items-start py-2">
+                  <button
+                    className={`text-[12px] block transition-color duration-500 ${
+                      aboutMode === AboutMode.BIO
+                        ? "text-white translate-x-2"
+                        : "text-white md:text-black"
+                    }`}
+                    onClick={() => {
+                      setAboutMode(AboutMode.BIO);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
+                    }}
+                  >
+                    bio
+                  </button>
+                  <button
+                    className={`text-[12px] block transition-all duration-500 ${
+                      aboutMode === AboutMode.AWARDS
+                        ? "text-white translate-x-2"
+                        : "text-white md:text-black"
+                    }`}
+                    onClick={() => {
+                      setAboutMode(AboutMode.AWARDS);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
+                    }}
+                  >
+                    awards
+                  </button>
+                  <button
+                    className={`text-[12px] block transition-all duration-500 ${
+                      aboutMode === AboutMode.EXHIBITIONS
+                        ? "text-white translate-x-2"
+                        : "text-white md:text-black"
+                    }`}
+                    onClick={() => {
+                      setAboutMode(AboutMode.EXHIBITIONS);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
+                    }}
+                  >
+                    exhibitions
+                  </button>
+                  <button
+                    className={`text-[12px] block transition-all duration-500 ${
+                      aboutMode === AboutMode.TALKS
+                        ? "text-white translate-x-2"
+                        : "text-white md:text-black"
+                    }`}
+                    onClick={() => {
+                      setAboutMode(AboutMode.TALKS);
+                      if (dispatch) {
+                        dispatch({
+                          type: "SET_MOBILE_FOOTER_MENU",
+                          isOpen: false,
+                        });
+                      }
+                    }}
+                  >
+                    talks
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </FooterRight>
     </>
   );
