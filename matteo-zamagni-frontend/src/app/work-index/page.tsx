@@ -23,11 +23,13 @@ import {
   HomepageItemType,
   IndexItem,
   IndexPageData,
+  PosAndDim2D,
   WORK_INDEX_TYPE_ARRAY,
   WorkIndexType,
   WorkIndexTypeIcon,
 } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
@@ -50,6 +52,10 @@ export default function Index() {
     cellSize: Dim2D;
     selectedYear: string;
   };
+
+  const [hoveredItemImageUrl, setHoveredItemImageUrl] = useState<string | null>(
+    null
+  );
 
   const isMobile = useIsMobile();
   const paddingX = isMobile
@@ -106,6 +112,13 @@ export default function Index() {
     }
     return null;
   }, [centerContainerVals, indexData]);
+
+  const thumbnailViewerPosition = useMemo<PosAndDim2D | null>(() => {
+    if (gridDim && !isMobile) {
+      return { x: 2, y: gridDim.y - 10, width: 4, height: 4 };
+    }
+    return null;
+  }, [gridDim, isMobile]);
 
   const { shouldMount } = useTheme({ isDark: false });
 
@@ -242,6 +255,14 @@ export default function Index() {
                               ? ""
                               : "blur-[2px] opacity-25"
                           }`}
+                          onMouseEnter={() => {
+                            setHoveredItemImageUrl(
+                              item.image.thumbnail.data.attributes.url
+                            );
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredItemImageUrl(null);
+                          }}
                         >
                           <div className="flex w-24 pr-8 h-full justify-end items-center">
                             <>
@@ -335,6 +356,14 @@ export default function Index() {
                               ? ""
                               : "blur-[2px] opacity-25"
                           }`}
+                          onMouseEnter={() => {
+                            setHoveredItemImageUrl(
+                              item.image.thumbnail.data.attributes.url
+                            );
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredItemImageUrl(null);
+                          }}
                         >
                           <div className="flex w-24 pr-8 h-full justify-end items-center">
                             <>
@@ -416,6 +445,18 @@ export default function Index() {
             )}
           </GridChild>
         </MotionGridChild>
+      )}
+      {thumbnailViewerPosition && (
+        <GridChild {...thumbnailViewerPosition} className="relative">
+          {hoveredItemImageUrl && (
+            <Image
+              src={hoveredItemImageUrl}
+              alt="Project thumbnail"
+              layout="fill"
+              objectFit="cover"
+            />
+          )}
+        </GridChild>
       )}
       <FooterRight
         footerRightHeight={8}

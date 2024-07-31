@@ -26,17 +26,6 @@
     "slug": {
       "type": "string"
     },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "position": {
       "type": "component",
       "repeatable": false,
@@ -45,6 +34,11 @@
     },
     "iconScale": {
       "type": "decimal"
+    },
+    "image": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.image-with-thumbnail"
     }
   }
 }
