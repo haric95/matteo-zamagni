@@ -161,15 +161,16 @@ export default function Home() {
               className="bg-background_Light"
               key={aboutMode}
             >
+              <p className="text-black">curriculum vitae</p>
               <a
-                className="w-full h-full flex justify-center items-center underline"
+                className="w-full h-full flex icon-hover-glow transition-all"
                 href={
                   aboutPageData?.data?.attributes?.CV?.data?.attributes?.url ||
                   ""
                 }
                 download={"Matteo Zamagni CV"}
               >
-                Download CV
+                Download Here
               </a>
             </MotionGridChild>
           </>
@@ -185,12 +186,12 @@ export default function Home() {
             key={aboutMode}
           >
             <div>
-              <p>represented by:</p>
+              <p className="text-black">represented by:</p>
               {aboutPageData?.data?.attributes?.RepresentedBy?.map((by) => (
                 <Link
                   key={by.label}
                   href={by.url}
-                  className="block underline"
+                  className="block icon-hover-glow transition-all"
                   target="_blank"
                 >
                   {by.label}
@@ -198,12 +199,12 @@ export default function Home() {
               ))}
             </div>
             <div>
-              <p>digital sales:</p>
+              <p className="text-black">digital sales:</p>
               {aboutPageData?.data?.attributes?.DigitalSales?.map((by) => (
                 <Link
                   key={by.label}
                   href={by.url}
-                  className="block underline"
+                  className="block icon-hover-glow transition-all"
                   target="_blank"
                 >
                   {by.label}
