@@ -35,7 +35,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 
-const CONTENT_GRID_PADDING_X = 8;
+const CONTENT_GRID_PADDING_X = 10;
 const CONTENT_GRID_PADDING_Y = 2;
 const CONTENT_GRID_PADDING_X_MOBILE = 1;
 const CONTENT_GRID_PADDING_Y_MOBILE = 1;
@@ -239,7 +239,7 @@ export default function Index() {
             ) : (
               // Desktop
               <>
-                <div className="w-1/2 h-full flex flex-col translate-x-[20%]">
+                <div className="w-1/2 h-full flex flex-col translate-x-[16%]">
                   {[...splitIndexItems.leftIndexItems].map((item, index) => {
                     return (
                       <div
@@ -341,7 +341,7 @@ export default function Index() {
                     );
                   })}
                 </div>
-                <div className="w-1/2 h-full flex flex-col flex-wrap translate-x-[20%]">
+                <div className="w-1/2 h-full flex flex-col flex-wrap translate-x-[16%]">
                   {[...splitIndexItems.rightIndexItems].map((item, index) => {
                     return (
                       <div
