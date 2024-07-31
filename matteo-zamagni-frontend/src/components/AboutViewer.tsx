@@ -12,7 +12,7 @@ export const AboutViewer: React.FC<AboutViewerProps> = ({ content }) => {
         switch (item.__component) {
           case StrapiAboutComponentType.Title:
             return (
-              <h1 className="text-xl mb-4">
+              <h1 className="text-lg md:text-xl mb-2 md:mb-4">
                 <b>{item.Title}</b>
               </h1>
             );
