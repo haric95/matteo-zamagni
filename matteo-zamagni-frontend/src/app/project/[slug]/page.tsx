@@ -54,6 +54,10 @@ type ProjectPageData = {
   videoURL?: string;
 };
 
+const getImageSizeDesktop = (numImages: number) => {
+  return numImages < 8 ? "80px" : numImages < 12 ? "64px" : "48px";
+};
+
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
 export default function Project({ params }: { params: { slug: string } }) {
@@ -386,6 +390,18 @@ export default function Project({ params }: { params: { slug: string } }) {
                   }}
                   className="translate-x-[-50%] md:translate-x-0 translate-y-[-50%] md:translate-y-0 w-[48px] md:w-[80px] h-[48px] md:h-[80px] image-hover-glow hover:scale-105 transition-all duration-500"
                   {...imagePos}
+                  style={
+                    isMobile
+                      ? {}
+                      : {
+                          width: getImageSizeDesktop(
+                            projectItem.attributes.images.length
+                          ),
+                          height: getImageSizeDesktop(
+                            projectItem.attributes.images.length
+                          ),
+                        }
+                  }
                   isGrid={false}
                 >
                   <button
