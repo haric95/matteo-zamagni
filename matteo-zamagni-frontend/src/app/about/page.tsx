@@ -28,9 +28,9 @@ import { TfiLayoutMenuV } from "react-icons/tfi";
 const CENTER_CELL_PADDING_X = 16;
 const CENTER_CELL_PADDING_Y = 6;
 const CENTER_CELL_Y_OFFSET = 2;
-const CENTER_CELL_PADDING_X_MOBILE = 1;
+const CENTER_CELL_PADDING_X_MOBILE = 2;
 const CENTER_CELL_PADDING_Y_MOBILE = 6;
-const CENTER_CELL_Y_OFFSET_MOBILE = 0;
+const CENTER_CELL_Y_OFFSET_MOBILE = 1;
 
 // TODO: Add on mount delay to wait until bg color change has happened
 // TODO: Add About Modes
@@ -237,7 +237,7 @@ export default function Home() {
         isMounted={shouldMount}
         mobileTitleComponent={
           <div className="flex items-center">
-            <TfiLayoutMenuV color="white" className="mr-1 pb-2" />
+            <TfiLayoutMenuV color="white" className="mr-1" />
             <p>navigation - {aboutMode.toLocaleLowerCase()}</p>
           </div>
         }
