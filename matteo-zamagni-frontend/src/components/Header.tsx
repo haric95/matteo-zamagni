@@ -77,7 +77,7 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
                 <Logo
                   height={96}
                   width={96}
-                  className="hover:scale-105 transition-all duration-500 fill-black dark:fill-white"
+                  className="hover:scale-105 transition-all duration-500 fill-black dark:fill-offWhite"
                 />
               </div>
             </Link>
