@@ -40,7 +40,7 @@ const CONTENT_GRID_PADDING_Y = 2;
 const CONTENT_GRID_PADDING_X_MOBILE = 2;
 const CONTENT_GRID_PADDING_Y_MOBILE = 2;
 
-const QUADRANT_PADDING = { x: 2, y: 2 };
+const QUADRANT_PADDING = { x: 5, y: 5 };
 
 export default function Home() {
   const homepageData = useStrapi<HomepageData, false>("/homepage", {
@@ -169,16 +169,10 @@ export default function Home() {
   const getImagePos = useCallback(
     async (itemPos: HomepageItem["position"], aspect: number) => {
       if (centerContainerVals && selectedItem) {
-        // const aspect = await getImageAspectRatio(
-        //   selectedItem.image.image.data.attributes.url
-        // );
-        // console.log(aspect);
         const width = isMobile
           ? centerContainerVals.width
           : centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
-        const height = isMobile
-          ? Math.floor(width * aspect)
-          : centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
+        const height = Math.floor(width * aspect);
         if (centerContainerVals) {
           const absItemPos = getAbsGridCoords(
             { x: centerContainerVals.width, y: centerContainerVals.height },
@@ -215,7 +209,6 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       if (selectedItem) {
-        console.log(selectedItem);
         const aspect = await getImageAspectRatio(
           selectedItem.image?.image?.data?.attributes?.url
         );
@@ -231,6 +224,8 @@ export default function Home() {
       }
     })();
   }, [selectedItem, getImagePos]);
+
+  console.log(selectedItemImagePos);
 
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
