@@ -161,7 +161,7 @@ export default function Home() {
               className="bg-background_Light"
               key={aboutMode}
             >
-              <p className="text-black">curriculum vitae</p>
+              <p className="text-black">curriculum vitae:</p>
               <a
                 className="w-full h-full flex icon-hover-glow transition-all"
                 href={
