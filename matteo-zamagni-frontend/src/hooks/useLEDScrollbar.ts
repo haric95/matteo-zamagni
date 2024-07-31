@@ -1,10 +1,10 @@
-import { lightPixel, dimPixels } from "@/helpers/gridHelpers";
+import { dimPixels, lightPixel } from "@/helpers/gridHelpers";
 import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
 import { Pos2D } from "@/types/global";
-import { MutableRefObject, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useLEDScrollbar = (
   rowStart: number,
