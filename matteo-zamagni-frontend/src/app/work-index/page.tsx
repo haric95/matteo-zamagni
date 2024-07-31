@@ -11,6 +11,7 @@ import {
 import { parseTagsString } from "@/helpers/parseTagsString";
 import { TABLET_WIDTH, useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
+import { usePrefetchImages } from "@/hooks/usePrefetchImages";
 import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
 import {
@@ -135,6 +136,12 @@ export default function Index() {
   }, [dispatch]);
 
   useOnNavigate(clearGrid);
+
+  usePrefetchImages(
+    indexData?.data.attributes.items.map(
+      (item) => item.image.thumbnail.data.attributes.url
+    ) ?? null
+  );
 
   return (
     <AnimatePresence>
@@ -451,6 +458,7 @@ export default function Index() {
         <GridChild {...thumbnailViewerPosition} className="relative">
           {hoveredItemImageUrl && (
             <Image
+              className="fade-in"
               src={hoveredItemImageUrl}
               alt="Project thumbnail"
               layout="fill"
