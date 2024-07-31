@@ -464,9 +464,9 @@ export default function Home() {
         footerRightWidth={6}
         isMounted={shouldMount}
         mobileTitleComponent={
-          selectedFilterType ? (
-            <button className="text-s flex justify-end items-center">
-              {(() => {
+          <div className="flex items-center">
+            {selectedFilterType ? (
+              (() => {
                 const Component =
                   HomepageItemTypeIconMap[
                     selectedFilterType as keyof typeof HomepageItemTypeIconMap
@@ -477,17 +477,15 @@ export default function Home() {
                       className={`mr-2 w-4 h-4 transition-color duration-500 stroke-highlight`}
                       strokeWidth={8}
                     ></Component>
-                    <p>{selectedFilterType}</p>
                   </>
                 );
-              })()}
-            </button>
-          ) : (
-            <div className="flex items-center">
+              })()
+            ) : (
               <TfiLayoutMenuV color="white" className="mr-1" />
-              <p>legend</p>
-            </div>
-          )
+            )}
+
+            <p>legend</p>
+          </div>
         }
       >
         <GridChild
