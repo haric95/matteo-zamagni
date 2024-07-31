@@ -48,7 +48,7 @@ type ProjectPageData = {
   text?: string;
   images: {
     image: StrapiImageResponse;
-    thumbnail?: StrapiImageResponse;
+    thumbnail: StrapiImageResponse;
     alt?: string;
   }[];
   videoURL?: string;
@@ -222,8 +222,8 @@ export default function Project({ params }: { params: { slug: string } }) {
       return null;
     }
 
-    const WIDTH = 4;
-    const HEIGHT = 4;
+    const WIDTH = isMobile ? 1 : 4;
+    const HEIGHT = isMobile ? 1 : 4;
 
     const imageCoords = getCirclePoints(
       { x: 0.5, y: 0.5 },
@@ -238,7 +238,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     }));
 
     return imageCoords;
-  }, [gridDim, projectItem]);
+  }, [gridDim, projectItem, isMobile]);
 
   const galleryGridPosition = useMemo<PosAndDim2D>(() => {
     const GALLERY_PADDING_X = 12;
@@ -379,7 +379,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                     duration: 0.5,
                     delay: 0.5,
                   }}
-                  className="image-hover-glow hover:scale-105 transition-all duration-500"
+                  className="translate-x-[-50%] translate-y-[-50%] md:translate-x-0 Md;translate-y-0 w-[48px] md:w-[80px] h-[48px] md:h-[80px] image-hover-glow hover:scale-105 transition-all duration-500"
                   {...imagePos}
                   isGrid={false}
                 >
@@ -391,7 +391,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                   >
                     <Image
                       src={
-                        projectItem.attributes.images[index].image.data
+                        projectItem.attributes.images[index].thumbnail.data
                           .attributes.url
                       }
                       alt={""}
