@@ -35,7 +35,7 @@ import { TfiLayoutMenuV } from "react-icons/tfi";
 
 const CONTENT_GRID_PADDING_X = 8;
 const CONTENT_GRID_PADDING_Y = 2;
-const CONTENT_GRID_PADDING_X_MOBILE = 0;
+const CONTENT_GRID_PADDING_X_MOBILE = 1;
 const CONTENT_GRID_PADDING_Y_MOBILE = 1;
 
 // TODO: Find a way to prevent content being hidden on smaller screen sizes
@@ -77,7 +77,8 @@ export default function Index() {
     if (gridDim) {
       return {
         x: paddingX,
-        y: HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + paddingY,
+        y:
+          HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + paddingY + (isMobile ? 1 : 0),
         width: gridDim.x - paddingX * 2,
         height:
           gridDim.y -
@@ -136,7 +137,7 @@ export default function Index() {
           >
             {isMobile ? (
               // Mobile
-              <div className="w-full h-full flex flex-col">
+              <div className="w-full h-full flex flex-col text-sm">
                 {indexData &&
                   [...indexData.data.attributes.items].map((item, index) => {
                     return (

@@ -65,7 +65,7 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
               y={0}
               width={gridDim.x}
               height={gridDim.y}
-              className={`fixed w-screen h-[calc(100dvh)] top-0 left-0 bg-black z-[999] transition-all duration-500 ${
+              className={`fixed w-screen h-[calc(100dvh)] top-0 left-0 bg-black z-[999] transition-all duration-500 text-sm md:text-md ${
                 mobileFooterMenuOpen
                   ? "opacity-90"
                   : "opacity-0 pointer-events-none"

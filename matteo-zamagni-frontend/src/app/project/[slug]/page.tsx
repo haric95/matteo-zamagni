@@ -108,7 +108,7 @@ export default function Project({ params }: { params: { slug: string } }) {
 
   const textCenterCellPos = useMemo<PosAndDim2D>(() => {
     const width = isMobile
-      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2
+      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2 + 1
       : gridDim.x - CENTER_CELL_PADDING_X * 2;
     const height = isMobile
       ? gridDim.y - CENTER_CELL_PADDING_Y_MOBILE * 2
@@ -119,7 +119,7 @@ export default function Project({ params }: { params: { slug: string } }) {
       : CENTER_CELL_Y_OFFSET;
 
     return {
-      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE : CENTER_CELL_PADDING_X,
+      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE - 1 : CENTER_CELL_PADDING_X,
       y:
         (isMobile ? CENTER_CELL_PADDING_Y_MOBILE : CENTER_CELL_PADDING_Y) +
         yOffset,
@@ -134,7 +134,7 @@ export default function Project({ params }: { params: { slug: string } }) {
       : Math.floor((gridDim.x - textCenterCellPos.width) / 2) - 4;
     const height = isMobile ? 2 : 4;
     return {
-      x: isMobile ? textCenterCellPos.x - 1 : 2,
+      x: isMobile ? textCenterCellPos.x : 2,
       y: isMobile ? 5 : gridDim.y / 2 - height / 2,
       width,
       height,
@@ -148,7 +148,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     const height = isMobile ? 2 : 4;
     return {
       x: isMobile
-        ? textCenterCellPos.x - 1
+        ? textCenterCellPos.x
         : textCenterCellPos.x + textCenterCellPos.width + 3,
       y: isMobile
         ? titleCellPos.y + titleCellPos.height
@@ -278,7 +278,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         {...DEFAULT_ANIMATE_MODE}
         transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
         exit={{ opacity: 0, transition: { duration: 0.5, delay: 0 } }}
-        className="flex justify-start md:justify-center items-center bg-black text-white"
+        className="flex justify-start md:justify-center items-center bg-black text-white text-sm md:text-md"
         {...titleCellPos}
         isGrid={false}
       >
@@ -352,7 +352,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                 transition={{ type: "ease-in-out", duration: 0.5, delay: 0.5 }}
                 key={projectMode}
                 style={{ whiteSpace: "break-spaces" }}
-                className="w-full h-full overflow-auto no-scrollbar md:p-2"
+                className="w-full h-full overflow-auto no-scrollbar md:p-2 text-sm md:text-md"
               >
                 <Markdown className={"markdown"}>
                   {projectItem?.attributes.text}
