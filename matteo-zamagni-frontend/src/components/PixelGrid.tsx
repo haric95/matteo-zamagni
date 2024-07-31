@@ -94,7 +94,7 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
               aboutPageData?.data?.attributes?.PixelBackgroundAnimation?.data
                 ?.attributes?.url
             }
-            className="bg-ledActive_Light dark:bg-ledActive_Dark opacity-0 dark:opacity-40"
+            className="bg-ledActive_Light dark:bg-ledActive_Dark opacity-0 dark:opacity-25 transition-opacity duration-1000"
             alt="background animation"
             objectFit="cover"
             layout="fill"
@@ -141,12 +141,12 @@ export const PixelGrid: React.FC<PropsWithChildren> = ({ children }) => {
                     transitionDuration: `${PIXEL_TRANSITION_DURATION}ms`,
                   }}
                 >
-                  {pixelIsLit && (
+                  {/* {pixelIsLit && (
                     <div
                       key={`${rowIndex}=${columnIndex}`}
                       className="w-[2px] h-[2px] bg-ledActive_Light dark:bg-ledActive_Dark fade-in"
                     />
-                  )}
+                  )} */}
                 </div>
               );
             });
