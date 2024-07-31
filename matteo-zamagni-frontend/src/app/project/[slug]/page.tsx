@@ -135,7 +135,7 @@ export default function Project({ params }: { params: { slug: string } }) {
     const height = isMobile ? 2 : 4;
     return {
       x: isMobile ? textCenterCellPos.x : 2,
-      y: isMobile ? 5 : gridDim.y / 2 - height / 2,
+      y: isMobile ? 5 : gridDim.y / 2 - height / 2 + 1,
       width,
       height,
     };
@@ -152,7 +152,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         : textCenterCellPos.x + textCenterCellPos.width + 3,
       y: isMobile
         ? titleCellPos.y + titleCellPos.height
-        : gridDim.y / 2 - height / 2,
+        : gridDim.y / 2 - height / 2 + 1,
       width,
       height,
     };
@@ -190,10 +190,15 @@ export default function Project({ params }: { params: { slug: string } }) {
           );
           dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
         } else if (mode === ProjectMode.IMAGES) {
-          const circlePoints = getCirclePoints({ x: 0.5, y: 0.5 }, 0.1, 8, {
-            x: gridDim.x - 1,
-            y: gridDim.y - 1,
-          });
+          const circlePoints = getCirclePoints(
+            { x: 0.5, y: isMobile ? 0.5 : 0.55 },
+            isMobile ? 0.1 : 0.12,
+            8,
+            {
+              x: gridDim.x - 1,
+              y: gridDim.y - 1,
+            }
+          );
           const updatedGrid = lightPixels(clearedGrid, circlePoints);
           dispatch({ type: "UPDATE_GRID", grid: updatedGrid });
         } else if (mode === ProjectMode.VIDEO) {
@@ -201,7 +206,7 @@ export default function Project({ params }: { params: { slug: string } }) {
         }
       }
     },
-    [dispatch, grid, gridDim, textCenterCellPos]
+    [dispatch, grid, gridDim, textCenterCellPos, isMobile]
   );
 
   const handleChangeProjectMode = useCallback(
@@ -226,8 +231,8 @@ export default function Project({ params }: { params: { slug: string } }) {
     const HEIGHT = isMobile ? 1 : 4;
 
     const imageCoords = getCirclePoints(
-      { x: 0.5, y: 0.5 },
-      0.3,
+      { x: 0.5, y: isMobile ? 0.5 : 0.55 },
+      isMobile ? 0.35 : 0.3,
       projectItem.attributes.images.length,
       gridDim
     ).map((coord) => ({
@@ -379,7 +384,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                     duration: 0.5,
                     delay: 0.5,
                   }}
-                  className="translate-x-[-50%] translate-y-[-50%] md:translate-x-0 Md;translate-y-0 w-[48px] md:w-[80px] h-[48px] md:h-[80px] image-hover-glow hover:scale-105 transition-all duration-500"
+                  className="translate-x-[-50%] md:translate-x-0 translate-y-[-50%] md:translate-y-0 w-[48px] md:w-[80px] h-[48px] md:h-[80px] image-hover-glow hover:scale-105 transition-all duration-500"
                   {...imagePos}
                   isGrid={false}
                 >
