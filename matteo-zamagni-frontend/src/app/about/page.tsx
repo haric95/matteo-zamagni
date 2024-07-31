@@ -1,6 +1,7 @@
 "use client";
 import { AboutViewer } from "@/components/AboutViewer";
 import { FooterRight } from "@/components/FooterRight";
+import { GridChild } from "@/components/GridChild";
 import { MotionGridChild } from "@/components/MotionGridChild";
 import { DEFAULT_ANIMATE_MODE } from "@/const";
 import { drawVerticalLine } from "@/helpers/gridHelpers";
@@ -151,103 +152,92 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence>
-        {shouldMount && !isMobile && (
-          <>
-            <MotionGridChild
-              isGrid={false}
-              {...CVCellPos}
-              {...DEFAULT_ANIMATE_MODE}
-              className="bg-background_Light"
-              key={aboutMode}
-            >
-              <p className="text-black">curriculum vitae:</p>
-              <a
-                className="w-full h-full flex icon-hover-glow transition-all"
-                href={
-                  aboutPageData?.data?.attributes?.CV?.data?.attributes?.url ||
-                  ""
-                }
-                download={"Matteo Zamagni CV"}
+      <>
+        <GridChild
+          isGrid={false}
+          {...CVCellPos}
+          {...DEFAULT_ANIMATE_MODE}
+          key={aboutMode}
+        >
+          <p className="text-black">curriculum vitae:</p>
+          <a
+            className="w-full h-full flex icon-hover-glow transition-all"
+            href={
+              aboutPageData?.data?.attributes?.CV?.data?.attributes?.url || ""
+            }
+            download={"Matteo Zamagni CV"}
+          >
+            Download Here
+          </a>
+        </GridChild>
+      </>
+
+      {!isMobile && (
+        <GridChild
+          isGrid={false}
+          {...infoCellPos}
+          {...DEFAULT_ANIMATE_MODE}
+          className="flex flex-col justify-around p-2"
+          key={aboutMode}
+        >
+          <div>
+            <p className="text-black">represented by:</p>
+            {aboutPageData?.data?.attributes?.RepresentedBy?.map((by) => (
+              <Link
+                key={by.label}
+                href={by.url}
+                className="block icon-hover-glow transition-all"
+                target="_blank"
               >
-                Download Here
-              </a>
-            </MotionGridChild>
-          </>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {shouldMount && !isMobile && (
-          <MotionGridChild
+                {by.label}
+              </Link>
+            ))}
+          </div>
+          <div>
+            <p className="text-black">digital sales:</p>
+            {aboutPageData?.data?.attributes?.DigitalSales?.map((by) => (
+              <Link
+                key={by.label}
+                href={by.url}
+                className="block icon-hover-glow transition-all"
+                target="_blank"
+              >
+                {by.label}
+              </Link>
+            ))}
+          </div>
+        </GridChild>
+      )}
+      {/* Links cell on mobile */}
+      {isMobile && (
+        <>
+          <GridChild
             isGrid={false}
-            {...infoCellPos}
+            {...CVCellPos}
             {...DEFAULT_ANIMATE_MODE}
-            className="bg-background_Light flex flex-col justify-around p-2"
             key={aboutMode}
           >
-            <div>
-              <p className="text-black">represented by:</p>
-              {aboutPageData?.data?.attributes?.RepresentedBy?.map((by) => (
-                <Link
-                  key={by.label}
-                  href={by.url}
-                  className="block icon-hover-glow transition-all"
-                  target="_blank"
-                >
-                  {by.label}
-                </Link>
-              ))}
-            </div>
-            <div>
-              <p className="text-black">digital sales:</p>
-              {aboutPageData?.data?.attributes?.DigitalSales?.map((by) => (
-                <Link
-                  key={by.label}
-                  href={by.url}
-                  className="block icon-hover-glow transition-all"
-                  target="_blank"
-                >
-                  {by.label}
-                </Link>
-              ))}
-            </div>
-          </MotionGridChild>
-        )}
-      </AnimatePresence>
-      {/* Links cell on mobile */}
-      <AnimatePresence>
-        {shouldMount && isMobile && (
-          <>
-            <MotionGridChild
-              isGrid={false}
-              {...CVCellPos}
-              {...DEFAULT_ANIMATE_MODE}
-              className="bg-background_Light"
-              key={aboutMode}
+            <button
+              className="w-full h-full flex justify-end items-center"
+              onClick={() => {
+                if (dispatch) {
+                  setMobileLinksActive(true);
+                  dispatch({ type: "SET_MOBILE_FOOTER_MENU", isOpen: true });
+                }
+              }}
             >
-              <button
-                className="w-full h-full flex justify-end items-center"
-                onClick={() => {
-                  if (dispatch) {
-                    setMobileLinksActive(true);
-                    dispatch({ type: "SET_MOBILE_FOOTER_MENU", isOpen: true });
-                  }
-                }}
-              >
-                <HiLink className="mr-2" />
-                Links
-              </button>
-            </MotionGridChild>
-          </>
-        )}
-      </AnimatePresence>
+              <HiLink className="mr-2" />
+              Links
+            </button>
+          </GridChild>
+        </>
+      )}
       <AnimatePresence>
-        {shouldMount && centerCellPos && (
+        {centerCellPos && (
           <MotionGridChild
             isGrid={false}
             {...centerCellPos}
             {...DEFAULT_ANIMATE_MODE}
-            className="bg-background_Light"
             key={aboutMode}
           >
             <div
