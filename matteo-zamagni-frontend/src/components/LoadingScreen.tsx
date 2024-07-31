@@ -44,9 +44,9 @@ export const LoadingScreen = ({ children }: PropsWithChildren) => {
         }`}
       >
         {!videoEnded && (
-          <div className="w-[360px] h-[360px] relative fade-in">
+          <div className="w-[240px] h-[240px] relative fade-in">
             <div
-              className="w-[240x] h-[240px] absolute left-[50%] top-[50%]"
+              className="w-[160px] h-[160px] absolute left-[50%] top-[50%]"
               style={{ transform: "translate(-50%, -50%)" }}
             />
             {/* <Loader /> */}
