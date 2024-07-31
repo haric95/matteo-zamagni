@@ -18,7 +18,7 @@ export const useLEDScrollbar = (
   const [uiLitPixelRow, setUILitPixelRow] = useState<number | null>(null);
 
   const scrollHandler = useCallback(() => {
-    const numLEDs = rowEnd - rowStart + 1;
+    const numLEDs = rowEnd - rowStart;
     if (
       element &&
       element.scrollHeight &&
