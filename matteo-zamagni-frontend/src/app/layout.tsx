@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-black selection:bg-highlight selection:text-black overflow-hidden`}
+        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-background_Light dark:bg-background_Dark selection:bg-highlight selection:text-black overflow-x-hidden`}
       >
         <GlobalContextProvider>
           <ErrorBoundary errorComponent={ErrorComponent}>
