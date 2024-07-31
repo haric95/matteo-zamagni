@@ -105,7 +105,7 @@ export default function Project({ params }: { params: { slug: string } }) {
       if (projectItem.attributes.videoURL) {
         setProjectMode(ProjectMode.VIDEO);
       } else {
-        setProjectMode(ProjectMode.TEXT);
+        setProjectMode(ProjectMode.IMAGES);
       }
     }
   }, [projectItem]);
