@@ -115,7 +115,7 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
         ) : (
           <motion.div
             {...DEFAULT_ANIMATE_MODE}
-            className="grid bg-background_Light dark:bg-background_Dark"
+            className="grid"
             style={{
               gridColumnStart: gridDim.x - (footerRightWidth + offsetX - 1),
               gridColumnEnd:
