@@ -75,7 +75,7 @@ export default function Home() {
   }, [gridDim, isMobile]);
 
   const CVCellPos = useMemo<PosAndDim2D>(() => {
-    const width = isMobile ? 6 : 8;
+    const width = isMobile ? 6 : 9;
     const height = isMobile ? 1 : 2;
 
     return {
@@ -84,7 +84,7 @@ export default function Home() {
         : centerCellPos.x + centerCellPos.width + 3,
       y: isMobile
         ? centerCellPos.y + centerCellPos.height + 1
-        : centerCellPos.y + 2,
+        : centerCellPos.y + centerCellPos.height / 2 - 5,
       width,
       height,
     };
