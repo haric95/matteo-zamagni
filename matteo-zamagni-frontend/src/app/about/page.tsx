@@ -152,25 +152,27 @@ export default function Home() {
 
   return (
     <>
-      <>
-        <GridChild
-          isGrid={false}
-          {...CVCellPos}
-          {...DEFAULT_ANIMATE_MODE}
-          key={aboutMode}
-        >
-          <p className="text-black">curriculum vitae:</p>
-          <a
-            className="w-full h-full flex icon-hover-glow transition-all"
-            href={
-              aboutPageData?.data?.attributes?.CV?.data?.attributes?.url || ""
-            }
-            download={"Matteo Zamagni CV"}
+      {!isMobile && (
+        <>
+          <GridChild
+            isGrid={false}
+            {...CVCellPos}
+            {...DEFAULT_ANIMATE_MODE}
+            key={aboutMode}
           >
-            Download Here
-          </a>
-        </GridChild>
-      </>
+            <p className="text-black">curriculum vitae:</p>
+            <a
+              className="w-full h-full flex icon-hover-glow transition-all"
+              href={
+                aboutPageData?.data?.attributes?.CV?.data?.attributes?.url || ""
+              }
+              download={"Matteo Zamagni CV"}
+            >
+              Download Here
+            </a>
+          </GridChild>
+        </>
+      )}
 
       {!isMobile && (
         <GridChild
