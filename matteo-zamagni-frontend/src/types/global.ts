@@ -28,7 +28,11 @@ export type HomepageItem = {
   type: HomepageItemType;
   title: string;
   year: string;
-  image: StrapiImageResponse;
+  image: {
+    image: StrapiImageResponse;
+    thumbnail: StrapiImageResponse;
+    alt?: string;
+  };
   slug: string;
   tags: string;
   iconScale?: number;
@@ -117,6 +121,11 @@ export type IndexItem = {
   year: string;
   slug: string;
   tags: string;
+  image: {
+    image: StrapiImageResponse;
+    thumbnail: StrapiImageResponse;
+    alt?: string;
+  };
 };
 
 export type IndexPageData = {

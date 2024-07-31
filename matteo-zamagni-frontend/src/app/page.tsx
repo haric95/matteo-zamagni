@@ -72,7 +72,7 @@ export default function Home() {
 
   usePrefetchImages(
     parsedHomepageData?.data.attributes.items.map(
-      (item) => item.image.data.attributes.url
+      (item) => item.image?.image?.data?.attributes?.url
     ) || null
   );
 
@@ -395,7 +395,7 @@ export default function Home() {
                   >
                     <Link href={`/project/${selectedItem.slug}`}>
                       <Image
-                        src={selectedItem.image.data.attributes.url}
+                        src={selectedItem.image?.image?.data?.attributes?.url}
                         className="object-cover w-full h-full slide-in"
                         alt=""
                         width={selectedItemImagePos.width * TARGET_CELL_SIZE}
