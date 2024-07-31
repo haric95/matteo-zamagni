@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { PropsWithChildren } from "react";
 import { HeaderDateScroller } from "./HeaderDateScroller";
 import { Logo } from "./Icons";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const HEADER_CELL_WIDTH = 16;
 export const HEADER_OFFSET_Y = 1;
@@ -15,6 +16,7 @@ const CENTER_HEADER_CELL_WIDTH = HEADER_CELL_WIDTH - SIDE_HEADER_CELL_WIDTH * 2;
 
 export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
   const { gridDim } = useGlobalContext() as { gridDim: Dim2D };
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -100,8 +102,10 @@ export const Header: React.FC<PropsWithChildren<PropsWithChildren>> = () => {
           <div
             className={`row-span-full relative`}
             style={{
-              gridColumnStart: 1,
-              gridColumnEnd: HEADER_CELL_WIDTH + 1,
+              gridColumnStart: isMobile ? 2 : 1,
+              gridColumnEnd: isMobile
+                ? HEADER_CELL_WIDTH
+                : HEADER_CELL_WIDTH + 1,
               gridRowStart: HEADER_UPPER_HEIGHT + HEADER_OFFSET_Y,
               gridRowEnd:
                 HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT + HEADER_OFFSET_Y,

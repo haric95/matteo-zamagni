@@ -138,7 +138,7 @@ export const HeaderDateScroller = (props) => {
           </div>
         </div>
         <div className="absolute top-0 w-full h-full flex justify-center pointer-events-none">
-          <div className="w-24 border-x-[1px] dark:border-fadedWhite border-black transition-all duration-500"></div>
+          <div className="w-20 md:w-24 border-x-[1px] dark:border-fadedWhite border-black transition-all duration-500"></div>
         </div>
         <AnimatePresence>
           {currentYearIndex !== 0 && (
