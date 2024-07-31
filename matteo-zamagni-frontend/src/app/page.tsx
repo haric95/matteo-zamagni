@@ -8,8 +8,6 @@ import {
   HomepageItemTypeIconMap,
   homepageItemArray,
 } from "@/const";
-import { findNearestCornerOfRect, tronPath } from "@/helpers/gridHelpers";
-import { useGridLineAnimation } from "@/hooks/useGridLineAnimation";
 import { useGridRectAnimation } from "@/hooks/useGridRectAnimation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
@@ -21,20 +19,21 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
+import { getImageAspectRatio } from "@/themes/utils";
 import {
   HomepageData,
   HomepageItem,
   HomepageItemType,
-  Pos2D,
+  PosAndDim2D,
 } from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
+import { set } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { TfiLayoutMenuV } from "react-icons/tfi";
 import { TypeAnimation } from "react-type-animation";
-import { set } from "lodash";
 
 const CONTENT_GRID_PADDING_X = 6;
 const CONTENT_GRID_PADDING_Y = 2;
@@ -45,8 +44,7 @@ const QUADRANT_PADDING = { x: 2, y: 2 };
 
 export default function Home() {
   const homepageData = useStrapi<HomepageData, false>("/homepage", {
-    "populate[items][populate][0]": "position",
-    "populate[items][populate][1]": "image",
+    populate: "deep",
   });
   const isMobile = useIsMobile();
 
@@ -77,7 +75,7 @@ export default function Home() {
   );
 
   const dispatch = useGlobalContextDispatch();
-  const { gridDim, grid, selectedYear, scrollerAvailableYears, cellSize } =
+  const { gridDim, selectedYear, scrollerAvailableYears, cellSize } =
     useGlobalContext();
 
   const [selectedItemTitle, setSelectedItemTitle] = useState<string | null>(
@@ -85,6 +83,8 @@ export default function Home() {
   );
   const [selectedFilterType, setSelectedFilterType] =
     useState<HomepageItemType | null>(null);
+  const [selectedItemImagePos, setSelectedItemImagePos] =
+    useState<PosAndDim2D | null>(null);
 
   const { startRectAnimation, clearRect: clearRectAnimation } =
     useGridRectAnimation();
@@ -167,13 +167,17 @@ export default function Home() {
   }, [centerContainerVals, selectedItem, gridDim, isMobile]);
 
   const getImagePos = useCallback(
-    (itemPos: HomepageItem["position"]) => {
-      if (centerContainerVals) {
+    async (itemPos: HomepageItem["position"], aspect: number) => {
+      if (centerContainerVals && selectedItem) {
+        // const aspect = await getImageAspectRatio(
+        //   selectedItem.image.image.data.attributes.url
+        // );
+        // console.log(aspect);
         const width = isMobile
           ? centerContainerVals.width
           : centerContainerVals.width / 2 - QUADRANT_PADDING.x * 2;
         const height = isMobile
-          ? Math.floor(width * 0.5625)
+          ? Math.floor(width * aspect)
           : centerContainerVals.height / 2 - QUADRANT_PADDING.y * 2;
         if (centerContainerVals) {
           const absItemPos = getAbsGridCoords(
@@ -205,76 +209,38 @@ export default function Home() {
         }
       }
     },
-    [centerContainerVals, isMobile, selectedItemDescriptionPos]
+    [centerContainerVals, isMobile, selectedItemDescriptionPos, selectedItem]
   );
 
-  const selectedItemImagePos = useMemo(() => {
-    if (selectedItem) {
-      const imageGridPos = getImagePos(selectedItem.position);
-      return imageGridPos;
-    }
-    return null;
+  useEffect(() => {
+    (async () => {
+      if (selectedItem) {
+        console.log(selectedItem);
+        const aspect = await getImageAspectRatio(
+          selectedItem.image?.image?.data?.attributes?.url
+        );
+        if (aspect) {
+          const pos: PosAndDim2D | undefined = await getImagePos(
+            selectedItem.position,
+            aspect
+          );
+          if (pos) {
+            setSelectedItemImagePos(pos);
+          }
+        }
+      }
+    })();
   }, [selectedItem, getImagePos]);
 
   const handleIconClick = useCallback(
     (item: HomepageItem) => {
-      if (dispatch && grid) {
-        clearRectAnimation();
-        if (selectedItemTitle === item.title) {
-          setSelectedItemTitle(null);
-        } else {
-          setSelectedItemTitle(item.title);
-          const imagePos = getImagePos(item.position);
-          if (imagePos && centerContainerVals) {
-            const ledRect = {
-              x: centerContainerVals.x + imagePos.x - 1,
-              y: centerContainerVals.y + imagePos.y - 1,
-              width: imagePos.width + 1,
-              height: imagePos.height + 1,
-            };
-            // startRectAnimation(
-            //   ledRect.x,
-            //   ledRect.y,
-            //   ledRect.width,
-            //   ledRect.height
-            // );
-            // Here, point coords are proportional (0-1).
-            // We need to scale to absolute grid coordinates to be able to run
-            // the tronPath algo.
-            if (gridDim) {
-              // These are for the whole grid.
-              const absPointCoords = getAbsGridCoords(
-                { x: centerContainerVals.width, y: centerContainerVals.height },
-                item.position
-              );
-              // But our points are positioned within the center grid. So need to offset
-              const outerGridPointCoords: Pos2D = {
-                x: absPointCoords.x + centerContainerVals.x - 1,
-                y: absPointCoords.y + centerContainerVals.y - 1,
-              };
-              const outerGridImagePos = {
-                ...imagePos,
-                x: imagePos.x + centerContainerVals.x,
-                y: imagePos.y + centerContainerVals.y,
-              };
-              const nearestImageCorner = findNearestCornerOfRect(
-                outerGridPointCoords, // point of icon click
-                outerGridImagePos // rect info
-              );
-            }
-          }
-        }
+      if (selectedItemTitle) {
+        setSelectedItemTitle(null);
+      } else {
+        setSelectedItemTitle(item.title);
       }
     },
-    [
-      dispatch,
-      grid,
-      selectedItemTitle,
-      clearRectAnimation,
-      getImagePos,
-      centerContainerVals,
-      gridDim,
-    ]
+    [selectedItemTitle]
   );
 
   const handleClickOffIcon = useCallback(() => {
@@ -394,13 +360,17 @@ export default function Home() {
                     className={`w-full h-full image-hover-glow hover:scale-[101%] duration-500 transition-all duration-500`}
                   >
                     <Link href={`/project/${selectedItem.slug}`}>
-                      <Image
-                        src={selectedItem.image?.image?.data?.attributes?.url}
-                        className="object-cover w-full h-full slide-in"
-                        alt=""
-                        width={selectedItemImagePos.width * TARGET_CELL_SIZE}
-                        height={selectedItemImagePos.height * TARGET_CELL_SIZE}
-                      />
+                      {selectedItemImagePos && (
+                        <Image
+                          src={selectedItem.image?.image?.data?.attributes?.url}
+                          className="object-cover w-full h-full slide-in"
+                          alt=""
+                          width={selectedItemImagePos.width * TARGET_CELL_SIZE}
+                          height={
+                            selectedItemImagePos.height * TARGET_CELL_SIZE
+                          }
+                        />
+                      )}
                     </Link>
                   </button>
                 </MotionGridChild>
