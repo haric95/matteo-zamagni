@@ -54,7 +54,7 @@ export default function Home() {
   const { shouldMount } = useTheme({ isDark: false });
   const centerCellPos = useMemo<PosAndDim2D>(() => {
     const width = isMobile
-      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2
+      ? gridDim.x - CENTER_CELL_PADDING_X_MOBILE * 2 + 1
       : gridDim.x - CENTER_CELL_PADDING_X * 2;
     const height = isMobile
       ? gridDim.y - CENTER_CELL_PADDING_Y_MOBILE * 2
@@ -65,7 +65,7 @@ export default function Home() {
       : CENTER_CELL_Y_OFFSET;
 
     return {
-      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE : CENTER_CELL_PADDING_X,
+      x: isMobile ? CENTER_CELL_PADDING_X_MOBILE - 1 : CENTER_CELL_PADDING_X,
       y:
         (isMobile ? CENTER_CELL_PADDING_Y_MOBILE : CENTER_CELL_PADDING_Y) +
         yOffset,
@@ -251,7 +251,7 @@ export default function Home() {
           >
             <div
               ref={handleScrollDivChange}
-              className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar px-2 py-4"
+              className="w-full h-full overflow-auto text-black whitespace-break-spaces no-scrollbar px-2 py-4 text-sm md:text-md"
             >
               <AboutViewer
                 content={aboutPageData?.data?.attributes[aboutMode] || null}
