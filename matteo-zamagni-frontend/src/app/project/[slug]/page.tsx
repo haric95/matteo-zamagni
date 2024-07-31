@@ -1,4 +1,5 @@
 "use client";
+import { AboutViewer } from "@/components/AboutViewer";
 import { FooterRight } from "@/components/FooterRight";
 import { GridChild } from "@/components/GridChild";
 import { ImageGallery } from "@/components/ImageGallery";
@@ -21,7 +22,13 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "@/state/GlobalStore";
-import { Dim2D, Grid, HomepageData, PosAndDim2D } from "@/types/global";
+import {
+  Dim2D,
+  Grid,
+  HomepageData,
+  PosAndDim2D,
+  StrapiAboutComponent,
+} from "@/types/global";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -45,7 +52,7 @@ enum ProjectMode {
 type ProjectPageData = {
   title: string;
   slug: string;
-  text?: string;
+  text: StrapiAboutComponent[];
   images: {
     image: StrapiImageResponse;
     thumbnail: StrapiImageResponse;
@@ -363,9 +370,9 @@ export default function Project({ params }: { params: { slug: string } }) {
                 style={{ whiteSpace: "break-spaces" }}
                 className="w-full h-full overflow-auto no-scrollbar md:p-2 text-sm md:text-md"
               >
-                <Markdown className={"markdown"}>
-                  {projectItem?.attributes.text}
-                </Markdown>
+                {projectItem?.attributes.text && (
+                  <AboutViewer content={projectItem?.attributes.text} />
+                )}
               </motion.div>
             </GridChild>
           </>

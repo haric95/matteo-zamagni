@@ -25,11 +25,18 @@
     "videoURL": {
       "type": "string"
     },
-    "text": {
-      "type": "richtext"
-    },
     "title": {
       "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "dynamiczone",
+      "components": [
+        "about.about-item",
+        "about.about-text",
+        "about.about-title",
+        "about.about-year"
+      ],
       "required": true
     }
   }
