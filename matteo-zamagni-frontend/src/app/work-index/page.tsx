@@ -9,7 +9,7 @@ import {
   homepageItemArray,
 } from "@/const";
 import { parseTagsString } from "@/helpers/parseTagsString";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { TABLET_WIDTH, useIsMobile } from "@/hooks/useIsMobile";
 import { useOnNavigate } from "@/hooks/useOnNavigate";
 import { useStrapi } from "@/hooks/useStrapi";
 import { useTheme } from "@/hooks/useTheme";
@@ -57,11 +57,11 @@ export default function Index() {
     null
   );
 
-  const isMobile = useIsMobile();
-  const paddingX = isMobile
+  const isTablet = useIsMobile(TABLET_WIDTH);
+  const paddingX = isTablet
     ? CONTENT_GRID_PADDING_X_MOBILE
     : CONTENT_GRID_PADDING_X;
-  const paddingY = isMobile
+  const paddingY = isTablet
     ? CONTENT_GRID_PADDING_Y_MOBILE
     : CONTENT_GRID_PADDING_Y;
 
@@ -84,18 +84,18 @@ export default function Index() {
       return {
         x: paddingX,
         y:
-          HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + paddingY + (isMobile ? 1 : 0),
+          HEADER_OFFSET_Y + TOTAL_HEADER_HEIGHT + paddingY + (isTablet ? 1 : 0),
         width: gridDim.x - paddingX * 2,
         height:
           gridDim.y -
           HEADER_OFFSET_Y -
           TOTAL_HEADER_HEIGHT -
           paddingY * 2 -
-          (isMobile ? 5 : 0),
+          (isTablet ? 5 : 0),
       };
     }
     return null;
-  }, [gridDim, paddingX, paddingY, isMobile]);
+  }, [gridDim, paddingX, paddingY, isTablet]);
 
   const splitIndexItems = useMemo(() => {
     if (indexData && centerContainerVals) {
@@ -114,11 +114,11 @@ export default function Index() {
   }, [centerContainerVals, indexData]);
 
   const thumbnailViewerPosition = useMemo<PosAndDim2D | null>(() => {
-    if (gridDim && !isMobile) {
+    if (gridDim && !isTablet) {
       return { x: 2, y: gridDim.y - 10, width: 4, height: 4 };
     }
     return null;
-  }, [gridDim, isMobile]);
+  }, [gridDim, isTablet]);
 
   const { shouldMount } = useTheme({ isDark: false });
 
@@ -148,7 +148,7 @@ export default function Index() {
             isGrid={false}
             className="overflow-y-scroll flex no-scrollbar"
           >
-            {isMobile ? (
+            {isTablet ? (
               // Mobile
               <div className="w-full h-full flex flex-col text-sm">
                 {indexData &&
@@ -239,7 +239,7 @@ export default function Index() {
             ) : (
               // Desktop
               <>
-                <div className="w-1/2 h-full flex flex-col">
+                <div className="w-1/2 h-full flex flex-col translate-x-[20%]">
                   {[...splitIndexItems.leftIndexItems].map((item, index) => {
                     return (
                       <div
@@ -249,7 +249,7 @@ export default function Index() {
                       >
                         <Link
                           href={`/project/${item.slug}`}
-                          className={`w-fit h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
+                          className={`w-full h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
                             selectedYear === null ||
                             Number(selectedYear) === Number(item.year)
                               ? ""
@@ -322,7 +322,7 @@ export default function Index() {
                                 ].includes(selectedType)
                                   ? "translate-x-2"
                                   : ""
-                              } text-elipsis overflow-hidden w-fit ${
+                              } text-elipsis overflow-hidden ${
                                 selectedType &&
                                 [
                                   ...parseTagsString(item.tags),
@@ -332,6 +332,7 @@ export default function Index() {
                                   : "text-black"
                               }`}
                             >
+                              {`${"                   "}`}
                               {item.title.toUpperCase()}
                             </p>
                           </div>
@@ -340,7 +341,7 @@ export default function Index() {
                     );
                   })}
                 </div>
-                <div className="w-1/2 h-full flex flex-col flex-wrap">
+                <div className="w-1/2 h-full flex flex-col flex-wrap translate-x-[20%]">
                   {[...splitIndexItems.rightIndexItems].map((item, index) => {
                     return (
                       <div
@@ -350,7 +351,7 @@ export default function Index() {
                       >
                         <Link
                           href={`/project/${item.slug}`}
-                          className={`w-fit h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
+                          className={`w-full h-full flex items-center justify-center hover-glow-light transition-all duration-500 ${
                             selectedYear === null ||
                             Number(selectedYear) === Number(item.year)
                               ? ""
@@ -423,7 +424,7 @@ export default function Index() {
                                 ].includes(selectedType)
                                   ? "translate-x-2"
                                   : ""
-                              } text-elipsis overflow-hidden w-fit ${
+                              } text-elipsis overflow-hidden w-full ${
                                 selectedType &&
                                 [
                                   ...parseTagsString(item.tags),
@@ -462,6 +463,7 @@ export default function Index() {
         footerRightHeight={8}
         footerRightWidth={6}
         isMounted={shouldMount}
+        breakpointSize={TABLET_WIDTH}
         mobileTitleComponent={
           selectedType ? (
             <button className="text-s flex justify-end items-center">
@@ -516,7 +518,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  <MdClose color={isMobile ? "white" : "black"} />
+                  <MdClose color={isTablet ? "white" : "black"} />
                 </motion.button>
               )}
             </AnimatePresence>

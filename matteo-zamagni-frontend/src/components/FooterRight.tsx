@@ -21,6 +21,7 @@ type FooterRightProps = PropsWithChildren<{
   isMounted?: boolean;
   mobileTitleComponent?: JSX.Element;
   onMobileFooterMenuClose?: () => void;
+  breakpointSize?: number;
 }>;
 
 export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
@@ -29,6 +30,7 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
   isMounted = true,
   mobileTitleComponent,
   onMobileFooterMenuClose,
+  breakpointSize,
   children,
 }) => {
   const { gridDim, mobileFooterMenuOpen } = useGlobalContext() as {
@@ -36,7 +38,7 @@ export const FooterRight: React.FC<PropsWithChildren<FooterRightProps>> = ({
     mobileFooterMenuOpen: boolean;
   };
   const dispatch = useGlobalContextDispatch();
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(breakpointSize);
 
   const handleMobileFooterMenuOpen = () => {
     if (dispatch) {
