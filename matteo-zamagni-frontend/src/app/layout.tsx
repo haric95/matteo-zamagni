@@ -12,8 +12,9 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400"],
   variable: "--font-mono",
 });
-export const myFont = localFont({
-  src: "../fonts/Neutronica Geometric.ttf",
+
+const neutronica = localFont({
+  src: "../fonts/Neutronica.woff2",
   variable: "--font-decoration",
 });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibmPlexMono.variable} ${myFont.variable} font-mono bg-background_Light dark:bg-background_Dark selection:bg-highlight selection:text-black overflow-x-hidden`}
+        className={`${ibmPlexMono.variable} ${neutronica.variable} font-mono bg-background_Light dark:bg-background_Dark selection:bg-highlight selection:text-black overflow-x-hidden`}
       >
         <GlobalContextProvider>
           <ErrorBoundary errorComponent={ErrorComponent}>

@@ -124,7 +124,7 @@ export const HeaderDateScroller = (props) => {
               {slideValues().map(({ style, value }, idx) => (
                 <div className="wheel__slide" style={style} key={idx}>
                   <span
-                    className="translate-x-1/2 dark:text-offWhite text-black transition-all duration-500"
+                    className="translate-x-1/2 dark:text-offWhite text-black transition-all duration-500 text-xs"
                     onClick={(e) => {
                       e.preventDefault();
                       slider.moveToSlide(idx, 1000);
