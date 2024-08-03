@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/HeaderDateScroller.tsx"
+    "src/components/HeaderDateScroller.tsx",
+    "src/helpers/polyfills.js"
   ],
   "exclude": ["node_modules"]
 }
