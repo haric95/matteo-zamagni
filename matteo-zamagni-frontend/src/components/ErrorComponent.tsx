@@ -11,7 +11,7 @@ export const ErrorComponent: React.FC = () => {
       {
         <motion.div
           {...DEFAULT_ANIMATE_MODE}
-          className="w-screen h-[calc(100dvh)] fixed left-0 top-0 z-[999] flex justify-center items-center "
+          className="w-screen height-dynamic-screen fixed left-0 top-0 z-[999] flex justify-center items-center "
         >
           <div className="w-full h-full absolute bg-black opacity-80" />
           <div className="w-[80%] md:w-[33%] h-fit flex justify-center items-center z-10 relative border-white border-[1px]">

@@ -3,6 +3,7 @@ import { TARGET_CELL_SIZE } from "@/hooks/useScreenDim";
 import { useGlobalContext } from "@/state/GlobalStore";
 import { motion } from "framer-motion";
 import { PropsWithChildren } from "react";
+import "../helpers/polyfills";
 
 const variants = {
   hidden: { opacity: 0, x: 0, y: 0 },

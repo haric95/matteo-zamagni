@@ -43,7 +43,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   }, [swiper, currentSlide]);
 
   return (
-    <div className="w-screen h-[calc(100dvh)] fixed left-0 top-0 z-10 flex justify-center items-center">
+    <div className="w-screen height-dynamic-screen fixed left-0 top-0 z-10 flex justify-center items-center">
       <div
         className="w-full h-full absolute bg-black opacity-90"
         onClick={handleClose}
