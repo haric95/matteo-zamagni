@@ -4,7 +4,7 @@ import { Dim2D } from "@/types/global";
 import { useCallback, useEffect } from "react";
 
 const SCALE_FACTOR = 1; // scales grid
-export const TARGET_CELL_SIZE = 20; //px will determine how many LEDs will fit
+export const TARGET_CELL_SIZE = 16; //px will determine how many LEDs will fit
 
 const getGridDim = (screenDim: Dim2D): Dim2D => {
   // Ensure grid dimensions are always even numbers

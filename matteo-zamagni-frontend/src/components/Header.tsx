@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 
 const HEADER_CELL_WIDTH = 16;
 export const HEADER_OFFSET_Y = 1;
-export const HEADER_UPPER_HEIGHT = 4;
+export const HEADER_UPPER_HEIGHT = 5;
 export const HEADER_LOWER_HEIGHT = 1;
 export const TOTAL_HEADER_HEIGHT = HEADER_UPPER_HEIGHT + HEADER_LOWER_HEIGHT;
 const SIDE_HEADER_CELL_WIDTH = Math.floor(HEADER_CELL_WIDTH / 3);
